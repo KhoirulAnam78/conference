@@ -42,7 +42,7 @@
         </div>
         <div class="form-group">
             <label for="participant">
-                Participant
+                Participant Type
             </label>
             <select class="custom-select @error('participant_type') is-invalid @enderror" id="participant_type"
                 name="participant_type" wire:model.debounce.500ms='participant_type'>
@@ -57,7 +57,7 @@
                 </span>
             @enderror
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="participant">
                 Attendance
             </label>
@@ -74,8 +74,7 @@
                     <strong>{{ $message }}</strong>
                 </span>
             @enderror
-            <span style="font-size:12px">Registration for online presenter has closed !</span>
-        </div>
+        </div> --}}
 
         <div class="form-group">
             <label for="institution">Institution</label>
@@ -107,7 +106,7 @@
                 </span>
             @enderror
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-lg-4 col-sm-12">
                 <div class="form-group">
                     <label for="hki_id">HKI Member ID</label>
@@ -142,14 +141,13 @@
                     @enderror
                 </div>
             </div>
-        </div>
-        <small id="emailHelp" class="form-text text-muted mt-0 mb-3">Not required, if you are HKI member,
-            you will get 25% discount.</small>
+        </div> --}}
+        {{-- <small id="emailHelp" class="form-text text-muted mt-0 mb-3">Not required, if you are HKI member,
+            you will get 25% discount.</small> --}}
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                aria-describedby="emailHelp" placeholder="Enter email" name="email"
-                wire:model.debounce.500ms='email'>
+                aria-describedby="emailHelp" placeholder="Enter email" name="email" wire:model.debounce.500ms='email'>
             @error('email')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -171,9 +169,8 @@
         </div>
         <div class="form-group">
             <label for="password">Confirm Password</label>
-            <input id="password" type="password"
-                class="form-control @error('confirmPassword') is-invalid @enderror" name="confirmPassword"
-                wire:model.debounce.500ms='confirmPassword' autocomplete="current-password">
+            <input id="password" type="password" class="form-control @error('confirmPassword') is-invalid @enderror"
+                name="confirmPassword" wire:model.debounce.500ms='confirmPassword' autocomplete="current-password">
             @error('confirmPassword')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

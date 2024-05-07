@@ -18,6 +18,8 @@ class CrudScope extends Component
             'scope_name' => $this->scope_name,
             'is_delete' => 0
         ]);
+
+        $this->scope_name = null;
         
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menambahkan data !']);
     }

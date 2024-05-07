@@ -8,17 +8,24 @@ use Livewire\WithFileUploads;
 
 class CrudGlobalSetting extends Component
 {
-    public $title, $website, $email, $payment_number, $logo;
+    public $title, $website, $email, $payment_number, $logo, $pathLogo;
 
     use WithFileUploads;
 
     public function save(){
-        $this->validate([
+        $validations = [
             'title' => 'required',
             'website' => 'required',
             'email' => 'required',
             'payment_number' => 'required'
-        ]);
+        ];
+        
+        
+        if($this->logo){
+            $validations['logo'] = 'max:5024|mimes:jpg,jpeg,png';
+        }
+        
+        $this->validate($validations);
 
         $title = GlobalSetting::where('name','title')->first();
         if($title){
@@ -68,7 +75,26 @@ class CrudGlobalSetting extends Component
             ]);
         }
 
+        if($this->logo){
+            $logo = GlobalSetting::where('name','logo')->first();
+            $path = $this->logo->store('images');
+            if($logo){
+                $logo->update([
+                    'value' => $path
+                ]);
+            }else{
+                GlobalSetting::create([
+                    'name' => 'logo',
+                    'value' => $path
+                ]);
+            }
+        }
+
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
+    }
+
+    public function updatedLogo(){
+        $this->pathLogo = null;
     }
 
     protected $messages = [
@@ -84,6 +110,8 @@ class CrudGlobalSetting extends Component
         $this->email = $email->value ?? null;
         $payment_number = GlobalSetting::where('name','payment_number')->first();
         $this->payment_number = $payment_number->value ?? null;
+        $logo = GlobalSetting::where('name','logo')->first();
+        $this->pathLogo = $logo->value ?? null;
         
     }
     
