@@ -2,12 +2,12 @@
 
 @section('content')
     <section class="schedule-table-section spad" style="margin-top:200px">
-        <div class="container-fluid">
-            <div class="row justify-content-end">
-                <div class="col-3 mb-3">
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard Biasa</a>
-                </div>
+        <div class="row justify-content-end">
+            <div class="col-3 mb-3">
+                <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard Biasa</a>
             </div>
+        </div>
+        <div class="container-fluid">
             <div class="row">
                 @include('dashboard-admin.sidebar')
                 <div class="col-lg-9">

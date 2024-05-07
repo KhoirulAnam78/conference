@@ -41,14 +41,37 @@
     </div>
 
     <div class="form-group">
-        <span class="btn btn-primary" wire:click="save">Simpan</span>
+        <label for="contact">Kontak</label>
+        <div class="row">
+            <div class="col-6">
+                <input type="text" class="form-control" id="contact" placeholder="Nama Lengkap"
+                    wire:model="contact">
+            </div>
+            <div class="col-6">
+                <input type="text" class="form-control" id="contact" placeholder="Nomor Telepon"
+                    wire:model="contact">
+            </div>
+        </div>
+        @error('contact')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+        <span class="btn btn-primary my-2">Tambah Kontak</span> <br>
+        <span>DAFTAR KONTAK</span> <br>
+
+        <ul class="list-group">
+            <li class="list-group-item">085788787427 <span class="btn btn-danger btn-sm" wire:click="">Hapus</span>
+            </li>
+            {{-- @foreach ($data as $item)
+            @endforeach --}}
+        </ul>
+
     </div>
 
-
-
-
-
+    <div class="form-group">
+        <span class="btn btn-primary" wire:click="save">Simpan</span>
+    </div>
 </div>
+
 
 @push('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

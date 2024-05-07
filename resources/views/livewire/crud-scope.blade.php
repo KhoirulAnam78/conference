@@ -7,8 +7,14 @@
         <div class="col-12">
             <ul class="list-group">
                 @foreach ($data as $item)
-                    <li class="list-group-item">{{ $item->scope_name }} <span class="btn btn-danger"
-                            wire:click="hapus({{ $item->id }})">Hapus</span></li>
+                    <div class="row">
+                        <div class="col-8">
+                            <li class="list-group-item">{{ $item->scope_name }} </li>
+                        </div>
+                        <div class="col-4">
+                            <span class="btn btn-danger" wire:click="hapus({{ $item->id }})">Hapus</span>
+                        </div>
+                    </div>
                 @endforeach
             </ul>
         </div>
@@ -49,6 +55,7 @@
 
     <script>
         document.addEventListener('alert', function(e) {
+            $('#modalScope').modal('hide');
             Swal.fire({
                 title: e.detail.title,
                 text: e.detail.message,
