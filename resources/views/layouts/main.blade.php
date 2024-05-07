@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="{{ url('') }}/assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> --}}
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     @livewireStyles
     @yield('css')
