@@ -5,6 +5,7 @@ use App\Models\Participant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DownloadController;
@@ -166,6 +167,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/presenter-have-paid', [PaymentController::class, 'presenterPaid']);
     Route::get('/uploaded-paper', [UploadFulltextController::class, 'uploadedPaper']);
     Route::get('/send-email', [UploadFulltextController::class,'sendEmail']);
+    Route::get('/dashboard-admin',[AdminController::class,'globalSetting'])->name('dashboard-admin');
+    Route::get('scope-conference',[AdminController::class,'scope'])->name('scope');
 
     //PARTICIPANT   
     Route::get('/payment', [PaymentController::class, 'payment']);

@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     @livewireStyles
     @yield('css')
+    @stack('css')
 </head>
 
 <body>
@@ -142,6 +143,7 @@
         });
     </script>
     @yield('script')
+    @stack('script')
 </body>
 
 </html>

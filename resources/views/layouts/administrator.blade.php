@@ -2,8 +2,14 @@
 
 @section('content')
     <!-- Schedule Table Section Begin -->
+
     <section class="schedule-table-section spad" style="margin-top:200px">
         <div class="container-fluid">
+            <div class="row justify-content-end">
+                <div class="col-3 mb-3">
+                    <a href="{{ route('dashboard-admin') }}" class="btn btn-primary">Dashboard admin</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-3">
                     <div class="schedule-table-tab">
