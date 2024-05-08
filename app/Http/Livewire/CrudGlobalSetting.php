@@ -17,14 +17,15 @@ class CrudGlobalSetting extends Component
             'title' => 'required',
             'website' => 'required',
             'email' => 'required',
-            'payment_number' => 'required'
+            'payment_number' => 'required',
+            // 'logo' => 'max:5024|mimes:jpg,jpeg,png'
         ];
-        
-        
+
+
         if($this->logo){
             $validations['logo'] = 'max:5024|mimes:jpg,jpeg,png';
         }
-        
+
         $this->validate($validations);
 
         $title = GlobalSetting::where('name','title')->first();
@@ -112,9 +113,9 @@ class CrudGlobalSetting extends Component
         $this->payment_number = $payment_number->value ?? null;
         $logo = GlobalSetting::where('name','logo')->first();
         $this->pathLogo = $logo->value ?? null;
-        
+
     }
-    
+
     public function render()
     {
         return view('livewire.crud-global-setting');

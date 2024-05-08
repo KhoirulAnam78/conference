@@ -131,7 +131,7 @@ Route::get('/dashboard', function () {
         $studof = Participant::where('participant_type','student presenter')->where('attendance','offline')->count();
         $parton = Participant::where('participant_type','participant')->where('attendance','online')->count();
         $partof = Participant::where('participant_type','participant')->where('attendance','offline')->count();
-        
+
         $title = "Dashboard";
         return view('administrator.dashboard', compact('title','regon','regof','profon','profof','studon','studof','parton','partof'));
     } else {
@@ -169,8 +169,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/send-email', [UploadFulltextController::class,'sendEmail']);
     Route::get('/dashboard-admin',[AdminController::class,'globalSetting'])->name('dashboard-admin');
     Route::get('scope-conference',[AdminController::class,'scope'])->name('scope');
+    Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
+    Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
 
-    //PARTICIPANT   
+    //PARTICIPANT
     Route::get('/payment', [PaymentController::class, 'payment']);
     Route::get('/abstrak', [ParticipantController::class, 'abstract']);
     Route::get('/upload-fulltext', [UploadFulltextController::class, 'upload']);
