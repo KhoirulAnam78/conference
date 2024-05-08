@@ -8,10 +8,11 @@ use App\Models\TopicScope;
 class CrudScope extends Component
 {
     public $scope_name;
+    public $proses_id;
 
     public function save(){
         $this->validate([
-            'scope_name' => 'required'
+            'scope_name' => 'required|unique:topic_scope,scope_name'
         ]);
 
         TopicScope::create([
@@ -22,6 +23,28 @@ class CrudScope extends Component
         $this->scope_name = null;
         
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menambahkan data !']);
+    }
+
+    public function showEdit($id){
+        $this->proses_id = $id;
+        $data = TopicScope::find($id);
+        $this->scope_name = $data->scope_name;
+        $this->dispatchBrowserEvent('show-edit');
+    }
+
+    public function update(){
+        $this->validate([
+            'scope_name' => 'required|unique:topic_scope,scope_name,'.$this->proses_id
+        ]);
+
+        TopicScope::where('id',$this->proses_id)->update([
+            'scope_name' => $this->scope_name
+        ]);
+
+        $this->scope_name=null;
+
+        $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
+        $this->dispatchBrowserEvent('close-edit');
     }
 
     public function hapus($id){
