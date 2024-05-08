@@ -11,12 +11,12 @@
                     style="font-size:16px">SCOPE</a>
             </li>
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Validation HKI Member' ? 'active' : '' }}"
-                    href="/validation-hki-member" style="font-size:16px">Validation HKI member</a>
+                <a class="nav-link {{ $title == 'Participant Type' ? 'active' : '' }}"
+                    href="{{ route('participant-type') }}" style="font-size:16px">Participant Type</a>
             </li>
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Review Abstract' ? 'active' : '' }}" href="/review-abstract"
-                    style="font-size:16px">Review Abstract</a>
+                <a class="nav-link {{ $title == 'Download' ? 'active' : '' }}" href="{{ route('downloads-file') }}"
+                    style="font-size:16px">Download File</a>
             </li>
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Payment Validation' ? 'active' : '' }}" href="/payment-validation"
