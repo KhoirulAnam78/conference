@@ -19,29 +19,12 @@
                     style="font-size:16px">Download File</a>
             </li>
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Payment Validation' ? 'active' : '' }}" href="/payment-validation"
-                    style="font-size:16px">Payment Validation</a>
+                <a class="nav-link {{ $title == 'Important Dates' ? 'active' : '' }}"
+                    href="{{ route('important-dates') }}" style="font-size:16px">Important Dates</a>
             </li>
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Uploaded Paper' ? 'active' : '' }}" href="/uploaded-paper"
-                    style="font-size:16px">Uploaded
-                    Paper</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Send Email' ? 'active' : '' }}" href="/send-email"
-                    style="font-size:16px">Send Email</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Presenter Have Paid' ? 'active' : '' }}" href="/presenter-have-paid"
-                    style="font-size:16px">Presenter</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Participant Have Paid' ? 'active' : '' }}"
-                    href="/participant-have-paid" style="font-size:16px">Participant</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Change Password' ? 'active' : '' }}" href="/change-password"
-                    style="font-size:16px">Change Password</a>
+                <a class="nav-link {{ $title == 'Rundown' ? 'active' : '' }}" href="{{ route('rundown') }}"
+                    style="font-size:16px">Rundown</a>
             </li>
             <li class="nav-item" style="width:100%;">
                 <form method="POST" action="{{ route('logout') }}">

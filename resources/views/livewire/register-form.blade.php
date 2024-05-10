@@ -46,10 +46,13 @@
             </label>
             <select class="custom-select @error('participant_type') is-invalid @enderror" id="participant_type"
                 name="participant_type" wire:model.debounce.500ms='participant_type'>
+
                 <option value="">Choose One</option>
-                <option value="professional presenter">Professional presenter</option>
-                <option value="student presenter">Student presenter</option>
-                <option value="participant">Participant</option>
+                @foreach ($participant as $item)
+                    <option value="{{ $item->id }}">{{ $item->name }}
+                        {{ '(' . strtoupper($item->attendance) . ')' }}
+                    </option>
+                @endforeach
             </select>
             @error('participant_type')
                 <span class="invalid-feedback">

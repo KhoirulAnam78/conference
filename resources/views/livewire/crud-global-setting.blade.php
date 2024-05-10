@@ -8,6 +8,22 @@
         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
     </div>
     <div class="form-group">
+        <label for="abbreviation">Singkatan</label>
+        <input type="text" class="form-control" id="abbreviation" wire:model="abbreviation">
+        @error('abbreviation')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+        {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+    </div>
+    <div class="form-group">
+        <label for="topic">Tema Kegiatan</label>
+        <input type="text" class="form-control" id="topic" wire:model="topic">
+        @error('topic')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+        {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+    </div>
+    <div class="form-group">
         <label for="website">Website</label>
         <input type="text" class="form-control" id="website" wire:model="website">
         @error('website')
@@ -28,7 +44,20 @@
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
-
+    <div class="form-group">
+        <label for="recipient">Nama Penerima</label>
+        <input type="text" class="form-control" id="recipient" wire:model="recipient">
+        @error('recipient')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label for="bank_name">Nama BANK</label>
+        <input type="text" class="form-control" id="bank_name" wire:model="bank_name">
+        @error('bank_name')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
     <div class="form-group">
         <label for="logo">Logo Konferensi</label>
         <input type="file" class="form-control-file" id="logo" wire:model="logo" accept=".jpg,.png,.jpeg">

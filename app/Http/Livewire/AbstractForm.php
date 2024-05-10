@@ -19,7 +19,7 @@ class AbstractForm extends Component
     {
         return
             [
-                'topic' => 'required|in:organic and bio chemistry,analytical and enviromental chemistry,inorganic and material chemistry,physical and computation chemistry,chemical education',
+                'topic' => 'required',
                 'type' => 'required',
                 'title' => 'required',
                 'authors' => 'required',
@@ -33,7 +33,6 @@ class AbstractForm extends Component
     //Custom Errror messages for validation
     protected $messages = [
         'topic.required' => 'topic is required !',
-        'topic.in' => 'topic can only contain (Organic and Bio Chemistry, Analytical and Enviromental Chemistry, Inorganic and Material Chemistry, Physical and Computation Chemistry, Chemical Education) !',
         'type.required' => 'Type is required !',
         'title.required' => 'Title is required !',
         'keywords.required' => 'Keywords is required !',
@@ -61,7 +60,7 @@ class AbstractForm extends Component
     public function empty()
     {
         $this->abstract_edit_id = null;
-        $this->topic = null;
+        $this->topic = '';
         $this->type = null;
         $this->title = null;
         $this->keywords = null;
@@ -140,8 +139,10 @@ class AbstractForm extends Component
 
     public function render()
     {
+        $scope = TopicScope::where('is_delete',0)->get();
+        $abstracts = UploadAbstract::where('participant_id', Auth::user()->participant->id)->latest()->get();
         return view('livewire.abstract-form', [
-            'abstracts' => UploadAbstract::where('participant_id', Auth::user()->participant->id)->latest()->get()
+            
         ]);
     }
 }

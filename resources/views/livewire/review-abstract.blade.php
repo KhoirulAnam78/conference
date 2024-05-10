@@ -59,7 +59,7 @@
 
                             @if (count($abstracts) == 0)
                                 <tr>
-                                    <td colspan="7" align="center">No data</td>
+                                    <td colspan="10" align="center">No data</td>
                                 </tr>
                             @endif
                             @foreach ($abstracts as $item)

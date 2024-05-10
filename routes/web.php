@@ -169,6 +169,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/send-email', [UploadFulltextController::class,'sendEmail']);
     Route::get('/dashboard-admin',[AdminController::class,'globalSetting'])->name('dashboard-admin');
     Route::get('scope-conference',[AdminController::class,'scope'])->name('scope');
+    Route::get('important-dates', [AdminController::class, 'importantDates'])->name('important-dates');
+    Route::get('rundown', [AdminController::class, 'rundown'])->name('rundown');
     Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
     Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
 

@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Participant;
 use Livewire\WithPagination;
+use App\Models\ParticipantType;
 use App\Exports\RegisteredExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -12,13 +13,13 @@ class RegisteredParticipant extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $search2 = '', $attendance = '', $participant_type='';
+    public $search = '', $participant_type='';
 
     public function render()
     {
-        return view('livewire.registered-participant', [
-            'participants' => Participant::where('full_name1', 'like', '%' . $this->search2 . '%')->where('attendance','like','%'.$this->attendance.'%')->where('participant_type','like','%'.$this->participant_type.'%')->orderBy('full_name1')->paginate(10)
-        ]);
+        $participants = Participant::where('full_name1', 'like', '%' . $this->search . '%')->where('participant_type','like','%'.$this->participant_type.'%')->orderBy('full_name1')->paginate(10);
+        $types = ParticipantType::where('is_deleted',0)->get();
+        return view('livewire.registered-participant',compact('participants','types'));
     }
 
     public function export()

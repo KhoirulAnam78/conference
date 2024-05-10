@@ -8,7 +8,7 @@ use Livewire\WithFileUploads;
 
 class CrudGlobalSetting extends Component
 {
-    public $title, $website, $email, $payment_number, $logo, $pathLogo;
+    public $title, $website, $email, $payment_number, $logo, $pathLogo, $abbreviation, $topic, $recipient, $bank_name;
 
     use WithFileUploads;
 
@@ -18,6 +18,10 @@ class CrudGlobalSetting extends Component
             'website' => 'required',
             'email' => 'required',
             'payment_number' => 'required',
+            'abbreviation' => 'required',
+            'topic' => 'required',
+            'recipient' => 'required',
+            'bank_name' => 'required'
             // 'logo' => 'max:5024|mimes:jpg,jpeg,png'
         ];
 
@@ -90,6 +94,53 @@ class CrudGlobalSetting extends Component
                 ]);
             }
         }
+        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
+        if($abbreviation){
+            $abbreviation->update([
+                'value' => $this->abbreviation
+            ]);
+        }else{
+            GlobalSetting::create([
+                'name' => 'abbreviation',
+                'value' => $this->abbreviation
+            ]);
+        }
+
+        $topic = GlobalSetting::where('name','topic')->first();
+        if($topic){
+            $topic->update([
+                'value' => $this->topic
+            ]);
+        }else{
+            GlobalSetting::create([
+                'name' => 'topic',
+                'value' => $this->topic
+            ]);
+        }
+
+        $recipient = GlobalSetting::where('name','recipient')->first();
+        if($recipient){
+            $recipient->update([
+                'value' => $this->recipient
+            ]);
+        }else{
+            GlobalSetting::create([
+                'name' => 'recipient',
+                'value' => $this->recipient
+            ]);
+        }
+
+        $bank_name = GlobalSetting::where('name','bank_name')->first();
+        if($bank_name){
+            $bank_name->update([
+                'value' => $this->bank_name
+            ]);
+        }else{
+            GlobalSetting::create([
+                'name' => 'bank_name',
+                'value' => $this->bank_name
+            ]);
+        }
 
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
     }
@@ -111,9 +162,16 @@ class CrudGlobalSetting extends Component
         $this->email = $email->value ?? null;
         $payment_number = GlobalSetting::where('name','payment_number')->first();
         $this->payment_number = $payment_number->value ?? null;
+        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
+        $this->abbreviation = $abbreviation->value ?? null;
+        $topic = GlobalSetting::where('name','topic')->first();
+        $this->topic = $topic->value ?? null;
+        $recipient = GlobalSetting::where('name','recipient')->first();
+        $this->recipient = $recipient->value ?? null;
+        $bank_name = GlobalSetting::where('name','bank_name')->first();
+        $this->bank_name = $bank_name->value ?? null;
         $logo = GlobalSetting::where('name','logo')->first();
         $this->pathLogo = $logo->value ?? null;
-
     }
 
     public function render()

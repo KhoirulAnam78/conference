@@ -23,21 +23,10 @@
                 <select class="custom-select" id="participant_type" name="participant_type"
                     wire:model.debounce.500ms='participant_type'>
                     <option value="">All</option>
-                    <option value="professional presenter">Professional presenter</option>
-                    <option value="student presenter">Student presenter</option>
-                    <option value="participant">Participant</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="form-group">
-                <label for="participant">
-                    Attendance
-                </label>
-                <select class="custom-select" id="attendance" name="attendance" wire:model.debounce.500ms='attendance'>
-                    <option value="">All</option>
-                    <option value="online">Online</option>
-                    <option value="offline">Offline</option>
+                    @foreach ($types as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}
+                            {{ '(' . strtoupper($item->attendance) . ')' }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -54,11 +43,8 @@
                             <th scope="col">Full Name</th>
                             <th scope="col">Full Name (with academic title)</th>
                             <th scope="col">Participant Type</th>
-                            <th scope="col">Attendance</th>
                             <th scope="col">Institution</th>
                             <th scope="col">Address</th>
-                            <th scope="col">HKI ID</th>
-                            <th scope="col">HKI Member</th>
                             <th scope="col">Phone</th>
                         </tr>
                     </thead>
@@ -78,11 +64,8 @@
                                 <td>{{ $item->full_name1 }}</td>
                                 <td>{{ $item->full_name2 }}</td>
                                 <td>{{ $item->participant_type }}</td>
-                                <td>{{ $item->attendance }}</td>
                                 <td>{{ $item->institution }}</td>
                                 <td>{{ $item->address }}</td>
-                                <td>{{ $item->hki_id }}</td>
-                                <td>{{ $item->hki_status }}</td>
                                 <td>{{ $item->phone }}</td>
                             </tr>
                         @endforeach

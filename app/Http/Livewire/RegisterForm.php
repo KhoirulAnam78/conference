@@ -6,14 +6,14 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\Participant;
 use Livewire\WithFileUploads;
+use App\Models\ParticipantType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 
 class RegisterForm extends Component
 {
-    public $full_name1, $full_name2, $gender, $participant_type, $institution, $address, $phone, $member_card, $hki_id, $email, $password, $confirmPassword, $attendance;
-
+    public $full_name1, $full_name2, $gender, $participant_type, $institution, $address, $phone, $member_card, $hki_id, $email, $password, $confirmPassword;
 
     use WithFileUploads;
     public function rules()
@@ -23,8 +23,7 @@ class RegisterForm extends Component
                 'full_name1' => 'required',
                 'full_name2' => 'required',
                 'gender' => 'required|in:male,female',
-                'attendance' => 'required|in:online,offline',
-                'participant_type' => 'required|in:professional presenter,student presenter,participant',
+                'participant_type' => 'required',
                 'institution' => 'required',
                 'address' => 'required',
                 'phone' => 'required|regex:/^([0-9\s\+]*)$/',
@@ -40,8 +39,6 @@ class RegisterForm extends Component
         'full_name2.required' => 'Full name with academic title is required !',
         'gender.required' => 'Gender is required !',
         'gender.in' => 'Gender can only contain male or female !',
-        'attendance.required' => 'Attendance is required !',
-        'attendance.in' => 'Attendance can only contain online or offline !',
         'phone.required' => 'Phone number is required !',
         'phone.regex' => 'The phone number must be a number and the + character is allowed !',
         'participant_type.required' => 'Participant type is required !',
@@ -67,28 +64,8 @@ class RegisterForm extends Component
     {
         $imagePath = null;
         $status = 'not a member';
-
-        if ($this->member_card or $this->hki_id) {
-            $this->validate([
-                'full_name1' => 'required',
-                'full_name2' => 'required',
-                'gender' => 'required|in:male,female',
-                'attendance' => 'required|in:online,offline',
-                'participant_type' => 'required|in:professional presenter,student presenter,participant',
-                'institution' => 'required',
-                'address' => 'required',
-                'phone' => 'required|regex:/^([0-9\s\+]*)$/',
-                'email' => 'required|unique:users|email:rfc',
-                'password' => 'required|min:8',
-                'confirmPassword' => 'required|same:password',
-                'member_card' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            ]);
-
-            $imagePath = $this->member_card->store('images');
-            $status = 'not yet validated';
-        } else {
-            $this->validate();
-        }
+        
+        $this->validate();
 
         $user = User::create([
             'email' => $this->email,
@@ -104,10 +81,6 @@ class RegisterForm extends Component
             'institution' => $this->institution,
             'address' => $this->address,
             'phone' => $this->phone,
-            'attendance' => $this->attendance,
-            'hki_id' => $this->hki_id,
-            'member_card' => $imagePath,
-            'hki_status' => $status,
             'user_id' => $user->id
         ]);
 
@@ -119,6 +92,7 @@ class RegisterForm extends Component
     }
     public function render()
     {
-        return view('livewire.register-form');
+        $participant = ParticipantType::where('is_deleted',0)->get();
+        return view('livewire.register-form', compact('participant'));
     }
 }
