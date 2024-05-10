@@ -25,4 +25,14 @@ class AdminController extends Controller
         $title = 'Download File';
         return view('dashboard-admin.download-file',compact('title'));
     }
+
+    public function importantDates(){
+        $title = 'Important Dates';
+        return view('dashboard-admin.important-dates',compact('title'));
+    }
+
+    public function rundown(){
+        $title = 'Rundown';
+        return view('dashboard-admin.rundown',compact('title'));
+    }
 }
