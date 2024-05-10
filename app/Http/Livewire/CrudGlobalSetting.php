@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class CrudGlobalSetting extends Component
 {
@@ -84,6 +85,7 @@ class CrudGlobalSetting extends Component
             $logo = GlobalSetting::where('name','logo')->first();
             $path = $this->logo->store('images');
             if($logo){
+                Storage::delete($logo->value);
                 $logo->update([
                     'value' => $path
                 ]);
