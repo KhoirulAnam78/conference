@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Rundown extends Model
+{
+    use HasFactory;
+    protected $table = 'rundown';
+    protected $guarded = ['id'];
+    public function detailRundown()
+    {
+        return $this->hasMany(DetailRundown::class, 'id_rundown', 'id');
+    }
+}

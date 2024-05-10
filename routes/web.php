@@ -118,22 +118,22 @@ Route::get('/about-conference', function () {
 });
 
 Route::get('/download-template-article', [DownloadController::class, 'downloadTemplate']);
-Route::get('/download-guidebook-poster-competition-icics-2023', [DownloadController::class,'downloadGuidebook']);
+Route::get('/download-guidebook-poster-competition-icics-2023', [DownloadController::class, 'downloadGuidebook']);
 Route::get('/download-program-abstract-book-icics2023', [DownloadController::class, 'downloadAbstractBook']);
 
 Route::get('/dashboard', function () {
     if (Auth::user()->role === 'administrator') {
-        $regon = Participant::where('attendance','online')->count();
-        $regof = Participant::where('attendance','offline')->count();
-        $profon = Participant::where('participant_type','professional presenter')->where('attendance','online')->count();
-        $profof = Participant::where('participant_type','professional presenter')->where('attendance','offline')->count();
-        $studon = Participant::where('participant_type','student presenter')->where('attendance','online')->count();
-        $studof = Participant::where('participant_type','student presenter')->where('attendance','offline')->count();
-        $parton = Participant::where('participant_type','participant')->where('attendance','online')->count();
-        $partof = Participant::where('participant_type','participant')->where('attendance','offline')->count();
+        $regon = Participant::where('attendance', 'online')->count();
+        $regof = Participant::where('attendance', 'offline')->count();
+        $profon = Participant::where('participant_type', 'professional presenter')->where('attendance', 'online')->count();
+        $profof = Participant::where('participant_type', 'professional presenter')->where('attendance', 'offline')->count();
+        $studon = Participant::where('participant_type', 'student presenter')->where('attendance', 'online')->count();
+        $studof = Participant::where('participant_type', 'student presenter')->where('attendance', 'offline')->count();
+        $parton = Participant::where('participant_type', 'participant')->where('attendance', 'online')->count();
+        $partof = Participant::where('participant_type', 'participant')->where('attendance', 'offline')->count();
 
         $title = "Dashboard";
-        return view('administrator.dashboard', compact('title','regon','regof','profon','profof','studon','studof','parton','partof'));
+        return view('administrator.dashboard', compact('title', 'regon', 'regof', 'profon', 'profof', 'studon', 'studof', 'parton', 'partof'));
     } else {
         return view('participant.dashboard', [
             'title' => 'Dashboard'
@@ -166,9 +166,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/participant-have-paid', [PaymentController::class, 'participantPaid']);
     Route::get('/presenter-have-paid', [PaymentController::class, 'presenterPaid']);
     Route::get('/uploaded-paper', [UploadFulltextController::class, 'uploadedPaper']);
-    Route::get('/send-email', [UploadFulltextController::class,'sendEmail']);
-    Route::get('/dashboard-admin',[AdminController::class,'globalSetting'])->name('dashboard-admin');
-    Route::get('scope-conference',[AdminController::class,'scope'])->name('scope');
+    Route::get('/send-email', [UploadFulltextController::class, 'sendEmail']);
+    Route::get('/dashboard-admin', [AdminController::class, 'globalSetting'])->name('dashboard-admin');
+    Route::get('scope-conference', [AdminController::class, 'scope'])->name('scope');
     Route::get('important-dates', [AdminController::class, 'importantDates'])->name('important-dates');
     Route::get('rundown', [AdminController::class, 'rundown'])->name('rundown');
     Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
