@@ -10,9 +10,25 @@
     $website = GlobalSetting::where('name', 'website')->select('value')->first()->value;
     $email = GlobalSetting::where('name', 'email')->select('value')->first()->value;
     $logo = GlobalSetting::where('name', 'logo')->select('value')->first()->value;
+    $start_date_conference = GlobalSetting::where('name', 'start_date_conference')->select('value')->first();
+    $start_date_conference = $start_date_conference->value ?? null;
+    if ($start_date_conference) {
+        $start = \Carbon\Carbon::create($start_date_conference);
+        $start_date_conference = $start->format('M d, Y');
+    }
+    $end_date_conference = GlobalSetting::where('name', 'end_date_conference')->select('value')->first();
+    $end_date_conference = $end_date_conference->value ?? null;
+    if ($end_date_conference) {
+        $end = \Carbon\Carbon::create($end_date_conference);
+        $end_date_conference = $end->format('M d, Y');
+    }
+
+    $conference_location = GlobalSetting::where('name', 'conference_location')->select('value')->first();
+    $conference_location = $conference_location->value ?? null;
 
     $importantDates = ImportantDates::orderBy('start_date', 'ASC')->get();
     $scopes = TopicScope::where('is_delete', 0)->get();
+
 @endphp
 
 @section('content')
@@ -30,8 +46,8 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <h3 class="primary-btn mb-3" style="font-size:20px">
-                                    14-16
-                                    November 2023, Swissbell-Hotel, Jambi
+                                    {{ $start_date_conference }} - {{ $end_date_conference }} <br>
+                                    {{ $conference_location }}
                                 </h3>
                                 <h3 style="color: white; font-size: 40px;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
                                     {{ $topic }}</h3>
@@ -117,8 +133,9 @@
                         <div class="row">
                             <div class="col-lg-7">
                                 <h3 class="primary-btn mb-3" style="font-size:20px">
-                                    14-16
-                                    November 2023, Swissbell-Hotel, Jambi
+
+                                    {{ $start_date_conference }} - {{ $end_date_conference }} <br>
+                                    {{ $conference_location }}
                                 </h3>
                                 <h3 style="color: white; font-size: 40px;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
                                     {{ $topic }}</h3>
@@ -230,7 +247,7 @@
                         <div class="ha-text">
                             <h3 style="font-weight: 600;padding-bottom:2%">Implementation</h3>
                             <ul>
-                                <li><span class="icon_check"></span> Offline at Swissbell-Hotel, Jambi</li>
+                                <li><span class="icon_check"></span> Offline at {{ $conference_location }}</li>
                                 <li><span class="icon_check"></span> Online Zoom:</li>
                                 <li style="text-indent: 20px">Meeting ID: 284 802 1895
                                 </li>
@@ -698,7 +715,7 @@
         impdates.forEach(e => {
             console.log(e.id);
             // Set the date we're counting down to
-            var countDownDate = new Date("Nov 10, 2024 23:00:00").getTime();
+            var countDownDate = new Date("Nov 10, 2024 23:59:00").getTime();
 
             // Update the count down every 1 second
             var i = setInterval(function() {
@@ -865,9 +882,9 @@
     </script> --}}
 
     {{-- COUNTDOWN Conference --}}
-    {{-- <script>
+    <script>
         // Set the date we're counting down to
-        var countDownConference = new Date("Nov 16, 2023 10:00:00").getTime();
+        var cd = new Date({!! json_encode($start_date_conference) !!} + " 10:00:00").getTime();
 
         // Update the count down every 1 second
         var x = setInterval(function() {
@@ -876,7 +893,7 @@
             var now = new Date().getTime();
 
             // Find the distance between now and the count down date
-            var distance = countDownConference - now;
+            var distance = cd - now;
 
             // Time calculations for days, hours, minutes and seconds
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -885,14 +902,21 @@
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Display the result in the element with id="demo"
-            document.getElementById("conference").innerHTML = days + " days " + hours + " hour " +
-                minutes + " minutes " + seconds + " second ";
+            document.getElementById("demo").innerHTML =
+                '<div class="cd-item"><span>' + days + '</span><p>Days</p></div>' + '<div class="cd-item"><span>' +
+                hours + '</span><p>Hour</p></div>' + '<div class="cd-item"><span>' +
+                minutes + '</span><p>Minutes</p></div>' + '<div class="cd-item"><span>' + seconds +
+                '</span><p>Seconds</p></div>';
+
+
+            // days + "d " + hours + "h " +
+            // minutes + "m " + seconds + "s "
 
             // If the count down is finished, write some text
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("conference").innerHTML = "Sorry, the time is up.";
+                document.getElementById("demo").innerHTML = "Sorry, the time is up.";
             }
         }, 1000);
-    </script> --}}
+    </script>
 @endpush
