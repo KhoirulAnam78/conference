@@ -173,6 +173,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('rundown', [AdminController::class, 'rundown'])->name('rundown');
     Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
     Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
+    Route::get('speaker', [AdminController::class, 'speaker'])->name('speaker');
+
 
     //PARTICIPANT
     Route::get('/payment', [PaymentController::class, 'payment']);

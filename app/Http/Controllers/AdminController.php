@@ -6,33 +6,45 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function globalSetting(){
+    public function globalSetting()
+    {
         $title = 'Global Setting';
-        return view('dashboard-admin.global-setting',compact('title'));
+        return view('dashboard-admin.global-setting', compact('title'));
     }
 
-    public function scope(){
+    public function scope()
+    {
         $title = 'Scope';
-        return view('dashboard-admin.scope',compact('title'));
+        return view('dashboard-admin.scope', compact('title'));
     }
 
-    public function participantType(){
+    public function participantType()
+    {
         $title = 'Participant Type';
-        return view('dashboard-admin.participant-type',compact('title'));
+        return view('dashboard-admin.participant-type', compact('title'));
     }
 
-    public function downloadFile(){
+    public function downloadFile()
+    {
         $title = 'Download File';
-        return view('dashboard-admin.download-file',compact('title'));
+        return view('dashboard-admin.download-file', compact('title'));
     }
 
-    public function importantDates(){
+    public function importantDates()
+    {
         $title = 'Important Dates';
-        return view('dashboard-admin.important-dates',compact('title'));
+        return view('dashboard-admin.important-dates', compact('title'));
     }
 
-    public function rundown(){
+    public function rundown()
+    {
         $title = 'Rundown';
-        return view('dashboard-admin.rundown',compact('title'));
+        return view('dashboard-admin.rundown', compact('title'));
+    }
+
+    public function speaker()
+    {
+        $title = 'Speakers';
+        return view('dashboard-admin.speaker', compact('title'));
     }
 }

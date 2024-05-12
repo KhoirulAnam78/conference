@@ -26,6 +26,10 @@
                 <a class="nav-link {{ $title == 'Rundown' ? 'active' : '' }}" href="{{ route('rundown') }}"
                     style="font-size:16px">Rundown</a>
             </li>
+            <li class="nav-item" style="width:100%">
+                <a class="nav-link {{ $title == 'Speakers' ? 'active' : '' }}" href="{{ route('speaker') }}"
+                    style="font-size:16px">Speakers</a>
+            </li>
             <li class="nav-item" style="width:100%;">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
