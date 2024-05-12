@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class CrudGlobalSetting extends Component
 {
     public $title, $website, $email, $payment_number, $logo, $pathLogo, $abbreviation, $topic, $recipient, $bank_name;
-    public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link;
+    public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link, $conference_location;
     public $contact_name, $contact_number, $list_contact=[];
 
     use WithFileUploads;
@@ -57,6 +57,9 @@ class CrudGlobalSetting extends Component
         $this->inputGlobalSetting('email',$this->email);
 
         $this->inputGlobalSetting('payment_number',$this->payment_number);
+
+        
+        $this->inputGlobalSetting('conference_location',$this->conference_location);
 
         if($this->logo){
             $path = $this->logo->store('images');
@@ -128,6 +131,7 @@ class CrudGlobalSetting extends Component
         $this->pathLogo = $this->getValue('logo');
         $this->start_date_conference = $this->getValue('start_date_conference');
         $this->end_date_conference = $this->getValue('end_date_conference');
+        $this->conference_location = $this->getValue('conference_location');
         $this->zoom_id = $this->getValue('zoom_id');
         $this->zoom_pass = $this->getValue('zoom_pass');
         $this->zoom_link = $this->getValue('zoom_link');

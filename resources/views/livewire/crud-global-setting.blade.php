@@ -99,6 +99,14 @@
     </div>
 
     <div class="form-group">
+        <label for="conference_location">Lokasi Conference</label>
+        <input type="text" class="form-control" id="conference_location" wire:model="conference_location">
+        @error('conference_location')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div class="form-group">
         <label for="contact">Contacts</label>
         <div class="row">
             <div class="col-6">
