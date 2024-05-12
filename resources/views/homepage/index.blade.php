@@ -29,6 +29,14 @@
     $importantDates = ImportantDates::orderBy('start_date', 'ASC')->get();
     $scopes = TopicScope::where('is_delete', 0)->get();
 
+    // IMAGE SLIDER
+    $image_slider_1 = GlobalSetting::where('name', 'image-slider-1')->select('value')->first();
+    $image_slider_1 = $image_slider_1->value ?? null;
+    $image_slider_2 = GlobalSetting::where('name', 'image-slider-2')->select('value')->first();
+    $image_slider_2 = $image_slider_2->value ?? null;
+    $image_slider_3 = GlobalSetting::where('name', 'image-slider-3')->select('value')->first();
+    $image_slider_3 = $image_slider_3->value ?? null;
+
 @endphp
 
 @section('content')
@@ -41,7 +49,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <!-- Hero Section Begin -->
-                <section class="hero-section set-bg" data-setbg="{{ url('') }}/assets/img/home-gentala.jpg">
+                <section class="hero-section set-bg" data-setbg="{{ asset('storage/' . $image_slider_1) }}">
                     <div class="container" style="padding-top:50px; padding-bottom:50px">
                         <div class="row">
                             <div class="col-lg-7">
@@ -94,7 +102,7 @@
             </div>
             <div class="carousel-item">
                 <!-- Hero Section Begin -->
-                <section class="hero-section set-bg" data-setbg="{{ url('') }}/assets/img/home-unja.png">
+                <section class="hero-section set-bg" data-setbg="{{ asset('storage/' . $image_slider_2) }}">
                     <div class="container" style="padding-top:50px; padding-bottom:50px">
                         <div class="row justify-content-center"
                             style="background-color: rgba(0,0,0,.7);
@@ -128,7 +136,7 @@
             </div>
             <div class="carousel-item">
                 <!-- Hero Section Begin -->
-                <section class="hero-section set-bg" data-setbg="{{ url('') }}/assets/img/home-rektorat.jpg">
+                <section class="hero-section set-bg" data-setbg="{{ asset('storage/' . $image_slider_3) }}">
                     <div class="container" style="padding-top:50px; padding-bottom:50px">
                         <div class="row">
                             <div class="col-lg-7">

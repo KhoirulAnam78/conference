@@ -7,6 +7,10 @@
                     style="font-size:16px">Global Setting</a>
             </li>
             <li class="nav-item" style="width:100%">
+                <a class="nav-link {{ $title == 'Front Image Slider' ? 'active' : '' }}"
+                    href="{{ route('front-image-slider') }}" style="font-size:16px">Front Image Slider</a>
+            </li>
+            <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Scope' ? 'active' : '' }}" href="{{ route('scope') }}"
                     style="font-size:16px">SCOPE</a>
             </li>

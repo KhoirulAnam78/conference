@@ -160,6 +160,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('scope-conference', [AdminController::class, 'scope'])->name('scope');
     Route::get('important-dates', [AdminController::class, 'importantDates'])->name('important-dates');
     Route::get('rundown', [AdminController::class, 'rundown'])->name('rundown');
+    Route::get('front-image-slider', [AdminController::class, 'frontImageSlider'])->name('front-image-slider');
     Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
     Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
     Route::get('speaker', [AdminController::class, 'speaker'])->name('speaker');

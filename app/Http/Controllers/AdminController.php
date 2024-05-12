@@ -47,4 +47,9 @@ class AdminController extends Controller
         $title = 'Speakers';
         return view('dashboard-admin.speaker', compact('title'));
     }
+
+    public function frontImageSlider(){
+        $title = 'Front Image Slider';
+        return view('dashboard-admin.front-image-slider', compact('title'));
+    }
 }
