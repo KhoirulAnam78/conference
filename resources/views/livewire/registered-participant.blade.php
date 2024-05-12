@@ -63,7 +63,7 @@
                                 <td>{{ $item->user->email_verified_at != null ? 'Verified' : 'Not Verified' }}</td>
                                 <td>{{ $item->full_name1 }}</td>
                                 <td>{{ $item->full_name2 }}</td>
-                                <td>{{ $item->participant_type }}</td>
+                                <td>{{ $item->participantType->name }}</td>
                                 <td>{{ $item->institution }}</td>
                                 <td>{{ $item->address }}</td>
                                 <td>{{ $item->phone }}</td>

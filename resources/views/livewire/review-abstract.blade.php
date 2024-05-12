@@ -112,15 +112,9 @@
                 <select disabled class="custom-select @error('topic') is-invalid @enderror" id="topic"
                     name="topic" wire:model='topic'>
                     <option value="">Choose One</option>
-                    <option value="organic and bio chemistry">Organic and Bio Chemistry</option>
-                    <option value="analytical and enviromental chemistry">Analytical and Enviromental
-                        Chemistry
-                    </option>
-                    <option value="inorganic and material chemistry">Inorganic and Material Chemistry
-                    </option>
-                    <option value="physical and computation chemistry">Physical and Computation Chemistry
-                    </option>
-                    <option value="chemical education">Chemical Education</option>
+                    @foreach ($scopes as $i)
+                        <option value="{{ $i->id }}">{{ $i->scope_name }}</option>
+                    @endforeach
                 </select>
                 @error('topic')
                     <span class="invalid-feedback">
@@ -128,23 +122,21 @@
                     </span>
                 @enderror
             </div>
-
-            <div class="form-group">
-                <label for="type">
-                    Type
-                </label>
-                <select disabled class="custom-select @error('type') is-invalid @enderror" id="type" name="type"
-                    wire:model='type'>
-                    <option value="">Choose One</option>
-                    <option value="oral presentation">Oral Presentation</option>
-                </select>
-                @error('type')
-                    <span class="invalid-feedback">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
+        </div>
+        <div class="form-group">
+            <label for="type">
+                Type
+            </label>
+            <select disabled class="custom-select @error('type') is-invalid @enderror" id="type" name="type"
+                wire:model='type'>
+                <option value="">Choose One</option>
+                <option value="oral presentation">Oral Presentation</option>
+            </select>
+            @error('type')
+                <span class="invalid-feedback">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
 
         <div class="form-group">

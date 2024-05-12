@@ -46,7 +46,6 @@
             </label>
             <select class="custom-select @error('participant_type') is-invalid @enderror" id="participant_type"
                 name="participant_type" wire:model.debounce.500ms='participant_type'>
-
                 <option value="">Choose One</option>
                 @foreach ($participant as $item)
                     <option value="{{ $item->id }}">{{ $item->name }}

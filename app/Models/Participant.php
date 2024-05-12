@@ -14,6 +14,10 @@ class Participant extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function participantType(){
+        return $this->belongsTo(ParticipantType::class,'participant_type','id');
+    }
+
 
     public function uploadAbstracts()
     {

@@ -42,7 +42,6 @@ class RegisterForm extends Component
         'phone.required' => 'Phone number is required !',
         'phone.regex' => 'The phone number must be a number and the + character is allowed !',
         'participant_type.required' => 'Participant type is required !',
-        'participant_type.in' => 'Participan can only contain (Professional Presenter, Student Presenter and Participant) !',
         'institution.required' => 'Institution is required !',
         'address.required' => 'Address is required !',
         'email.required' => 'Email is required !',

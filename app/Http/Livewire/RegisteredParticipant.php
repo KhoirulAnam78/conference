@@ -17,7 +17,7 @@ class RegisteredParticipant extends Component
 
     public function render()
     {
-        $participants = Participant::where('full_name1', 'like', '%' . $this->search . '%')->where('participant_type','like','%'.$this->participant_type.'%')->orderBy('full_name1')->paginate(10);
+        $participants = Participant::where('full_name1', 'like', '%' . $this->search . '%')->where('participant_type','like','%'.$this->participant_type.'%')->orderBy('full_name1')->with('participantType')->paginate(10);
         $types = ParticipantType::where('is_deleted',0)->get();
         return view('livewire.registered-participant',compact('participants','types'));
     }

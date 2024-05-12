@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use PDF;
 use App\Mail\SendMail;
 use Livewire\Component;
+use App\Models\TopicScope;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
@@ -235,10 +236,12 @@ class ReviewAbstract extends Component
 
     public function render()
     {
+
         return view('livewire.review-abstract', [
             'abstracts' => UploadAbstract::where('status', 'like', '%' . $this->search)->whereHas('participant', function ($query) {
                 $query->where('full_name1', 'like', '%' . $this->search2 . '%');
-            })->orderBy('topic')->paginate(10)
+            })->orderBy('topic')->paginate(10),
+            'scopes' => TopicScope::where('is_delete',0)->get()
         ]);
     }
 }
