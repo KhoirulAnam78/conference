@@ -92,7 +92,8 @@ class RegisterForm extends Component
     }
     public function render()
     {
-        $participant = ParticipantType::where('is_deleted',0)->get();
+        $participant = ParticipantType::where('is_deleted',0)->where('start_date','<=',date('Y-m-d'))->where('end_date','>=',date('Y-m-d'))->get();
+        
         return view('livewire.register-form', compact('participant'));
     }
 }
