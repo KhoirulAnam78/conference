@@ -1,3 +1,8 @@
+@php
+    use App\Models\GlobalSetting;
+    $data = GlobalSetting::where('name', 'abbreviation')->first();
+    $abbreviation = $data->value ?? 'Conference';
+@endphp
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -8,7 +13,7 @@
     <meta name="keywords" content="icics, icics 2023, icics2023, icics jambi, universitas jambi">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ICICS 2023 | {{ $title }}</title>
+    <title>{{ $abbreviation }} | {{ $title }}</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&display=swap"
