@@ -116,6 +116,8 @@
         @can('presenter')
             @if (count($abstract) == 0)
                 <button class="btn btn-primary" disabled>Add Payment</button>
+                <br>
+                <span><strong>Sorry, you do not yet have an accepted abstract !</strong></span>
             @else
                 <button class="btn btn-primary" wire:click="add()">Add Payment</button>
             @endif
@@ -187,34 +189,28 @@
         @endif
         <h4 class="mt-5">Fee</h4>
         <table class="table my-3">
-            <thead class="thead-light">
+
+            @foreach ($fee_information as $fee)
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Fee</th>
-                    <th scope="col">Offline</th>
-                    <th scope="col">Online</th>
+                    <td colspan="4" class="bg-dark text-white" align="center">{{ $fee['dates'] }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Professional Presenter</td>
-                    <td>IDR 750K / $50 USD</td>
-                    <td>IDR 250K / $17 USD</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Student Presenter</td>
-                    <td>IDR 550K / $37 USD</td>
-                    <td>IDR 150K / $10 USD</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Participant</td>
-                    <td>IDR 350K / $24 USD</td>
-                    <td>IDR 100K / $7 USD</td>
-                </tr>
-            </tbody>
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Online/Offline</th>
+                        <th scope="col">Fee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($fee['data'][0] as $i)
+                        <tr>
+                            <td>{{ $i->name }}</td>
+                            <td>{{ $i->attendance }}</td>
+                            <td>IDR. {{ $i->price }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            @endforeach
         </table>
 
 
@@ -229,9 +225,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Bank Negara Indonesia</td>
-                    <td>698124931</td>
-                    <td>Perkumpulan Indonesian Chemical Society</td>
+                    <td>{{ $bank_name }}</td>
+                    <td>{{ $payment_number }}</td>
+                    <td>{{ $recipient }}</td>
                 </tr>
             </tbody>
         </table>

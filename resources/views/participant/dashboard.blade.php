@@ -24,11 +24,7 @@
     </div>
     <div class="row mx-3">
         @if (Auth::user()->participant->participant_type !== 'participant')
-            <a href="/download-template-article" class="text-primary"><i class="fa fa-file-text-o"style="font-size:100px"
-                    aria-hidden="true"></i>
-                <br>
-                Template Article
-            </a>
+            Download the article template in the download menu
         @endif
     </div>
 

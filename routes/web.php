@@ -5,6 +5,7 @@ use App\Models\Participant;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -24,24 +25,12 @@ use App\Http\Controllers\UploadFulltextController;
 |
 */
 
-Route::get('/', function () {
-    return view('homepage.index', [
-        'title' => 'Home'
-    ]);
-});
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 
-Route::get('/rundown-icics2023', function () {
-    return view('homepage.rundown', [
-        'title' => 'Rundown ICICS 2023'
-    ]);
-});
+Route::get('/rundown-icics2023', [HomeController::class, 'rundown'])->name('home.rundown');
 
-Route::get('/registration-fee', function () {
-    return view('homepage.registration-fee', [
-        'title' => 'Registration Fee'
-    ]);
-});
+Route::get('/registration-fee', [HomeController::class, 'registrationFee'])->name('home.registration-fee');
 
 Route::get('/scientific-committe', function () {
     return view('homepage.scientific-committe', [

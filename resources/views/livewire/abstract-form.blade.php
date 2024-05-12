@@ -16,11 +16,9 @@
                 <select class="custom-select @error('topic') is-invalid @enderror" id="topic" name="topic"
                     wire:model='topic'>
                     <option value="">Choose One</option>
-                    <option value="organic and bio chemistry">Organic and Bio Chemistry</option>
-                    <option value="analytical and enviromental chemistry">Analytical and Enviromental Chemistry</option>
-                    <option value="inorganic and material chemistry">Inorganic and Material Chemistry</option>
-                    <option value="physical and computation chemistry">Physical and Computation Chemistry</option>
-                    <option value="chemical education">Chemical Education</option>
+                    @foreach ($scopes as $i)
+                        <option value="{{ $i->id }}">{{ $i->scope_name }}</option>
+                    @endforeach
                 </select>
                 @error('topic')
                     <span class="invalid-feedback">
@@ -125,12 +123,9 @@
                 <select class="custom-select @error('topic') is-invalid @enderror" id="topic" name="topic"
                     wire:model='topic'>
                     <option value="">Choose One</option>
-                    <option value="organic and bio chemistry">Organic and Bio Chemistry</option>
-                    <option value="analytical and enviromental chemistry">Analytical and Enviromental Chemistry
-                    </option>
-                    <option value="inorganic and material chemistry">Inorganic and Material Chemistry</option>
-                    <option value="physical and computation chemistry">Physical and Computation Chemistry</option>
-                    <option value="chemical education">Chemical Education</option>
+                    @foreach ($scopes as $i)
+                        <option value="{{ $i->id }}">{{ $i->scope_name }}</option>
+                    @endforeach
                 </select>
                 @error('topic')
                     <span class="invalid-feedback">

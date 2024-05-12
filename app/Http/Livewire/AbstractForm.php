@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\UploadAbstract;
 use Livewire\Component;
+use App\Models\TopicScope;
+use App\Models\UploadAbstract;
 use Illuminate\Support\Facades\Auth;
 
 class AbstractForm extends Component
@@ -139,10 +140,8 @@ class AbstractForm extends Component
 
     public function render()
     {
-        $scope = TopicScope::where('is_delete',0)->get();
+        $scopes = TopicScope::where('is_delete',0)->get();
         $abstracts = UploadAbstract::where('participant_id', Auth::user()->participant->id)->latest()->get();
-        return view('livewire.abstract-form', [
-            
-        ]);
+        return view('livewire.abstract-form', compact('abstracts','scopes'));
     }
 }

@@ -4,8 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Payment;
 use Livewire\Component;
+use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
+use App\Models\ParticipantType;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentPage extends Component
@@ -208,8 +211,31 @@ class PaymentPage extends Component
 
     public function render()
     {
-        return view('livewire.payment-page', [
-            'payments' => Payment::where('participant_id', Auth::user()->participant->id)->latest()->get()
-        ]);
+        $payment_number = GlobalSetting::where('name','payment_number')->first();
+        $payment_number = $payment_number->value ?? null;
+        $recipient = GlobalSetting::where('name','recipient')->first();
+        $recipient = $recipient->value ?? null;
+        $bank_name = GlobalSetting::where('name','bank_name')->first();
+        $bank_name = $bank_name->value ?? null;
+        $dates = ParticipantType::where('is_deleted',0)->groupBy('start_date')->orderBy('start_date')->select('start_date','end_date')->get();
+        $fee_information = [];
+        foreach($dates as $d){
+            $participant = ParticipantType::where('start_date',$d->start_date)->get();
+            $data = [];
+            array_push($data,$participant);
+            
+            $start = \Carbon\Carbon::create($d->start_date);
+            $startDate = $start->format('d F Y');
+            $end = \Carbon\Carbon::create($d->end_date);
+            $endDate = $end->format('d F Y');
+            array_push($fee_information,[
+                'dates' => $startDate .' - '.$endDate,
+                'data' => $data
+            ]);
+        }
+        // dd($fee_information);
+        
+        $payments = Payment::where('participant_id', Auth::user()->participant->id)->latest()->get();
+        return view('livewire.payment-page', compact('payments','payment_number','recipient','bank_name','fee_information'));
     }
 }
