@@ -427,11 +427,19 @@
                             </div>
                             @php
                                 $date = \Carbon\Carbon::create($item->start_date);
-                                $formattedDate = $date->format('d F Y');
+                                $startDate = $date->format('d F Y');
+
+                                if ($item->end_date) {
+                                    $date = \Carbon\Carbon::create($item->end_date);
+                                    $endDate = $date->format('d F Y');
+                                } else {
+                                    $endDate = '';
+                                }
                             @endphp
                             <div class="card-body text-center">
                                 <span style="font-size: 18px; padding:10px; color: white"
-                                    class="badge bg-success rounded-pill">{{ $formattedDate }}</span>
+                                    class="badge bg-success rounded-pill">{{ $startDate }}
+                                    {{ $endDate ? ' - ' . $endDate : '' }}</span>
 
                                 <h6 class="pt-3">Time Remaining : </h6>
                                 <p id="importantDates{{ $item->id }}" class="pt-2" style="font-size:18px"></p>
@@ -713,9 +721,24 @@
         const impdates = {!! json_encode($importantDates) !!};
         console.log(impdates);
         impdates.forEach(e => {
-            console.log(e.id);
+            console.log(e.end_date);
+            var date = new Date();
+            if (e.end_date == null) {
+                date = new Date(e.start_date);
+            } else {
+                date = new Date(e.end_date);
+            }
+
+
+            const options = {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            };
+
+            const formattedDate = date.toLocaleString('en-US', options);
             // Set the date we're counting down to
-            var countDownDate = new Date("Nov 10, 2024 23:59:00").getTime();
+            var countDownDate = new Date(formattedDate + " 23:59:00").getTime();
 
             // Update the count down every 1 second
             var i = setInterval(function() {
