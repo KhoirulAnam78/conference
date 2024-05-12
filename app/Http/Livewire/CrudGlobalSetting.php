@@ -10,9 +10,25 @@ use Illuminate\Support\Facades\Storage;
 class CrudGlobalSetting extends Component
 {
     public $title, $website, $email, $payment_number, $logo, $pathLogo, $abbreviation, $topic, $recipient, $bank_name;
+    public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link;
+    public $contact_name, $contact_number, $list_contact=[];
 
     use WithFileUploads;
 
+    public function inputGlobalSetting($name,$value){
+        $data = GlobalSetting::where('name',$name)->first();
+        if($data){
+            $data->update([
+                'value' => $value
+            ]);
+        }else{
+            GlobalSetting::create([
+                'name' => $name,
+                'value' => $value
+            ]);
+        }
+    }
+    
     public function save(){
         $validations = [
             'title' => 'required',
@@ -33,57 +49,18 @@ class CrudGlobalSetting extends Component
 
         $this->validate($validations);
 
-        $title = GlobalSetting::where('name','title')->first();
-        if($title){
-            $title->update([
-                'value' => $this->title
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'title',
-                'value' => $this->title
-            ]);
-        }
+        // update or create title 
+        $this->inputGlobalSetting('title',$this->title);
+        
+        $this->inputGlobalSetting('website',$this->website);
+        
+        $this->inputGlobalSetting('email',$this->email);
 
-        $website = GlobalSetting::where('name','website')->first();
-        if($website){
-            $website->update([
-                'value' => $this->website
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'website',
-                'value' => $this->website
-            ]);
-        }
-
-        $email = GlobalSetting::where('name','email')->first();
-        if($email){
-            $email->update([
-                'value' => $this->email
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'email',
-                'value' => $this->email
-            ]);
-        }
-
-        $payment_number = GlobalSetting::where('name','payment_number')->first();
-        if($payment_number){
-            $payment_number->update([
-                'value' => $this->payment_number
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'payment_number',
-                'value' => $this->payment_number
-            ]);
-        }
+        $this->inputGlobalSetting('payment_number',$this->payment_number);
 
         if($this->logo){
-            $logo = GlobalSetting::where('name','logo')->first();
             $path = $this->logo->store('images');
+            $logo = GlobalSetting::where('name','logo')->first();
             if($logo){
                 Storage::delete($logo->value);
                 $logo->update([
@@ -96,56 +73,22 @@ class CrudGlobalSetting extends Component
                 ]);
             }
         }
-        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
-        if($abbreviation){
-            $abbreviation->update([
-                'value' => $this->abbreviation
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'abbreviation',
-                'value' => $this->abbreviation
-            ]);
-        }
 
-        $topic = GlobalSetting::where('name','topic')->first();
-        if($topic){
-            $topic->update([
-                'value' => $this->topic
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'topic',
-                'value' => $this->topic
-            ]);
-        }
-
-        $recipient = GlobalSetting::where('name','recipient')->first();
-        if($recipient){
-            $recipient->update([
-                'value' => $this->recipient
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'recipient',
-                'value' => $this->recipient
-            ]);
-        }
-
-        $bank_name = GlobalSetting::where('name','bank_name')->first();
-        if($bank_name){
-            $bank_name->update([
-                'value' => $this->bank_name
-            ]);
-        }else{
-            GlobalSetting::create([
-                'name' => 'bank_name',
-                'value' => $this->bank_name
-            ]);
-        }
-
+        $this->inputGlobalSetting('abbreviation',$this->abbreviation);
+        $this->inputGlobalSetting('topic',$this->topic);
+        $this->inputGlobalSetting('recipient',$this->recipient);
+        $this->inputGlobalSetting('bank_name',$this->bank_name);
+        $this->inputGlobalSetting('title',$this->title);
+        $this->inputGlobalSetting('start_date_conference',$this->start_date_conference);
+        $this->inputGlobalSetting('end_date_conference',$this->end_date_conference);
+        $this->inputGlobalSetting('zoom_id',$this->zoom_id);
+        $this->inputGlobalSetting('zoom_pass',$this->zoom_pass);
+        $this->inputGlobalSetting('zoom_link',$this->zoom_link);
+        $this->inputGlobalSetting('contacts',json_encode($this->list_contact));
+        
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
     }
+
 
     public function updatedLogo(){
         $this->pathLogo = null;
@@ -155,25 +98,51 @@ class CrudGlobalSetting extends Component
         'title.required' => 'Judul konferensi harus diisi!'
     ];
 
+    public function getValue($name){
+        $data = GlobalSetting::where('name',$name)->first();
+        return $data->value ?? null;
+    }
+
+    public function deleteContact($key){
+        unset($this->list_contact[$key]);
+    }
+
+    public function addContact(){
+        array_push($this->list_contact,[
+            'name' => $this->contact_name,
+            'number' => $this->contact_number
+        ]);
+
+        $this->contact_name = null;
+        $this->contact_number = null;
+    }
     public function mount(){
-        $title = GlobalSetting::where('name','title')->first();
-        $this->title = $title->value;
-        $website = GlobalSetting::where('name','website')->first();
-        $this->website = $website->value ?? null;
-        $email = GlobalSetting::where('name','email')->first();
-        $this->email = $email->value ?? null;
-        $payment_number = GlobalSetting::where('name','payment_number')->first();
-        $this->payment_number = $payment_number->value ?? null;
-        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
-        $this->abbreviation = $abbreviation->value ?? null;
-        $topic = GlobalSetting::where('name','topic')->first();
-        $this->topic = $topic->value ?? null;
-        $recipient = GlobalSetting::where('name','recipient')->first();
-        $this->recipient = $recipient->value ?? null;
-        $bank_name = GlobalSetting::where('name','bank_name')->first();
-        $this->bank_name = $bank_name->value ?? null;
-        $logo = GlobalSetting::where('name','logo')->first();
-        $this->pathLogo = $logo->value ?? null;
+        $this->title = $this->getValue('title');
+        $this->website = $this->getValue('website');
+        $this->email = $this->getValue('email');
+        $this->payment_number = $this->getValue('payment_number');
+        $this->abbreviation = $this->getValue('abbreviation');
+        $this->topic = $this->getValue('topic');
+        $this->recipient = $this->getValue('recipient');
+        $this->bank_name = $this->getValue('bank_name');
+        $this->pathLogo = $this->getValue('logo');
+        $this->start_date_conference = $this->getValue('start_date_conference');
+        $this->end_date_conference = $this->getValue('end_date_conference');
+        $this->zoom_id = $this->getValue('zoom_id');
+        $this->zoom_pass = $this->getValue('zoom_pass');
+        $this->zoom_link = $this->getValue('zoom_link');
+        $contacts= json_decode($this->getValue('contacts')) ?? [];
+
+        foreach($contacts as $c){
+            array_push($this->list_contact,[
+                'name' => $c->name,
+                'number' => $c->number
+            ]);
+        }
+        // if($contact !=  []){
+        //     $this->list_contact = json_decode($contact);
+        // }
+        // dd($this->list_contact);
     }
 
     public function render()

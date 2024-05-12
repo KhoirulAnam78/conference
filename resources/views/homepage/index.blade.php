@@ -1,5 +1,20 @@
 @extends('layouts.main')
 
+@php
+    use App\Models\GlobalSetting;
+    use App\Models\ImportantDates;
+    use App\Models\TopicScope;
+
+    $title = GlobalSetting::where('name', 'title')->select('value')->first()->value;
+    $topic = GlobalSetting::where('name', 'topic')->select('value')->first()->value;
+    $website = GlobalSetting::where('name', 'website')->select('value')->first()->value;
+    $email = GlobalSetting::where('name', 'email')->select('value')->first()->value;
+    $logo = GlobalSetting::where('name', 'logo')->select('value')->first()->value;
+
+    $importantDates = ImportantDates::orderBy('start_date', 'ASC')->get();
+    $scopes = TopicScope::where('is_delete', 0)->get();
+@endphp
+
 @section('content')
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:100px">
         <ol class="carousel-indicators mb-3">
@@ -19,9 +34,7 @@
                                     November 2023, Swissbell-Hotel, Jambi
                                 </h3>
                                 <h3 style="color: white; font-size: 40px;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
-                                    Strengthening the Role of Chemistry as Basic
-                                    Science in Supporting the
-                                    Downstreaming of Agro-Industrial Products</h3>
+                                    {{ $topic }}</h3>
 
                                 <br>
                                 <a href="/register" class="primary-btn mb-3">Buy Ticket</a>
@@ -73,7 +86,7 @@
                             <div class="col-lg-7" style="margin: auto; padding-left: 3%">
                                 <h3
                                     style="padding-bottom: 5%; text-align: left;color: gold; font-size: 40px;text-shadow: 1px 1px 1px white">
-                                    11<sup>th</sup> International Conference of the Indonesian Chemical Society 2023
+                                    {{ $title }}
                                 </h3>
                                 <h4 style="color:rgb(46, 121, 241); font-size: 30px;padding-bottom: 3%">
                                     Online Presentation</h4>
@@ -108,9 +121,7 @@
                                     November 2023, Swissbell-Hotel, Jambi
                                 </h3>
                                 <h3 style="color: white; font-size: 40px;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
-                                    Strengthening the Role of Chemistry as Basic
-                                    Science in Supporting the
-                                    Downstreaming of Agro-Industrial Products</h3>
+                                    {{ $topic }}</h3>
                                 <br>
                                 <a href="/register" class="primary-btn mb-3">Buy Ticket</a>
                             </div>
@@ -180,7 +191,7 @@
     </section>
 
     <!-- Counter Section End -->
-    <section class="counter-section bg-grey">
+    {{-- <section class="counter-section bg-grey">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -190,7 +201,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <!-- Home About Section Begin -->
     <section class="home-about-section" style="padding-bottom: 2%; margin:0">
         <div class="container">
@@ -198,25 +209,16 @@
                 <div class="col-lg-6">
                     <div class="ha-text">
                         <h2>ICICS Scopes</h2>
-                        <p>
-                            Your valuable work and ideas in all brances of chemistry, such as mining, geochemistry,
-                            isolation prediction, Artificial Intelegences in Chemistry, Chemical Synthesis, Chemical
-                            Education, Instrumental Chemistry, Applied Chemistry, Material and Environtmental Chemistry.
-                        </p>
-                        <p>All the topics related to Energy, Food, Materials, Environtment, Life, Industry, and Health.</p>
-                        {{-- <ul>
-                            <li><span class="icon_check"></span> Organic and Bio Chemistry</li>
-                            <li><span class="icon_check"></span> Analytical and Enviromental Chemistry</li>
-                            <li><span class="icon_check"></span> Inorganic and Material Chemistry</li>
-                            <li><span class="icon_check"></span> Physical and Computation Chemistry</li>
-                            <li><span class="icon_check"></span> Chemical Education</li>
-                        </ul> --}}
-                        {{-- <a href="#" class="ha-btn">Discover Now</a> --}}
+                        <ul>
+                            @foreach ($scopes as $i)
+                                <li><span class="icon_check"></span> {{ $i->scope_name }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="ha-text">
-                        <img src="{{ url('') }}/assets/img/logo-fix.png" alt="">
+                        <img src="{{ asset('storage/' . $logo) }}" alt="">
                     </div>
                 </div>
             </div>
@@ -279,7 +281,7 @@
                     <span>IPB University</span>
                 </div>
             </div>
-            
+
         </div>
         <br>
         {{-- batas --}}
@@ -395,87 +397,32 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-lg-6 col-sm-6 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-success">
-                            <div class="section-title" style="margin:0px;padding:0px">
-                                <h4 class="text-white" style="font-weight: bold">Abstract Submission Deadline</h4>
-                            </div>
-                        </div>
-                        <div class="card-body text-center">
-                            <span style="font-size: 14px; padding:10px; color: white"
-                                class="badge bg-success rounded-pill mb-2"><del>16 September
-                                    2023</del></span> <br>
-                            <span style="font-size: 18px; padding:10px; color: white"
-                                class="badge bg-success rounded-pill">06 November
-                                2023</span>
 
-                            <h6 class="pt-3">Time Remaining : </h6>
-                            <p id="abstractSubmit" class="pt-2" style="font-size:18px"></p>
+                @foreach ($importantDates as $item)
+                    <div class="col-lg-6 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-header bg-primary">
+                                <div class="section-title" style="margin:0px;padding:0px">
+                                    <h4 class="text-white" style="font-weight: bold">{{ $item->name }}</h4>
+                                </div>
+                            </div>
+                            @php
+                                $date = \Carbon\Carbon::create($item->start_date);
+                                $formattedDate = $date->format('d F Y');
+                            @endphp
+                            <div class="card-body text-center">
+                                <span style="font-size: 18px; padding:10px; color: white"
+                                    class="badge bg-success rounded-pill">{{ $formattedDate }}</span>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-secondary">
-                            <div class="section-title" style="margin:0px;padding:0px">
-                                <h4 class="text-white"style="font-weight: bold">Abstract Acceptance Notifications
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="card-body text-center">
-                            <span style="font-size: 14px; padding:10px; color: white"
-                                class="badge bg-secondary rounded-pill mb-2"><del>20
-                                    September</del>
-                                2023</span> <br>
-                            <span style="font-size: 18px; padding:10px; color: white"
-                                class="badge bg-secondary rounded-pill">10 November
-                                2023</span>
-                            <h6 class="pt-3">Time Remaining : </h6>
-                            <p id="abstractAccept" class="pt-2" style="font-size:18px"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-info">
-                            <div class="section-title" style="margin:0px;">
-                                <h4 class="py-2 text-white" style="font-weight: bold">Full Paper Submission
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="card-body text-center">
-                            <span style="font-size: 14px; padding:10px; color: white"
-                                class="badge bg-info rounded-pill mb-2"><del>30 September
-                                    2023</del></span> <br>
-                            <span style="font-size: 18px; padding:10px; color: white"
-                                class="badge bg-info rounded-pill">10 November
-                                2023</span>
+                                <h6 class="pt-3">Time Remaining : </h6>
+                                <p id="importantDates{{ $item->id }}" class="pt-2" style="font-size:18px"></p>
 
-                            <h6 class="pt-3">Time Remaining : </h6>
-                            <p id="fullPaper" class="pt-2" style="font-size:18px"></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-sm-6 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-success">
-                            <div class="section-title" style="margin:0px;padding:0px">
-                                <h4 class="py-2 text-white" style="font-weight: bold">Conference
-                                </h4>
                             </div>
                         </div>
-                        <div class="card-body text-center">
-                            <span style="font-size: 18px; padding:10px; color: white"
-                                class="badge bg-success rounded-pill">16 November
-                                2023</span>
-                            <h6 class="pt-3">Time Remaining : </h6>
-                            <p id="conference" class="pt-2" style="font-size:18px"></p>
-                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -739,51 +686,90 @@
             </div>
         </div>
     </section>
+
     <!-- Contact Section End -->
 @endsection
 
-@section('script')
+@push('script')
     {{-- COUNTDOWN AWAL --}}
     <script>
+        const impdates = {!! json_encode($importantDates) !!};
+        console.log(impdates);
+        impdates.forEach(e => {
+            console.log(e.id);
+            // Set the date we're counting down to
+            var countDownDate = new Date("Nov 10, 2024 23:00:00").getTime();
+
+            // Update the count down every 1 second
+            var i = setInterval(function() {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                document.getElementById("importantDates" + e.id).innerHTML = days + " days " + hours +
+                    " hour " +
+                    minutes + " minutes " + seconds + " second ";
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(i);
+                    document.getElementById("importantDates" + e.id).innerHTML = "Sorry, the time is up.";
+                }
+            }, 1000);
+
+        });
+        console.log('ANAMAAMAMAM');
+
+
         // Set the date we're counting down to
-        var countDownAbstract = new Date("Nov 16, 2023 10:00:00").getTime();
+        // var countDownAbstract = new Date("Nov 16, 2023 10:00:00").getTime();
 
-        // Update the count down every 1 second
-        var x = setInterval(function() {
+        // // Update the count down every 1 second
+        // var x = setInterval(function() {
 
-            // Get today's date and time
-            var now = new Date().getTime();
+        //     // Get today's date and time
+        //     var now = new Date().getTime();
 
-            // Find the distance between now and the count down date
-            var distance = countDownAbstract - now;
+        //     // Find the distance between now and the count down date
+        //     var distance = countDownAbstract - now;
 
-            // Time calculations for days, hours, minutes and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        //     // Time calculations for days, hours, minutes and seconds
+        //     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        //     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        //     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        //     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display the result in the element with id="demo"
-            document.getElementById("demo").innerHTML =
-                '<div class="cd-item"><span>' + days + '</span><p>Days</p></div>' + '<div class="cd-item"><span>' +
-                hours + '</span><p>Hour</p></div>' + '<div class="cd-item"><span>' +
-                minutes + '</span><p>Minutes</p></div>' + '<div class="cd-item"><span>' + seconds +
-                '</span><p>Seconds</p></div>';
+        //     // Display the result in the element with id="demo"
+        //     document.getElementById("demo").innerHTML =
+        //         '<div class="cd-item"><span>' + days + '</span><p>Days</p></div>' + '<div class="cd-item"><span>' +
+        //         hours + '</span><p>Hour</p></div>' + '<div class="cd-item"><span>' +
+        //         minutes + '</span><p>Minutes</p></div>' + '<div class="cd-item"><span>' + seconds +
+        //         '</span><p>Seconds</p></div>';
 
 
-            // days + "d " + hours + "h " +
-            // minutes + "m " + seconds + "s "
+        //     // days + "d " + hours + "h " +
+        //     // minutes + "m " + seconds + "s "
 
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("demo").innerHTML = "Sorry, the time is up.";
-            }
-        }, 1000);
+        //     // If the count down is finished, write some text
+        //     if (distance < 0) {
+        //         clearInterval(x);
+        //         document.getElementById("demo").innerHTML = "Sorry, the time is up.";
+        //     }
+        // }, 1000);
     </script>
 
     {{-- COUNT DOWN ABSTRACT NOTIF --}}
-    <script>
+    {{-- <script>
         // Set the date we're counting down to
         var countDownDate = new Date("Nov 10, 2023 23:00:00").getTime();
 
@@ -812,10 +798,10 @@
                 document.getElementById("abstractAccept").innerHTML = "Sorry, the time is up.";
             }
         }, 1000);
-    </script>
+    </script> --}}
 
     {{-- COUNTDOWN ABSTRACT SUBMIT --}}
-    <script>
+    {{-- <script>
         // Set the date we're counting down to
         var countDownSubmit = new Date("Nov 06, 2023 23:00:00").getTime();
 
@@ -844,10 +830,10 @@
                 document.getElementById("abstractSubmit").innerHTML = "Sorry, the time is up.";
             }
         }, 1000);
-    </script>
+    </script> --}}
 
     {{-- COUNTDOWN Full Paper --}}
-    <script>
+    {{-- <script>
         // Set the date we're counting down to
         var countDownFullPaper = new Date("Nov 10, 2023 23:00:00").getTime();
 
@@ -876,10 +862,10 @@
                 document.getElementById("fullPaper").innerHTML = "Sorry, the time is up.";
             }
         }, 1000);
-    </script>
+    </script> --}}
 
     {{-- COUNTDOWN Conference --}}
-    <script>
+    {{-- <script>
         // Set the date we're counting down to
         var countDownConference = new Date("Nov 16, 2023 10:00:00").getTime();
 
@@ -908,5 +894,5 @@
                 document.getElementById("conference").innerHTML = "Sorry, the time is up.";
             }
         }, 1000);
-    </script>
-@endsection
+    </script> --}}
+@endpush
