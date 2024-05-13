@@ -10,19 +10,18 @@ use Livewire\WithFileUploads;
 class CrudSpeaker extends Component
 {
 
-    public $name, $proses_id;
-    public $name_speaker, $image, $institution, $position, $path_image;
+    public $name;
+    public $proses_id;
+    public $name_speaker, $image, $institution, $position, $old_path;
     use WithFileUploads;
 
 
 
-    public function mount()
-    {
-        // $logo = GlobalSetting::where('name','logo')->first();
-        // $this->pathLogo = $logo->value ?? null;
-    }
+    // public function mount()
+    // {
+    // }
 
-    public function input_detail()
+    public function input_speaker()
     {
         $this->validate([
             'name_speaker' => 'required',
@@ -40,6 +39,11 @@ class CrudSpeaker extends Component
             'position' => $this->position,
         ]);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
+        $this->name_speaker = null;
+        $this->image = null;
+        $path = null;
+        $this->institution = null;
+        $this->position = null;
     }
 
 
@@ -49,77 +53,87 @@ class CrudSpeaker extends Component
         $this->dispatchBrowserEvent('show-tambah');
     }
 
-    // public function edit_detail($id)
-    // {
-    //     $this->proses_id = $id;
-    //     $data = DetailRundown::where('id', $id)->first();
-    //     $this->event = $data->event;
-    //     $this->organizer = $data->organizer;
-    //     $this->start_time = $data->start_time;
-    //     $this->end_time = $data->end_time;
-    //     $this->place = $data->place;
-    //     $this->dispatchBrowserEvent('show-edit');
-    // }
+    public function edit_speaker($id)
+    {
+        $this->proses_id = $id;
+        $data = DetailSpeakers::where('id', $id)->first();
+        $this->name_speaker = $data->name;
+        $this->institution = $data->institution;
+        $this->position = $data->position;
+        $this->old_path = $data->image;
+        $this->dispatchBrowserEvent('show-edit');
+    }
 
-    // public function update_detail()
-    // {
-    //     $this->validate([
-    //         'event' => 'required',
-    //         'organizer' => 'required',
-    //         'start_time' => 'required',
-    //         'end_time' => 'required',
-    //         'place' => 'required',
-    //     ]);
-    //     DetailRundown::where('id', $this->proses_id)->update([
-    //         'event' => $this->event,
-    //         'organizer' => $this->organizer,
-    //         'id_rundown' => $this->proses_id,
-    //         'start_time' => $this->start_time,
-    //         'end_time' => $this->end_time,
-    //         'place' => $this->place,
-    //     ]);
-    //     $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
-    // }
+    public function update_speaker()
+    {
+        $validations = [
+            'name_speaker' => 'required',
+            'institution' => 'required',
+        ];
 
-    // public function edit_hari($id)
-    // {
-    //     $this->proses_id = $id;
-    //     $data = Rundown::where('id', $id)->first();
-    //     $this->name = $data->name;
-    //     $this->date = $data->date;
-    //     $this->dispatchBrowserEvent('show-edit-rundown');
-    // }
+        if ($this->image) {
+            $validations['image'] = 'max:5024|mimes:jpg,jpeg,png,pdf';
+        }
 
-    // public function update_hari()
-    // {
-    //     $this->validate([
-    //         'name' => 'required',
-    //         'date' => 'required',
+        $this->validate($validations);
 
-    //     ]);
-    //     Rundown::where('id', $this->proses_id)->update([
-    //         'name' => $this->name,
-    //         'date' => $this->date,
-    //     ]);
-    //     $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
-    // }
+        $path = $this->image ? $this->image->store('downloads') : null;
 
-    // public function hapus_acara($id)
-    // {
-    //     DetailRundown::where('id_rundown', $id)->delete();
-    //     Rundown::where('id', $id)->delete();
-    //     $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
-    // }
+        $updateData = [
+            'name' => $this->name_speaker,
+            'institution' => $this->institution,
+            'position' => $this->position,
+        ];
 
-    // public function hapus_detail($id)
-    // {
-    //     DetailRundown::where('id', $id)->delete();
-    //     $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
-    // }
+        if ($path) {
+            $updateData['image'] = $path;
+        }
+
+        DetailSpeakers::where('id', $this->proses_id)->update($updateData);
+
+        $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
+        $this->name_speaker = null;
+        $this->image = null;
+        $path = null;
+        $this->institution = null;
+        $this->position = null;
+    }
+
+
+    public function edit_jenis_speaker($id)
+    {
+        $this->proses_id = $id;
+        $data = Speakers::where('id', $id)->first();
+        $this->name = $data->name;
+        $this->dispatchBrowserEvent('show-edit-jenis');
+    }
+
+    public function update_jenis()
+    {
+        $this->validate([
+            'name' => 'required',
+        ]);
+        Speakers::where('id', $this->proses_id)->update([
+            'name' => $this->name,
+        ]);
+        $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
+        $this->name = null;
+    }
+
+    public function hapus_jenis($id)
+    {
+        DetailSpeakers::where('id_speakers', $id)->delete();
+        Speakers::where('id', $id)->delete();
+        $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
+    }
+
+    public function hapus_speaker($id)
+    {
+        DetailSpeakers::where('id', $id)->delete();
+        $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
+    }
     public function save()
     {
-
-
         $this->validate([
             'name' => 'required',
         ]);
@@ -128,6 +142,7 @@ class CrudSpeaker extends Component
             'name' => $this->name,
         ]);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
+        $this->name = null;
     }
 
     public function render()

@@ -29,22 +29,26 @@
                                 <td>
                                     <ul class="list-group">
                                         @foreach ($item->listSpeaker as $ls)
-                                            <li class="list-group-item">{{ $ls->name }}
-                                                <br>
-                                                <i class="fa fa-institution"></i>
-                                                {{ $ls->institution }}
-                                                <br>
-                                                <i class="fa fa-user"></i>
-                                                {{ $ls->position }}
-                                                <br>
-                                                <button class="btn btn-danger mx-1"
-                                                    wire:click="hapus_detail('{{ $ls->id }}')">Hapus</button>
-                                                <button class="btn btn-warning mx-1" data-toggle="modal"
-                                                    data-target="#modal_edit"
-                                                    wire:click="edit_detail('{{ $ls->id }}')">Edit</button>
-
+                                            <li class="list-group-item">
+                                                <div class="d-flex">
+                                                    <div>
+                                                        <img src="{{ asset($ls->image) }}" alt="{{ $ls->name }}"
+                                                            class="mr-3" style="width: 50px; height: 50px;">
+                                                    </div>
+                                                    <div>
+                                                        <span>{{ $ls->name }}</span><br>
+                                                        <i class="fa fa-institution"></i> {{ $ls->institution }}<br>
+                                                        <i class="fa fa-user"></i> {{ $ls->position }}<br>
+                                                        <button class="btn btn-danger mx-1"
+                                                            wire:click="hapus_speaker('{{ $ls->id }}')">Hapus</button>
+                                                        <button class="btn btn-warning mx-1" data-toggle="modal"
+                                                            data-target="#modalEdit"
+                                                            wire:click="edit_speaker('{{ $ls->id }}')">Edit</button>
+                                                    </div>
+                                                </div>
                                             </li>
                                         @endforeach
+
                                     </ul>
                                     <br>
                                     <div class="d-flex justify-content-end">
@@ -56,12 +60,13 @@
 
                                 <td>
                                     <div class="row justify-content-center">
-                                        <button class="btn btn-warning mx-1" data-toggle="modal"
-                                            data-target="#modalEditRundown"
-                                            wire:click="edit_hari('{{ $item->id }}')">Edit Jenis Speaker</button>
+                                        <button class="btn btn-warning mx-1 my-1" data-toggle="modal"
+                                            data-target="#modalEditJenis"
+                                            wire:click="edit_jenis_speaker('{{ $item->id }}')">Edit Jenis
+                                            Speaker</button>
 
-                                        <button class="btn btn-danger mx-1"
-                                            wire:click="hapus_acara('{{ $item->id }}')">Hapus Jenis
+                                        <button class="btn btn-danger mx-1 my-1"
+                                            wire:click="hapus_jenis('{{ $item->id }}')">Hapus Jenis
                                             Speaker</button>
                                     </div>
                                 </td>
@@ -105,19 +110,19 @@
         </div>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="modalEditRundown" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" wire:ignore.self id="modalEditJenis" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Rundown</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Jenis Speaker</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">New Nama</label>
+                        <label for="name">Nama Jenis Speaker Baru</label>
                         <input type="text" name="name" class="form-control" id="name" rows="5"
                             wire:model="name"></input>
                         @error('name')
@@ -125,30 +130,20 @@
                         @enderror
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
-                    <div class="form-group">
-                        <label for="date">New Date</label>
-                        <input type="date" name="date" class="form-control" id="date" rows="5"
-                            wire:model="date"></input>
-                        @error('date')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" wire:click="update_jenis"
+                            wire:loading.attr="disabled" wire:target="update_jenis">
+                            <span wire:loading.remove wire:target="update_jenis">Simpan</span>
+                            <span wire:loading wire:target="update_jenis">Simpan...</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="update_hari"
-                        wire:loading.attr="disabled" wire:target="update_hari">
-                        <span wire:loading.remove wire:target="update_hari">Simpan</span>
-                        <span wire:loading wire:target="update_hari">Simpan...</span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <div class="modal" id="modal-tambah" tabindex="-1" wire:ignore.self aria-labelledby="modal-tambah"
+    <div class="modal" id="modalTambah" tabindex="-1" wire:ignore.self aria-labelledby="modalTambah"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -198,7 +193,8 @@
                     </div>
                     <div class="form-group">
 
-                        <span wire:loading wire:target="image" class="text-success">Mengupload......... <br></span>
+                        <span wire:loading wire:target="image" class="text-success">Mengupload.........
+                            <br></span>
 
                         @if ($image)
                             <img class="img-thumbnail" height="100px" width="100px"
@@ -208,10 +204,10 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" wire:click="input_detail"
-                            wire:loading.attr="disabled" wire:target="input_detail">
-                            <span wire:loading.remove wire:target="input_detail">Simpan</span>
-                            <span wire:loading wire:target="input_detail">Simpan...</span>
+                        <button type="button" class="btn btn-primary" wire:click="input_speaker"
+                            wire:loading.attr="disabled" wire:target="input_speaker">
+                            <span wire:loading.remove wire:target="input_speaker">Simpan</span>
+                            <span wire:loading wire:target="input_speaker">Simpan...</span>
                         </button>
                     </div>
                 </div>
@@ -293,7 +289,7 @@
 
     </div>
 
-    <div class="modal" id="modal-edit" tabindex="-1" wire:ignore.self aria-labelledby="modal-edit"
+    <div class="modal" id="modalEdit" tabindex="-1" wire:ignore.self aria-labelledby="modal-edit"
         data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -343,9 +339,14 @@
                     </div>
                     <div class="form-group">
 
-                        <span wire:loading wire:target="image" class="text-success">Mengupload......... <br></span>
-
-
+                        <span wire:loading wire:target="image" class="text-success"><br>Mengupload.........
+                            <br></span>
+                        @if ($old_path != null && $image == null)
+                            <br>
+                            <label for="old_path">Foto lama :</label>
+                            <img class="img-thumbnail" alt="" height="100" width="100px"
+                                src="{{ asset('storage/' . $old_path) }}">
+                        @endif
                         @if ($image)
                             <img class="img-thumbnail" height="100px" width="100px"
                                 src="{{ $image->temporaryUrl() }}" />
@@ -354,10 +355,10 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" wire:click="input_detail"
-                            wire:loading.attr="disabled" wire:target="input_detail">
-                            <span wire:loading.remove wire:target="input_detail">Simpan</span>
-                            <span wire:loading wire:target="input_detail">Simpan...</span>
+                        <button type="button" class="btn btn-primary" wire:click="update_speaker"
+                            wire:loading.attr="disabled" wire:target="update_speaker">
+                            <span wire:loading.remove wire:target="update_speaker">Simpan</span>
+                            <span wire:loading wire:target="update_speaker">Simpan...</span>
                         </button>
                     </div>
                 </div>
@@ -383,13 +384,13 @@
             });
         })
         document.addEventListener('show-tambah', function(e) {
-            $('#modal-tambah').modal('show');
+            $('#modalTambah').modal('show');
         })
         document.addEventListener('show-edit', function(e) {
-            $('#modal-edit').modal('show');
+            $('#modalEdit').modal('show');
         })
-        document.addEventListener('show-edit-rundown', function(e) {
-            $('#modalEditRundown').modal('show');
+        document.addEventListener('show-edit-jenis', function(e) {
+            $('#modalEditJenis').modal('show');
         })
     </script>
 @endpush

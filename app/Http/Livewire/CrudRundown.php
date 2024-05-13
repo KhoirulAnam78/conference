@@ -66,7 +66,6 @@ class CrudRundown extends Component
         DetailRundown::where('id', $this->proses_id)->update([
             'event' => $this->event,
             'organizer' => $this->organizer,
-            'id_rundown' => $this->proses_id,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'place' => $this->place,
