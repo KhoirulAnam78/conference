@@ -105,6 +105,13 @@
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
+    <div class="form-group">
+        <label for="maps">Map Iframe</label>
+        <textarea name="maps" rows="5" class="form-control" id="maps" wire:model="maps"></textarea>
+        @error('maps')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
 
     <div class="form-group">
         <label for="contact">Contacts</label>

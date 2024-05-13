@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 class CrudGlobalSetting extends Component
 {
     public $title, $website, $email, $payment_number, $logo, $pathLogo, $abbreviation, $topic, $recipient, $bank_name;
-    public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link, $conference_location;
+    public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link, $conference_location, $maps;
     public $contact_name, $contact_number, $list_contact=[];
 
     use WithFileUploads;
@@ -88,6 +88,7 @@ class CrudGlobalSetting extends Component
         $this->inputGlobalSetting('zoom_pass',$this->zoom_pass);
         $this->inputGlobalSetting('zoom_link',$this->zoom_link);
         $this->inputGlobalSetting('contacts',json_encode($this->list_contact));
+        $this->inputGlobalSetting('maps',$this->maps);
         
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
     }
@@ -135,6 +136,7 @@ class CrudGlobalSetting extends Component
         $this->zoom_id = $this->getValue('zoom_id');
         $this->zoom_pass = $this->getValue('zoom_pass');
         $this->zoom_link = $this->getValue('zoom_link');
+        $this->maps = $this->getValue('maps');
         $contacts= json_decode($this->getValue('contacts')) ?? [];
 
         foreach($contacts as $c){

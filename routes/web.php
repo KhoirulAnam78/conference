@@ -50,11 +50,7 @@ Route::get('/organizing-committe', function () {
     ]);
 });
 
-Route::get('/contact', function () {
-    return view('homepage.contact', [
-        'title' => 'Contact'
-    ]);
-});
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
 Route::get('/field-trip', function () {
     return view('homepage.field-trip', [

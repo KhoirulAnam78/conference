@@ -29,34 +29,30 @@
                                             <div class="cs-text">
                                                 <div class="ct-address">
                                                     <span>Address:</span>
-                                                    <p>Swissbell-Hotel, Jambi <br /> Indonesia</p>
+                                                    <p>{{ $location }}</p>
                                                 </div>
                                                 <ul>
                                                     <li>
                                                         <span>Phone:</span>
-                                                        Indra Lasmana Tarigan, M.Sc. (+6282142265676)<br />
-                                                        Aulia Sanova, M.Pd. (+6285266180861) <br />
-                                                        Dr. Yusnaidar, M.Si. (+628127866961) <br />
-                                                        Restina Bemis, M.Si. (+6285274405887) <br>
+                                                        @foreach ($contact as $i)
+                                                            {{ $i->name . ' (' . $i->number . ')' }} <br>
+                                                        @endforeach
                                                     </li>
 
                                                     <li class="mt-3">
                                                         <span>Email:</span>
-                                                        icics2023@.unja.ac.id
+                                                        {{ $email }}
                                                     </li>
                                                 </ul>
                                                 <div class="ct-links">
                                                     <span>Website:</span>
-                                                    <p>https://icics2023unja.ac.id</p>
+                                                    <p>{{ $website }}</p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="cs-map">
-
-                                                <iframe
-                                                    src="https://maps.google.com/maps?q=swissbell jambi&t=&z=10&ie=UTF8&iwloc=&output=embed"
-                                                    height="400" style="border:0;" allowfullscreen=""></iframe>
+                                                {!! $map !!}
                                             </div>
                                         </div>
                                     </div>

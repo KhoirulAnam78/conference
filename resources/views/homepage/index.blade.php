@@ -1,44 +1,5 @@
 @extends('layouts.main')
 
-@php
-    use App\Models\GlobalSetting;
-    use App\Models\ImportantDates;
-    use App\Models\TopicScope;
-
-    $title = GlobalSetting::where('name', 'title')->select('value')->first()->value;
-    $topic = GlobalSetting::where('name', 'topic')->select('value')->first()->value;
-    $website = GlobalSetting::where('name', 'website')->select('value')->first()->value;
-    $email = GlobalSetting::where('name', 'email')->select('value')->first()->value;
-    $logo = GlobalSetting::where('name', 'logo')->select('value')->first()->value;
-    $start_date_conference = GlobalSetting::where('name', 'start_date_conference')->select('value')->first();
-    $start_date_conference = $start_date_conference->value ?? null;
-    if ($start_date_conference) {
-        $start = \Carbon\Carbon::create($start_date_conference);
-        $start_date_conference = $start->format('M d, Y');
-    }
-    $end_date_conference = GlobalSetting::where('name', 'end_date_conference')->select('value')->first();
-    $end_date_conference = $end_date_conference->value ?? null;
-    if ($end_date_conference) {
-        $end = \Carbon\Carbon::create($end_date_conference);
-        $end_date_conference = $end->format('M d, Y');
-    }
-
-    $conference_location = GlobalSetting::where('name', 'conference_location')->select('value')->first();
-    $conference_location = $conference_location->value ?? null;
-
-    $importantDates = ImportantDates::orderBy('start_date', 'ASC')->get();
-    $scopes = TopicScope::where('is_delete', 0)->get();
-
-    // IMAGE SLIDER
-    $image_slider_1 = GlobalSetting::where('name', 'image-slider-1')->select('value')->first();
-    $image_slider_1 = $image_slider_1->value ?? null;
-    $image_slider_2 = GlobalSetting::where('name', 'image-slider-2')->select('value')->first();
-    $image_slider_2 = $image_slider_2->value ?? null;
-    $image_slider_3 = GlobalSetting::where('name', 'image-slider-3')->select('value')->first();
-    $image_slider_3 = $image_slider_3->value ?? null;
-
-@endphp
-
 @section('content')
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:100px">
         <ol class="carousel-indicators mb-3">
@@ -110,7 +71,7 @@
                             <div class="col-lg-7" style="margin: auto; padding-left: 3%">
                                 <h3
                                     style="padding-bottom: 5%; text-align: left;color: gold; font-size: 40px;text-shadow: 1px 1px 1px white">
-                                    {{ $title }}
+                                    {{ $title_conference }}
                                 </h3>
                                 <h4 style="color:rgb(46, 121, 241); font-size: 30px;padding-bottom: 3%">
                                     Online Presentation</h4>
@@ -686,34 +647,31 @@
                     <div class="cs-text">
                         <div class="ct-address">
                             <span>Address:</span>
-                            <p>Swissbell-Hotel, Jambi <br /> Indonesia</p>
+                            <p>{{ $conference_location }}</p>
                         </div>
                         <ul>
                             <li>
                                 <span>Phone:</span>
-                                Indra Lasmana Tarigan, M.Sc. (+6282142265676)<br />
-                                Aulia Sanova, M.Pd. (+6285266180861) <br />
-                                Dr. Yusnaidar, M.Si. (+628127866961) <br />
-                                Restina Bemis, M.Si. (+6285274405887) <br>
+                                @foreach ($contact as $i)
+                                    {{ $i->name . ' (' . $i->number . ')' }} <br>
+                                @endforeach
                             </li>
 
                             <li class="mt-3">
                                 <span>Email:</span>
-                                icics2023@.unja.ac.id
+                                {{ $email }}
                             </li>
                         </ul>
                         <div class="ct-links">
                             <span>Website:</span>
-                            <p><a href="https://icics2023.unja.ac.id" style="color:blue">https://icics2023.unja.ac.id</a>
+                            <p><a href="{{ $website }}" style="color:blue">{{ $website }}</a>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="cs-map">
-
-                        <iframe src="https://maps.google.com/maps?q=swissbell jambi&t=&z=10&ie=UTF8&iwloc=&output=embed"
-                            height="400" style="border:0;" allowfullscreen=""></iframe>
+                        {!! $map !!}
                     </div>
                 </div>
             </div>
