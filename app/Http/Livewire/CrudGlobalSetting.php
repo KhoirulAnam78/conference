@@ -12,6 +12,7 @@ class CrudGlobalSetting extends Component
     public $title, $website, $email, $payment_number, $logo, $pathLogo, $abbreviation, $topic, $recipient, $bank_name;
     public $start_date_conference, $end_date_conference,$zoom_id,$zoom_pass,$zoom_link, $conference_location, $maps;
     public $contact_name, $contact_number, $list_contact=[];
+    public $primary_color1, $primary_color2;
 
     use WithFileUploads;
 
@@ -89,6 +90,8 @@ class CrudGlobalSetting extends Component
         $this->inputGlobalSetting('zoom_link',$this->zoom_link);
         $this->inputGlobalSetting('contacts',json_encode($this->list_contact));
         $this->inputGlobalSetting('maps',$this->maps);
+        $this->inputGlobalSetting('primary_color1',$this->primary_color1);
+        $this->inputGlobalSetting('primary_color2',$this->primary_color2);
         
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
     }
@@ -137,6 +140,8 @@ class CrudGlobalSetting extends Component
         $this->zoom_pass = $this->getValue('zoom_pass');
         $this->zoom_link = $this->getValue('zoom_link');
         $this->maps = $this->getValue('maps');
+        $this->primary_color1 = $this->getValue('primary_color1');
+        $this->primary_color2 = $this->getValue('primary_color2');
         $contacts= json_decode($this->getValue('contacts')) ?? [];
 
         foreach($contacts as $c){

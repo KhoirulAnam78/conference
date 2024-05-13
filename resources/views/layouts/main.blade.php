@@ -2,6 +2,11 @@
     use App\Models\GlobalSetting;
     $data = GlobalSetting::where('name', 'abbreviation')->first();
     $abbreviation = $data->value ?? 'Conference';
+    $data = GlobalSetting::where('name', 'primary_color1')->first();
+    $primary_color1 = $data->value ?? '#ee8425';
+    $data = GlobalSetting::where('name', 'primary_color2')->first();
+    $primary_color2 = $data->value ?? '#f9488b';
+
 @endphp
 <!DOCTYPE html>
 <html lang="zxx">
@@ -31,6 +36,46 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     {{-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> --}}
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+    <style>
+        .primary-btn {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 20px;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 50px;
+            background-image: -webkit-gradient(linear,
+                    left top,
+                    right top,
+                    from({{ $primary_color1 }}),
+                    to({{ $primary_color2 }})),
+                -webkit-gradient(linear, left top, right top, from({{ $primary_color1 }}), to({{ $primary_color2 }}));
+            background-image: -o-linear-gradient(left, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%),
+                -o-linear-gradient(left, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%);
+            background-image: linear-gradient(to right, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%),
+                linear-gradient(to right, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%);
+        }
+
+
+        .bg-gradient,
+        .bd-text .bd-tag-share .s-share a:hover,
+        .bh-text .play-btn,
+        .schedule-table-tab .nav-tabs .nav-item .nav-link.active,
+        .newslatter-inner .ni-form button,
+        .latest-item .li-tag,
+        .price-item .price-btn:hover,
+        .price-item .pi-price,
+        .price-item .tr-tag,
+        .schedule-tab .nav-tabs .nav-item .nav-link.active,
+        .site-btn {
+            background-image: -o-linear-gradient(330deg, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%),
+                -o-linear-gradient(330deg, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%);
+            background-image: linear-gradient(120deg, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%),
+                linear-gradient(120deg, {{ $primary_color1 }} 0%, {{ $primary_color2 }} 100%);
+        }
+    </style>
     @livewireStyles
     @yield('css')
     @stack('css')

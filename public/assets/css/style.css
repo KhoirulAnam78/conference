@@ -159,46 +159,7 @@ ol {
     color: #fff;
 }
 
-.bg-gradient,
-.bd-text .bd-tag-share .s-share a:hover,
-.bh-text .play-btn,
-.schedule-table-tab .nav-tabs .nav-item .nav-link.active,
-.newslatter-inner .ni-form button,
-.latest-item .li-tag,
-.price-item .price-btn:hover,
-.price-item .pi-price,
-.price-item .tr-tag,
-.schedule-tab .nav-tabs .nav-item .nav-link.active,
-.site-btn {
-    background-image: -o-linear-gradient(330deg, #ee8425 0%, #f9488b 100%),
-        -o-linear-gradient(330deg, #ee8425 0%, #f9488b 100%);
-    background-image: linear-gradient(120deg, #ee8425 0%, #f9488b 100%),
-        linear-gradient(120deg, #ee8425 0%, #f9488b 100%);
-}
-
 /* buttons */
-
-.primary-btn {
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 20px;
-    color: #ffffff;
-    text-align: center;
-    border-radius: 50px;
-    background-image: -webkit-gradient(
-            linear,
-            left top,
-            right top,
-            from(#ee8425),
-            to(#f9488b)
-        ),
-        -webkit-gradient(linear, left top, right top, from(#ee8425), to(#f9488b));
-    background-image: -o-linear-gradient(left, #ee8425 0%, #f9488b 100%),
-        -o-linear-gradient(left, #ee8425 0%, #f9488b 100%);
-    background-image: linear-gradient(to right, #ee8425 0%, #f9488b 100%),
-        linear-gradient(to right, #ee8425 0%, #f9488b 100%);
-}
 
 .site-btn {
     font-size: 16px;

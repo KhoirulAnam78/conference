@@ -176,6 +176,21 @@
     </div>
 
     <div class="form-group">
+        <label for="primary_color">Primary Color</label>
+        <div class="row">
+            <div class="col-6">
+                <input type="color" class="form-control" id="primary_color1" wire:model="primary_color1">
+            </div>
+            <div class="col-6">
+                <input type="color" class="form-control" id="primary_color2" wire:model="primary_color2">
+            </div>
+        </div>
+        @error('primary_color1')
+            <span class="text-danger">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div class="form-group">
         <span class="btn btn-primary" wire:click="save" wire:loading.attr.class="disabled">
             <span wire:loading.remove wire:target="save">Simpan</span>
             <span wire:loading wire:target="save">Simpan...</span>
