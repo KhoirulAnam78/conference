@@ -65,4 +65,9 @@ class AdminController extends Controller
         $title = 'Loa and Invoice';
         return view('dashboard-admin.loa-invoice-data', compact('title'));
     }
+
+    public function additionalEvents(){
+        $title = "Additional Events";
+        return view('dashboard-admin.additional-event',compact('title'));
+    }
 }

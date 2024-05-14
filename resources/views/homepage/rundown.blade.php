@@ -22,12 +22,22 @@
                                         <div class="col-lg-12">
                                             <div class="schedule-tab">
                                                 <ul class="nav nav-tabs" role="tablist">
+                                                    @php
+                                                        $item_count = count($rundown);
+                                                        $col = round(12 / $item_count);
+                                                    @endphp
                                                     @foreach ($rundown as $item)
-                                                        <li class="nav-item col-3" style="padding:0px; margin:0px">
+                                                        <li class="nav-item col-{{ $col }}"
+                                                            style="padding:0px; margin:0px">
                                                             <a class="nav-link active" data-toggle="tab"
                                                                 href="#tabs-{{ $item->id }}" role="tab">
                                                                 <h5>{{ $item->name }}</h5>
-                                                                <p>{{ $item->date }}</p>
+                                                                @php
+                                                                    $date = \Carbon\Carbon::create($item->date);
+                                                                    $formatted = $date->format('d F Y');
+
+                                                                @endphp
+                                                                <p>{{ $formatted }}</p>
                                                             </a>
                                                         </li>
                                                     @endforeach

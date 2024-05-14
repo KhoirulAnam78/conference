@@ -161,6 +161,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
     Route::get('speaker', [AdminController::class, 'speaker'])->name('speaker');
     Route::get('partner', [AdminController::class, 'partner'])->name('partner');
+    Route::get('additional-events', [AdminController::class, 'additionalEvents'])->name('additional-events');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
     Route::get('invoice', function () {

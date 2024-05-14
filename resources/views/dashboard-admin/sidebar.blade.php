@@ -8,7 +8,7 @@
             </li>
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Loa and Invoice' ? 'active' : '' }}"
-                    href="{{ route('data-loa-invoice') }}" style="font-size:16px">Loa and Invoice</a>
+                    href="{{ route('data-loa-invoice') }}" style="font-size:16px;">Loa and Invoice</a>
             </li>
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Front Image Slider' ? 'active' : '' }}"
@@ -23,8 +23,8 @@
                     href="{{ route('participant-type') }}" style="font-size:16px">Participant Type</a>
             </li>
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Download' ? 'active' : '' }}" href="{{ route('downloads-file') }}"
-                    style="font-size:16px">Download File</a>
+                <a class="nav-link {{ $title == 'Download File' ? 'active' : '' }}"
+                    href="{{ route('downloads-file') }}" style="font-size:16px">Download File</a>
             </li>
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Important Dates' ? 'active' : '' }}"
@@ -41,6 +41,11 @@
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Partner' ? 'active' : '' }}" href="{{ route('partner') }}"
                     style="font-size:16px">Partner</a>
+            </li>
+
+            <li class="nav-item" style="width:100%">
+                <a class="nav-link {{ $title == 'Additional Events' ? 'active' : '' }}"
+                    href="{{ route('additional-events') }}" style="font-size:16px">Additional Events</a>
             </li>
             <li class="nav-item" style="width:100%;">
                 <form method="POST" action="{{ route('logout') }}">
