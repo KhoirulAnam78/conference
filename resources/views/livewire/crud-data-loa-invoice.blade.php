@@ -74,9 +74,9 @@
 
         <span wire:loading wire:target="image_ttd_invoice" class="text-success">Mengupload......... <br></span>
 
-        @if ($pathTtdLoa != null && $image_ttd_invoice == null)
+        @if ($pathTtdInvoice != null && $image_ttd_invoice == null)
             <img class="img-thumbnail" alt="" height="100" width="100px"
-                src="{{ asset('storage/' . $pathTtdLoa) }}">
+                src="{{ asset('storage/' . $pathTtdInvoice) }}">
         @endif
         @if ($image_ttd_invoice)
             <img class="img-thumbnail" height="100px" width="100px" src="{{ $image_ttd_invoice->temporaryUrl() }}" />
@@ -103,9 +103,9 @@
 
         <span wire:loading wire:target="image_ttd_receipt" class="text-success">Mengupload......... <br></span>
 
-        @if ($pathTtdLoa != null && $image_ttd_receipt == null)
+        @if ($pathTtdReceipt != null && $image_ttd_receipt == null)
             <img class="img-thumbnail" alt="" height="100" width="100px"
-                src="{{ asset('storage/' . $pathTtdLoa) }}">
+                src="{{ asset('storage/' . $pathTtdReceipt) }}">
         @endif
         @if ($image_ttd_receipt)
             <img class="img-thumbnail" height="100px" width="100px"

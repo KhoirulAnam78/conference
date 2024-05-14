@@ -6,6 +6,47 @@
     if ($data) {
         $kop = $data->value;
     }
+    $data = GlobalSetting::where('name', 'stempel')->first();
+    $stempel = '';
+    if ($data) {
+        $stempel = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'ttd_loa')->first();
+    $ttd_loa = '';
+    if ($data) {
+        $ttd_loa = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'image_ttd_loa')->first();
+    $image_ttd_loa = '';
+    if ($data) {
+        $image_ttd_loa = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'title')->first();
+    $title = '';
+    if ($data) {
+        $title = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'abbreviation')->first();
+    $abbreviation = '';
+    if ($data) {
+        $abbreviation = $data->value;
+    }
+
+    $data = GlobalSetting::where('name', 'start_date_conference')->first();
+    $start_date_conference = '';
+    if ($data) {
+        $start_date_conference = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'end_date_conference')->first();
+    $end_date_conference = '';
+    if ($data) {
+        $end_date_conference = $data->value;
+    }
+    $data = GlobalSetting::where('name', 'conference_location')->first();
+    $conference_location = '';
+    if ($data) {
+        $conference_location = $data->value;
+    }
 @endphp
 <!doctype html>
 <html lang="en">
@@ -54,19 +95,29 @@
         </div>
         <div class="row">
             <p style="margin:10px 0px 0px 0px; padding:0px;font-size: 14px">Thank you for your interest in
-                <strong>The 11st
-                    International Conference of the Indonesian Chemical Society (ICICS 2023)</strong> and submitting
-                your Abstract entitled:
+                <strong>{{ $title }}</strong> and submitting
+                your Abstract entitled :
             </p>
 
-            <p style="margin:20px 0px 0px 0px; padding:0px;font-size: 14px; text-align:center">
-                <strong>Judul abstract</strong>
-            </p>
+            <div class="col-12 text-center">
+                <p class="align-items-center">
+                    <strong>Judul abstract</strong>
+                </p>
+            </div>
+
+            @php
+                $date = \Carbon\Carbon::create($start_date_conference);
+                $startDate = $date->format('d');
+                $date = \Carbon\Carbon::create($end_date_conference);
+                $endDate = $date->format('d F Y');
+            @endphp
 
             <p style="margin:20px 0px 0px 0px; padding:0px;font-size: 14px">It is our pleasure to inform you that
                 your paper
                 based on your Extended Abstract has been accepted for
-                presentation at the conference, which will be taking place at Jambi on 13-14 November 2024.
+                presentation at the conference, which will be taking place at {{ $conference_location }} on
+                {{ $startDate }} -
+                {{ $endDate }}.
                 We hereby have the honor and pleasure of inviting you to present your paper in the conference.
             </p>
             <p style="margin:20px 0px 0px 0px; padding:0px;font-size: 14px">Please do not hesitate to contact us if
@@ -81,18 +132,18 @@
                 <td width="30%">
                     <p style="margin:50px 0px 0px 0px; padding:0px;font-size: 14px; text-align:end">
                         Warm Regards, <br>
-                        Chairman of ICICS 2023 <br>
+                        Chairman of {{ $abbreviation }} <br>
                     </p>
                     <div class="parent" style="text-align: end">
                         <div class="parent" style="position: relative;top: 10px;left: 0;">
                             <img class="image1" style="position: relative;top: 0;right: 70px;"
-                                src="{{ url('assets/img/stempel-removebg-preview.png') }}" width="100px" />
+                                src="{{ url('storage/' . $stempel) }}" width="100px" />
                             <img class="image2" style="position: absolute; right: 20px;"
-                                src="{{ url('assets/img/ttd_chairman-removebg-preview.png') }}" width="100px" />
+                                src="{{ url('storage/' . $image_ttd_loa) }}" width="100px" />
                         </div>
                     </div>
                     <p style="margin:10px 0px 0px 0px; padding:0px;font-size: 14px; text-align:end">
-                        Dr. Madyawati Latief, S.P., M,Si.
+                        {{ $ttd_loa }}
                     </p>
                 </td>
             </tr>

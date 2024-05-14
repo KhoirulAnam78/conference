@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use GuzzleHttp\Client;
 use Livewire\Component;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class CrudDataLoaInvoice extends Component
 {
@@ -102,19 +104,50 @@ class CrudDataLoaInvoice extends Component
 
     public function inputImageGlobalSetting($file,$name){
         if($file){
-            $path = $file->store('images');
+            $file_path = $file->temporaryUrl();
+            $client = new Client();
+            
+            // REMOVE BG API
+            // dguB25AP7Jxdwda5EtuD3Gf9 API KEY
+
+            $res = $client->post('https://api.remove.bg/v1.0/removebg', [
+                'multipart' => [
+                    [
+                        'name'     => 'image_file',
+                        'contents' => fopen($file_path,'r')
+                    ],
+                    [
+                        'name'     => 'size',
+                        'contents' => 'auto'
+                    ]
+                ],
+                'headers' => [
+                    'X-Api-Key' => 'dguB25AP7Jxdwda5EtuD3Gf9'
+                ]
+            ]);
+
+            // $fp = fopen($name." no-bg.png", "wb");
+            // fwrite($fp, $res->getBody());
+            // fclose($fp);
+
+
+            $imageContent = (string) $res->getBody();
+            $path_file = 'images/'.$name.date('Y-m-d').' no-bg.png';
+            Storage::disk('public')->put($path_file, $imageContent);
             $image = GlobalSetting::where('name',$name)->first();
             if($image){
                 Storage::delete($image->value);
                 $image->update([
-                    'value' => $path
+                    'value' => $path_file
                 ]);
             }else{
                 GlobalSetting::create([
                     'name' => $name,
-                    'value' => $path
+                    'value' => $path_file
                 ]);
             }
+            
+
         }
     }
 
