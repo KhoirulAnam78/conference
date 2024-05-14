@@ -163,12 +163,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('partner', [AdminController::class, 'partner'])->name('partner');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
-    Route::get('loa', function () {
-        return view('administrator.pdf.loa');
-    });
-
-    Route::get('summernote', function () {
-        return view('administrator.summernote');
+    Route::get('invoice', function () {
+        return view('administrator.pdf.invoice');
     });
 
     //PARTICIPANT
