@@ -52,6 +52,7 @@ Route::get('/organizing-committe', function () {
 
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
+Route::get('satellite-events/{slug}', [HomeController::class, 'satelliteEvents'])->name('home.satellite-events');
 Route::get('/field-trip', function () {
     return view('homepage.field-trip', [
         'title' => 'Field Trip'

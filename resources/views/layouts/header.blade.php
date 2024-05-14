@@ -1,7 +1,12 @@
 @php
     use App\Models\GlobalSetting;
+    use App\Models\SatelliteEvents;
+    use App\Models\DownloadFilePath;
 
     $logo = GlobalSetting::where('name', 'logo')->first();
+    $satellite_events = SatelliteEvents::get();
+    $downloads = DownloadFilePath::get();
+
 @endphp
 
 <header class="header-section">
@@ -25,10 +30,10 @@
                         <a href="#">Information</a>
                         <ul class="dropdown" style="width:300px">
                             <li><a href="/registration-fee">Registration fee</a></li>
-                            <li><a href="/scientific-committe">Scientific Committee</a></li>
+                            {{-- <li><a href="/scientific-committe">Scientific Committee</a></li>
                             <li><a href="/steering-committe">Steering Committee</a></li>
                             <li><a href="/organizing-committe">Organizing Committee</a></li>
-                            <li><a href="/about-conference">About Conference</a></li>
+                            <li><a href="/about-conference">About Conference</a></li> --}}
                             <li><a href="/contact">Contacts</a></li>
                         </ul>
                     </li>
@@ -43,20 +48,20 @@
                         <a href="#">Satellite
                             Event</a>
                         <ul class="dropdown" style="width:300px">
-                            <li><a href="/fgd-mbkm">FGD MBKM</a></li>
-                            <li><a href="/fgd-akreditasi-internasional">FGD Akreditasi Internasional</a></li>
-                            <li><a href="/kongres-hki">Kongres HKI</a></li>
-                            <li><a href="/forum-ketua-jurusan-kimia">Forum Ketua Jurusan Kimia</a></li>
-                            <li><a href="/field-trip">Field Trip</a></li>
-                            <li><a href="/international-scientific-poster">International Scientific Poster</a></li>
+                            @foreach ($satellite_events as $i)
+                                <li><a
+                                        href="{{ route('home.satellite-events', ['slug' => $i->slug]) }}">{{ $i->name }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
                     <li>
                         <a href="#">Download</a>
                         <ul class="dropdown" style="width:300px">
-                            <li><a href="/download-template-article">Template Article.docx</a></li>
-                            <li><a href="/download-program-abstract-book-icics2023">Program and Abstract Book of ICICS
-                                    2023.pdf</a></li>
+                            @foreach ($downloads as $d)
+                                <li><a href="{{ asset('storage/' . $d->path_file) }}"
+                                        target="_blank">{{ $d->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     </li>

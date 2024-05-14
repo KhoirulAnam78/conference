@@ -14,7 +14,7 @@
                     <div class="tab-content d-inline">
                         <div class="card">
                             <div class="card-body">
-
+                                @livewire('crud-additional-event')
                             </div>
                         </div>
                     </div>

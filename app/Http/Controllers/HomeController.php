@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rundown;
+use App\Models\Speakers;
 use App\Models\TopicScope;
 use Illuminate\Http\Request;
 use App\Models\GlobalSetting;
 use App\Models\ImportantDates;
 use App\Models\ParticipantType;
-use App\Models\Rundown;
-use App\Models\Speakers;
+use App\Models\SatelliteEvents;
 
 class HomeController extends Controller
 {
@@ -132,5 +133,15 @@ class HomeController extends Controller
 
 
         return view('homepage.contact', compact('title', 'map', 'contact', 'location', 'email', 'website'));
+    }
+
+    public function satelliteEvents($slug){
+        $data = SatelliteEvents::where('slug',$slug)->first();
+        if(!$data){
+            return 'Sorry Page Not Found !';
+        }
+        $title = $data->name;
+        $content = $data->contents;
+        return view('homepage.satellite-events',compact('title','content'));
     }
 }
