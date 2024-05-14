@@ -160,6 +160,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('participant-type', [AdminController::class, 'participantType'])->name('participant-type');
     Route::get('downloads-file', [AdminController::class, 'downloadFile'])->name('downloads-file');
     Route::get('speaker', [AdminController::class, 'speaker'])->name('speaker');
+    Route::get('partner', [AdminController::class, 'partner'])->name('partner');
+
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
     Route::get('loa', function () {
         return view('administrator.pdf.loa');
