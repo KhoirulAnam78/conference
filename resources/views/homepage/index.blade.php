@@ -527,7 +527,7 @@
                                     {{ $i->name . ' (' . $i->number . ')' }} <br>
                                 @endforeach
                             </li>
-
+                            <br>
                             <li class="mt-3">
                                 <span>Email:</span>
                                 {{ $email }}
