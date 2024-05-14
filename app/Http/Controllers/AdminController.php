@@ -52,4 +52,9 @@ class AdminController extends Controller
         $title = 'Front Image Slider';
         return view('dashboard-admin.front-image-slider', compact('title'));
     }
+
+    public function dataLoaInvoice(){
+        $title = 'Loa and Invoice';
+        return view('dashboard-admin.loa-invoice-data',compact('title'));
+    }
 }

@@ -181,7 +181,8 @@
 
     <!-- Js Plugins -->
     <script src="{{ url('') }}/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="{{ url('') }}/assets/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    {{-- <script src="{{ url('') }}/assets/js/bootstrap.min.js"></script> --}}
     <script src="{{ url('') }}/assets/js/jquery.magnific-popup.min.js"></script>
     <script src="{{ url('') }}/assets/js/jquery.countdown.min.js"></script>
     <script src="{{ url('') }}/assets/js/jquery.slicknav.js"></script>
