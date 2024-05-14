@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\GlobalSetting;
 use App\Models\ImportantDates;
 use App\Models\ParticipantType;
+use App\Models\Rundown;
+use App\Models\Speakers;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $title = 'Home';
         $title_conference = GlobalSetting::where('name', 'title')->select('value')->first()->value;
         $topic = GlobalSetting::where('name', 'topic')->select('value')->first()->value;
@@ -44,77 +47,90 @@ class HomeController extends Controller
         $image_slider_3 = GlobalSetting::where('name', 'image-slider-3')->select('value')->first();
         $image_slider_3 = $image_slider_3->value ?? null;
 
-        $map = GlobalSetting::where('name','maps')->first();
-        if($map){
-            $map = $map->value; 
+        $map = GlobalSetting::where('name', 'maps')->first();
+        if ($map) {
+            $map = $map->value;
         }
-        $contact = GlobalSetting::where('name','contacts')->first();
-        if($contact){
+        $contact = GlobalSetting::where('name', 'contacts')->first();
+        if ($contact) {
             $contact = json_decode($contact->value);
         }
-        
-        return view('homepage.index', compact('title','title_conference','topic','logo','website','email','start_date_conference','end_date_conference','conference_location','importantDates','scopes','image_slider_1','image_slider_2','image_slider_3','map','contact'));
+
+        $openingSpeech = Speakers::where('name', 'Opening Speech')->with('listSpeaker')->get();
+        $openingSpeech = $openingSpeech ?? null;
+
+        $speakers = Speakers::where('name', '!=', 'Opening Speech')->with('listSpeaker')->get();
+        $speakers = $speakers ?? null;
+        // dd($speakers);
+
+        return view('homepage.index', compact('title', 'title_conference', 'topic', 'logo', 'website', 'email', 'start_date_conference', 'end_date_conference', 'conference_location', 'importantDates', 'scopes', 'image_slider_1', 'image_slider_2', 'image_slider_3', 'map', 'contact', 'openingSpeech', 'speakers'));
     }
 
-    public function rundown(){
-        return view('homepage.rundown', [
-            'title' => 'Rundown ICICS 2023'
-        ]);
+    public function rundown()
+    {
+        $title = 'Rundown';
+        $rundown = Rundown::with('detailRundown')->get();
+        return view(
+            'homepage.rundown',
+            compact('title', 'rundown')
+        );
     }
 
-    public function registrationFee(){
-        $payment_number = GlobalSetting::where('name','payment_number')->first();
+    public function registrationFee()
+    {
+        $payment_number = GlobalSetting::where('name', 'payment_number')->first();
         $payment_number = $payment_number->value ?? null;
-        $recipient = GlobalSetting::where('name','recipient')->first();
+        $recipient = GlobalSetting::where('name', 'recipient')->first();
         $recipient = $recipient->value ?? null;
-        $bank_name = GlobalSetting::where('name','bank_name')->first();
+        $bank_name = GlobalSetting::where('name', 'bank_name')->first();
         $bank_name = $bank_name->value ?? null;
-        $dates = ParticipantType::where('is_deleted',0)->groupBy('start_date')->orderBy('start_date')->select('start_date','end_date')->get();
+        $dates = ParticipantType::where('is_deleted', 0)->groupBy('start_date')->orderBy('start_date')->select('start_date', 'end_date')->get();
         $fee_information = [];
-        foreach($dates as $d){
-            $participant = ParticipantType::where('start_date',$d->start_date)->get();
+        foreach ($dates as $d) {
+            $participant = ParticipantType::where('start_date', $d->start_date)->get();
             $data = [];
-            array_push($data,$participant);
-            
+            array_push($data, $participant);
+
             $start = \Carbon\Carbon::create($d->start_date);
             $startDate = $start->format('d F Y');
             $end = \Carbon\Carbon::create($d->end_date);
             $endDate = $end->format('d F Y');
-            array_push($fee_information,[
-                'dates' => $startDate .' - '.$endDate,
+            array_push($fee_information, [
+                'dates' => $startDate . ' - ' . $endDate,
                 'data' => $data
             ]);
         }
         $title = 'Registration Fee';
-        
-        return view('homepage.registration-fee', compact('payment_number','recipient','bank_name','title','fee_information'));
+
+        return view('homepage.registration-fee', compact('payment_number', 'recipient', 'bank_name', 'title', 'fee_information'));
     }
 
-    public function contact() {
+    public function contact()
+    {
         $title = 'Contact';
-        $map = GlobalSetting::where('name','maps')->first();
-        if($map){
-            $map = $map->value; 
+        $map = GlobalSetting::where('name', 'maps')->first();
+        if ($map) {
+            $map = $map->value;
         }
-        $contact = GlobalSetting::where('name','contacts')->first();
-        if($contact){
+        $contact = GlobalSetting::where('name', 'contacts')->first();
+        if ($contact) {
             $contact = json_decode($contact->value);
         }
 
-        $location = GlobalSetting::where('name','conference_location')->first();
-        if($location){
+        $location = GlobalSetting::where('name', 'conference_location')->first();
+        if ($location) {
             $location = $location->value;
         }
-        $email = GlobalSetting::where('name','email')->first();
-        if($email){
+        $email = GlobalSetting::where('name', 'email')->first();
+        if ($email) {
             $email = $email->value;
         }
-        $website = GlobalSetting::where('name','website')->first();
-        if($website){
+        $website = GlobalSetting::where('name', 'website')->first();
+        if ($website) {
             $website = $website->value;
         }
 
 
-        return view('homepage.contact',compact('title','map','contact','location','email','website'));
+        return view('homepage.contact', compact('title', 'map', 'contact', 'location', 'email', 'website'));
     }
 }

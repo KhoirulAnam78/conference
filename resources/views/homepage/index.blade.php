@@ -25,28 +25,19 @@
                                 <a href="/register" class="primary-btn mb-3">Buy Ticket</a>
                             </div>
                             <div class="col-lg-5">
-                                <h3 class="primary-btn mb-3" style="font-size:20px">Opening Speech</h3>
+                                <h3 class="primary-btn mb-3" style="font-size:20px">{{ $openingSpeech[0]->name }}</h3>
                                 <div class="row">
-                                    <div class="col-5"><img src="{{ url('') }}/assets/img/opening-1.png"
-                                            alt="">
-                                    </div>
-                                    <div class="col-7" style="padding-top: 12%">
-                                        <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);"> Prof. Drs.
-                                            Sutrisno, Ph.D
-                                            <span>Rector of Universitas Jambi</span>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5"><img src="{{ url('') }}/assets/img/opening-2.png"
-                                            alt="">
-                                    </div>
-                                    <div class="col-7" style="padding-top: 12%">
-                                        <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);"> Dr. Sukro Muhab,
-                                            M.Si
-                                            <span>President of HKI</span>
-                                        </h5>
-                                    </div>
+                                    @foreach ($openingSpeech[0]->listSpeaker as $item)
+                                        <div class="col-5"><img src="{{ asset('storage/' . $item->image) }}"
+                                                alt="">
+                                        </div>
+                                        <div class="col-7" style="padding-top: 12%">
+                                            <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
+                                                {{ $item->name }}
+                                                <span>{{ $item->position . $item->institution }}</span>
+                                            </h5>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -112,28 +103,19 @@
                                 <a href="/register" class="primary-btn mb-3">Buy Ticket</a>
                             </div>
                             <div class="col-lg-5">
-                                <h3 class="primary-btn mb-3" style="font-size:20px">Opening Speech</h3>
+                                <h3 class="primary-btn mb-3" style="font-size:20px">{{ $openingSpeech[0]->name }}</h3>
                                 <div class="row">
-                                    <div class="col-5"><img src="{{ url('') }}/assets/img/opening-1.png"
-                                            alt="">
-                                    </div>
-                                    <div class="col-7" style="padding-top: 12%">
-                                        <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);"> Prof. Drs.
-                                            Sutrisno, Ph.D
-                                            <span>Rector of Universitas Jambi</span>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5"><img src="{{ url('') }}/assets/img/opening-2.png"
-                                            alt="">
-                                    </div>
-                                    <div class="col-7" style="padding-top: 12%">
-                                        <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);"> Dr. Sukro Muhab,
-                                            M.Si
-                                            <span>President of HKI</span>
-                                        </h5>
-                                    </div>
+                                    @foreach ($openingSpeech[0]->listSpeaker as $item)
+                                        <div class="col-5"><img src="{{ asset('storage/' . $item->image) }}"
+                                                alt="">
+                                        </div>
+                                        <div class="col-7" style="padding-top: 12%">
+                                            <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
+                                                {{ $item->name }}
+                                                <span>{{ $item->position . $item->institution }}</span>
+                                            </h5>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -234,142 +216,31 @@
     <!-- Home About Section End -->
 
     <!-- Team Member Section Begin -->
-    <section class="team-member-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>FGD Speaker</h2>
-                        {{-- <p>These are our communicators, you can see each person information</p> --}}
+    @foreach ($speakers as $item)
+        <section class="team-member-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <h2>{{ $item->name }}</h2>
+                            {{-- <p>These are our communicators, you can see each person information</p> --}}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="member-item set-bg" style="margin: 10px; border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/fgd-1.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Drs. Roto, M.Eng, Ph.D</h5>
-                    <span>Universitas Gadjah Mada</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/fgd-2.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Anang WM Diah, M.Si., Ph.D</h5>
-                    <span>Universitas Tadulako</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/fgd-3.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Dr. Mohamad Rafi, M.Si</h5>
-                    <span>IPB University</span>
-                </div>
-            </div>
-
-        </div>
-        <br>
-        {{-- batas --}}
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Keynote Speaker</h2>
-                        {{-- <p>These are our communicators, you can see each person information</p> --}}
+            <div class="row justify-content-center">
+                @foreach ($item->listSpeaker as $ls)
+                    <div class="member-item set-bg" style="margin: 10px; border: 3px solid black"
+                        data-setbg="{{ asset('storage/' . $ls->image) }}">
+                        <div class="mi-text" style="padding-right: 10px">
+                            <h5>{{ $ls->name }}</h5>
+                            <span>{{ $ls->institution }}</span>
+                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-1.png">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Sedat Ballikaya, Ph.D</h5>
-                    <span>Istanbul University, Cerrapasha Turkey</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-2.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Teruna Siahaan, Ph.D</h5>
-                    <span>University of Kansas</span>
-                </div>
-            </div>
-            <div margin: 20px class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-3.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Dr. Ir. Muh. Nurdin, M.Sc., IPU., ASEAN Eng.</h5>
-                    <span>Universitas Muhammadiyah (UM) Kendari</span>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-4.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Dr. Agus Haryono</h5>
-                    <span>Indonesian National Research and Innovation Agency</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-5.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Dr. (Cand). Suharman, M.Sc.</h5>
-                    <span>Tsukuba University</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/keynote-6.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>DR. SITI MUNIRAH BINTI SAHARIN</h5>
-                    <span>Universiti Malaya</span>
-                </div>
-            </div>
-        </div>
-        <br>
-        {{-- batas --}}
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Invited Speaker</h2>
-                        {{-- <p>These are our communicators, you can see each person information</p> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="member-item set-bg" style="margin: 10px; border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/invited-1.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Dr. Dyah Iswantini</h5>
-                    <span>IPB University</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/invited-2.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Nazarudin, S.Si., M.Si., Ph.D</h5>
-                    <span>Universitas Jambi</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/invited-3.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Yuli Rahmawati, Ph.D</h5>
-                    <span>Universitas Negeri Jakarta</span>
-                </div>
-            </div>
-            <div class="member-item set-bg" style="margin: 10px;border: 3px solid black"
-                data-setbg="{{ url('') }}/assets/img/team-member/invited-4.jpg">
-                <div class="mi-text" style="padding-right: 10px">
-                    <h5>Prof. Indriana Kartini, Ph.D</h5>
-                    <span>Universitas Gadjah Mada</span>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endforeach
     <!-- Team Member Section End -->
 
     <!-- Schedule Section Begin -->
