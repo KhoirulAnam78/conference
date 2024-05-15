@@ -55,6 +55,7 @@ class CrudDataLoaInvoice extends Component
         }
         
         if($this->kop){
+            dd($this->kop);
             $dom = new \domdocument();
             $dom->loadHtml($this->kop, LIBXML_NOWARNING | LIBXML_NOERROR);
     
