@@ -53,6 +53,7 @@ Route::get('/organizing-committe', function () {
 Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
 Route::get('satellite-events/{slug}', [HomeController::class, 'satelliteEvents'])->name('home.satellite-events');
+Route::get('information-pages/{slug}', [HomeController::class, 'informationPages'])->name('home.information-pages');
 Route::get('/field-trip', function () {
     return view('homepage.field-trip', [
         'title' => 'Field Trip'
@@ -163,6 +164,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('speaker', [AdminController::class, 'speaker'])->name('speaker');
     Route::get('partner', [AdminController::class, 'partner'])->name('partner');
     Route::get('additional-events', [AdminController::class, 'additionalEvents'])->name('additional-events');
+    Route::get('information-pages', [AdminController::class, 'informationPages'])->name('information-pages');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
     Route::get('invoice', function () {

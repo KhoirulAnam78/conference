@@ -42,6 +42,10 @@
                 <a class="nav-link {{ $title == 'Partner' ? 'active' : '' }}" href="{{ route('partner') }}"
                     style="font-size:16px">Partner</a>
             </li>
+            <li class="nav-item" style="width:100%">
+                <a class="nav-link {{ $title == 'Information Pages' ? 'active' : '' }}"
+                    href="{{ route('information-pages') }}" style="font-size:16px">Information Pages</a>
+            </li>
 
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Additional Events' ? 'active' : '' }}"

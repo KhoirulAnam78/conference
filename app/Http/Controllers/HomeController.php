@@ -10,6 +10,7 @@ use App\Models\GlobalSetting;
 use App\Models\ImportantDates;
 use App\Models\ParticipantType;
 use App\Models\SatelliteEvents;
+use App\Models\InformationPages;
 
 class HomeController extends Controller
 {
@@ -143,5 +144,15 @@ class HomeController extends Controller
         $title = $data->name;
         $content = $data->contents;
         return view('homepage.satellite-events',compact('title','content'));
+    }
+
+    public function informationPages($slug){
+        $data = InformationPages::where('slug',$slug)->first();
+        if(!$data){
+            return 'Sorry Page Not Found !';
+        }
+        $title = $data->name;
+        $content = $data->contents;
+        return view('homepage.information-pages',compact('title','content'));
     }
 }

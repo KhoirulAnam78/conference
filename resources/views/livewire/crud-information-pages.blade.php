@@ -2,7 +2,7 @@
     <div class="{{ $add == false ? '' : 'd-none' }}">
         <span class="btn btn-primary mb-3" wire:click="navigation(true)">Tambah</span>
         <h5>
-            LIST ADDITIONAL EVENTS
+            LIST INFORMATION PAGES
         </h5>
         <div class="table-responsive">
             <table class="table table-bordered text-nowrap">
@@ -17,7 +17,7 @@
                     $a = 0;
                 @endphp
                 <tbody>
-                    @forelse ($events as $i)
+                    @forelse ($pages as $i)
                         <tr>
                             <td>{{ ++$a }}</td>
                             <td>{{ $i->name }}</td>
@@ -43,7 +43,7 @@
     <div class="div {{ $add == false ? 'd-none' : '' }}">
         <span class="btn btn-primary mb-3" wire:click="navigation(false)">Kembali</span>
         <div class="form-group">
-            <label for="name">Nama Event</label>
+            <label for="name">Nama Page</label>
             <input type="text" class="form-control" id="name" wire:model="name">
             @error('name')
                 <span class="text-danger">{{ $message }}</span>

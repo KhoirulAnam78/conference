@@ -70,4 +70,9 @@ class AdminController extends Controller
         $title = "Additional Events";
         return view('dashboard-admin.additional-event',compact('title'));
     }
+
+    public function informationPages(){
+        $title = "Information Pages";
+        return view('dashboard-admin.information-pages',compact('title'));
+    }
 }

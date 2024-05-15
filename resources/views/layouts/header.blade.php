@@ -2,9 +2,11 @@
     use App\Models\GlobalSetting;
     use App\Models\SatelliteEvents;
     use App\Models\DownloadFilePath;
+    use App\Models\InformationPages;
 
     $logo = GlobalSetting::where('name', 'logo')->first();
     $satellite_events = SatelliteEvents::get();
+    $information_pages = InformationPages::get();
     $downloads = DownloadFilePath::get();
 
 @endphp
@@ -30,6 +32,11 @@
                         <a href="#">Information</a>
                         <ul class="dropdown" style="width:300px">
                             <li><a href="/registration-fee">Registration fee</a></li>
+                            @foreach ($information_pages as $p)
+                                <li><a
+                                        href="{{ route('home.information-pages', ['slug' => $p->slug]) }}">{{ $p->name }}</a>
+                                </li>
+                            @endforeach
                             {{-- <li><a href="/scientific-committe">Scientific Committee</a></li>
                             <li><a href="/steering-committe">Steering Committee</a></li>
                             <li><a href="/organizing-committe">Organizing Committee</a></li>
