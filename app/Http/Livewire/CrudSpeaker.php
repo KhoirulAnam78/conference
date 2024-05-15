@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\detailSpeakers;
+use App\Models\DetailSpeakers;
 use App\Models\Speakers;
 use Livewire\Component;
 use Livewire\WithFileUploads;
