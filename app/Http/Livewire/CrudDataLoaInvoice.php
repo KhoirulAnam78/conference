@@ -30,25 +30,28 @@ class CrudDataLoaInvoice extends Component
     }
 
     public function save(){
-        $validations = null;
-        
         if($this->stempel){
-            $validations['stempel'] = 'max:5024|mimes:jpg,jpeg,png';
+            $this->validate([
+                'stempel' => 'max:5024|mimes:jpg,jpeg,png'
+            ]);
         }
+        
         if($this->image_ttd_loa){
-            $validations['image_ttd_loa'] = 'max:5024|mimes:jpg,jpeg,png';
+            $this->validate([
+                'image_ttd_loa' => 'max:5024|mimes:jpg,jpeg,png'
+            ]);
         }
         
         if($this->image_ttd_invoice){
-            $validations['image_ttd_invoice'] = 'max:5024|mimes:jpg,jpeg,png';
+            $this->validate([
+                'image_ttd_invoice' => 'max:5024|mimes:jpg,jpeg,png'
+            ]);
         }
         
         if($this->image_ttd_receipt){
-            $validations['image_ttd_receipt'] = 'max:5024|mimes:jpg,jpeg,png';
-        }
-
-        if($validations){
-            $this->validate($validations);
+            $this->validate([
+                'image_ttd_receipt' => 'max:5024|mimes:jpg,jpeg,png'
+            ]);
         }
         
         if($this->kop){
@@ -93,9 +96,9 @@ class CrudDataLoaInvoice extends Component
             $this->inputGlobalSetting('kop',$this->kop);
         }
         $this->inputImageGlobalSetting($this->stempel,'stempel');
-        $this->inputImageGlobalSetting($this->image_ttd_loa,'image_ttd_loa');
         $this->inputImageGlobalSetting($this->image_ttd_invoice,'image_ttd_invoice');
         $this->inputImageGlobalSetting($this->image_ttd_receipt,'image_ttd_receipt');
+        $this->inputImageGlobalSetting($this->image_ttd_loa,'image_ttd_loa');
         $this->inputGlobalSetting('ttd_loa',$this->ttd_loa);
         $this->inputGlobalSetting('ttd_invoice',$this->ttd_invoice);
         $this->inputGlobalSetting('ttd_receipt',$this->ttd_receipt);
@@ -133,12 +136,12 @@ class CrudDataLoaInvoice extends Component
 
 
             $imageContent = (string) $res->getBody();
-            $path_file = 'images/'.$name.date('Y-m-d').' no-bg.png';
+            $path_file = 'images/'.$name.date('Y-m-d').'no-bg.png';
             Storage::disk('public')->put($path_file, $imageContent);
             $image = GlobalSetting::where('name',$name)->first();
             if($image){
                 Storage::delete($image->value);
-                $image->update([
+                GlobalSetting::where('name',$name)->update([
                     'value' => $path_file
                 ]);
             }else{
@@ -147,8 +150,6 @@ class CrudDataLoaInvoice extends Component
                     'value' => $path_file
                 ]);
             }
-            
-
         }
     }
 

@@ -19,7 +19,7 @@
 
         @if ($pathStempel != null && $stempel == null)
             <img class="img-thumbnail" alt="" height="100" width="100px"
-                src="{{ asset('storage/' . $pathTtdLoa) }}">
+                src="{{ asset('storage/' . $pathStempel) }}">
         @endif
         @if ($stempel)
             <img class="img-thumbnail" height="100px" width="100px" src="{{ $stempel->temporaryUrl() }}" />
