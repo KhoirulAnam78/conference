@@ -30,8 +30,8 @@
                                 <td>{{ $item->name }}</td>
                                 <td>
                                     <div>
-                                        <img src="{{ asset($item->image) }}" alt="{{ $item->name }}" class="mr-3"
-                                            style="width: 50px; height: 50px;">
+                                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}"
+                                            class="mr-3" style="width: 50px; height: 50px;">
                                     </div>
                                 </td>
                                 <td>{{ $item->url }}</td>

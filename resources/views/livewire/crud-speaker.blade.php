@@ -32,8 +32,9 @@
                                             <li class="list-group-item">
                                                 <div class="d-flex">
                                                     <div>
-                                                        <img src="{{ asset($ls->image) }}" alt="{{ $ls->name }}"
-                                                            class="mr-3" style="width: 50px; height: 50px;">
+                                                        <img src="{{ asset('storage/' . $ls->image) }}"
+                                                            alt="{{ $ls->name }}" class="mr-3"
+                                                            style="width: 50px; height: 50px;">
                                                     </div>
                                                     <div>
                                                         <span>{{ $ls->name }}</span><br>
