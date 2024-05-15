@@ -171,12 +171,12 @@
         </div>
     </section> --}}
     <!-- Home About Section Begin -->
-    <section class="home-about-section" style="padding-bottom: 2%; margin:0">
-        <div class="container">
+    <section class="home-about-section" style="padding-bottom: 2%; margin:0;">
+        <div class="container" style="margin-bottom:100px">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="ha-text">
-                        <h2>ICICS Scopes</h2>
+                        <h2>Topic Scopes</h2>
                         <ul>
                             @foreach ($scopes as $i)
                                 <li><span class="icon_check"></span> {{ $i->scope_name }}</li>
@@ -244,7 +244,7 @@
     <!-- Team Member Section End -->
 
     <!-- Schedule Section Begin -->
-    <section class="schedule-section mb-5 mt-5" style="background-color: wheat; padding-top: 3%;">
+    {{-- <section class="schedule-section mb-5 mt-5" style="background-color: wheat; padding-top: 3%;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -290,11 +290,56 @@
                 @endforeach
             </div>
         </div>
+    </section> --}}
+    <section class="schedule-section mb-5 mt-5" style="background-color: wheat; padding-top: 3%;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>IMPORTANT DATE</h2>
+                        <p>Do not miss anything topic about the event</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @foreach ($importantDates as $item)
+                    <div class="col-lg-6 col-sm-6 mb-3">
+                        <div class="card">
+                            <div class="card-header bg-primary">
+                                <div class="section-title mb-0">
+                                    <h4 class="text-white font-weight-bold">{{ $item->name }}</h4>
+                                </div>
+                            </div>
+                            @php
+                                $date = \Carbon\Carbon::create($item->start_date);
+                                $startDate = $date->format('d F Y');
+
+                                if ($item->end_date) {
+                                    $date = \Carbon\Carbon::create($item->end_date);
+                                    $endDate = $date->format('d F Y');
+                                } else {
+                                    $endDate = '';
+                                }
+                            @endphp
+                            <div class="card-body text-center">
+                                <span class="badge bg-success rounded-pill d-block mb-2 text-wrap" style="font-size:14px">
+                                    {{ $startDate }} {{ $endDate ? ' - ' . $endDate : '' }}
+                                </span>
+
+                                <h6 class="mb-2">Time Remaining :</h6>
+                                <p id="importantDates{{ $item->id }}" class="mb-0"></p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </section>
     <!-- Schedule Section End -->
 
     <!-- Pricing Section Begin -->
-    <section class="pricing-section set-bg spad" data-setbg="{{ url('') }}/assets/img/pricing-bg.jpg">
+    {{-- <section class="pricing-section set-bg spad" data-setbg="{{ url('') }}/assets/img/pricing-bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -379,7 +424,7 @@
 
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <section class="contact-section spad">
         <div class="container">
@@ -507,7 +552,7 @@
         </div>
     </section>
     <!-- Contact Section Begin -->
-    <section class="contact-section spad" style="margin-top:50px;margin-bottom:50px; padding:0px">
+    <section class="contact-section spad" style="margin-top:50px;margin-bottom:100px; padding:0px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">

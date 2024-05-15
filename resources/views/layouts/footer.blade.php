@@ -1,11 +1,15 @@
 @php
     use App\Models\Partner;
+    use App\Models\GlobalSEtting;
 
     $partner = Partner::get();
+    $abbreviation = GlobalSetting::where('name', 'abbreviation')->first();
+
+    $abbreviation = $abbreviation->value ?? null;
 @endphp
 <footer class="footer-section">
     <div class="container">
-        <div class="row  justify-content-center">
+        {{-- <div class="row  justify-content-center">
             <h4 class="text-white mb-3">PUBLISHER</h4>
         </div>
         <div class="row justify-content-center mb-3">
@@ -17,7 +21,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div> --}}
         <div class="row  justify-content-center">
             <h4 class="text-white mb-3">OTHER PUBLISHER PARTNERS</h4>
         </div>
@@ -32,9 +36,9 @@
             @endforeach
         </div>
 
-        <div class="row mt-3 justify-content-center">
+        {{-- <div class="row mt-3 justify-content-center">
             <img src="{{ url('') }}/assets/img/hosted.png" alt="hosted.png">
-        </div>
+        </div> --}}
         <div class="row">
             <div class="col-lg-12">
                 <div class="footer-text">
@@ -43,7 +47,7 @@
                             Copyright &copy;
                             <script>
                                 document.write(new Date().getFullYear());
-                            </script> All rights reserved | ICICS 2023
+                            </script> All rights reserved | {{ $abbreviation }}
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
                     </div>
