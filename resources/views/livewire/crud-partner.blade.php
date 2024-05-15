@@ -7,7 +7,7 @@
     <div class="col-lg-12">
         <div class="row">
             <div class="table-responsive">
-                <table class="table table-bordered text-nowrap">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
