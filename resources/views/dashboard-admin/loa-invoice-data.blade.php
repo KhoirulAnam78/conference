@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.main-summernote')
 
 @section('content')
     <section class="schedule-table-section spad" style="margin-top:200px">

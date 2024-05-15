@@ -69,12 +69,12 @@
                                 <div style="text-indent: 3%">
                                     <h4
                                         style="padding-bottom: 3%;text-align: left;color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
-                                        Meeting ID : 284 802 1895</h4>
+                                        Meeting ID : {{ $zoom_id }}</h4>
                                     <h4
                                         style="padding-bottom: 5%;text-align: left;color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
-                                        Passcode : icics2023</h4>
+                                        Passcode : {{ $zoom_pass }}</h4>
                                 </div>
-                                <a href="https://zoom.us/join" class="primary-btn mb-3"> Open
+                                <a href="{{ $zoom_link }}" class="primary-btn mb-3"> Open
                                     Zoom Here</a>
                             </div>
                             <div class="col-lg-5">
@@ -200,11 +200,11 @@
                             <ul>
                                 <li><span class="icon_check"></span> Offline at {{ $conference_location }}</li>
                                 <li><span class="icon_check"></span> Online Zoom:</li>
-                                <li style="text-indent: 20px">Meeting ID: 284 802 1895
+                                <li style="text-indent: 20px">Meeting ID: {{ $zoom_id }}
                                 </li>
-                                <li style="text-indent: 20px">Passcode: icics2023</li>
+                                <li style="text-indent: 20px">Passcode: {{ $zoom_pass }}</li>
                                 <li style="padding-top: 2%">
-                                    <a href="https://zoom.us/join" class="primary-btn mb-3"> Open Zoom</a>
+                                    <a href="{{ $zoom_link }}" class="primary-btn mb-3"> Open Zoom</a>
                                 </li>
                             </ul>
                         </div>

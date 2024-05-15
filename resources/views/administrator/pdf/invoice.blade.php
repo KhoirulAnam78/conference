@@ -4,7 +4,19 @@
     $data = GlobalSetting::where('name', 'kop')->first();
     $kop = '';
     if ($data) {
-        $kop = $data->value;
+        $dom = new \domdocument();
+        $dom->loadHtml($data->value, LIBXML_NOWARNING | LIBXML_NOERROR);
+
+        //identify img element
+        $images = $dom->getelementsbytagname('img');
+
+        foreach ($images as $img) {
+            $data = $img->getattribute('src');
+            $path2 = 'data:image/png;base64,' . base64_encode(file_get_contents($data));
+            $img->removeattribute('src');
+            $img->setattribute('src', $path2);
+        }
+        $kop = $dom->saveHtml();
     }
     $data = GlobalSetting::where('name', 'stempel')->first();
     $stempel = '';
@@ -47,6 +59,14 @@
     if ($data) {
         $conference_location = $data->value;
     }
+
+    $recipient = GlobalSetting::where('name', 'recipient')->first();
+    $recipient = $recipient->value ?? null;
+    $payment_number = GlobalSetting::where('name', 'payment_number')->first();
+    $payment_number = $payment_number->value ?? null;
+    $bank_name = GlobalSetting::where('name', 'bank_name')->first();
+    $bank_name = $bank_name->value ?? null;
+
 @endphp
 <!doctype html>
 <html lang="en">
@@ -69,6 +89,9 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Set the page size and margins */
+    </style>
     <title>Invoice</title>
 </head>
 
@@ -90,9 +113,9 @@
                         <td style="width: 20%;font-weight:bold;"></td>
                     </tr>
                     <tr>
-                        <td>Khoirul Anam</td>
+                        <td>{{ $full_name }}</td>
                         <td>{{ date('d F Y') }}</td>
-                        <td>IDR 500000</td>
+                        <td>IDR {{ $fee }}</td>
                         <td></td>
                     </tr>
                     <tr>
@@ -104,9 +127,9 @@
                         <td style="width: 20%; font-weight:bold;">Category Product</td>
                     </tr>
                     <tr>
-                        <td>Perkumpulan Indonesian Chemical Society</td>
-                        <td>Bank BNI</td>
-                        <td>The 11st International Conference of the Indonesian Chemical Society (ICICS 2023)</td>
+                        <td>{{ $recipient }}</td>
+                        <td>{{ $bank_name }}</td>
+                        <td>{{ $title . ' (' . $abbreviation . ')' }}</td>
                         <td>Seminar</td>
                     </tr>
                 </table>
@@ -128,18 +151,18 @@
                     </tr>
                     <tr style="border-top:1px solid black; border-bottom:1px solid black; pading:3px">
                         <td style="padding:5px">1</td>
-                        <td style="padding:5px">General Speaker</td>
-                        <td style="padding:5px">IDR 500000</td>
+                        <td style="padding:5px">{{ $participant_type }}</td>
+                        <td style="padding:5px">IDR {{ $fee }}</td>
                         <td style="padding:5px">1</td>
-                        <td style="padding:5px">IDR 500000</td>
-                        <td style="padding:5px">698124931</td>
+                        <td style="padding:5px">IDR {{ $fee }}</td>
+                        <td style="padding:5px">{{ $payment_number }}</td>
                         <td style="padding:5px">{{ date('d F Y') }}</td>
-                        <td style="padding:5px">10 November 2023</td>
+                        <td style="padding:5px">13 September 2024</td>
                     </tr>
                     <tr>
                         <td colspan="8" style="padding-top:20px" align="center">
                             <strong>
-                                Total Bill : IDR 500000
+                                Total Bill : IDR {{ $fee }}
                             </strong>
                         </td>
                     </tr>
@@ -152,22 +175,30 @@
                                 {{ date('d F Y') }} <br>
                                 Signature of Receiver<br>
                             </p>
-                            <div class="parent">
+                            <div class="parent" style="text-align: end">
                                 <div class="parent" style="position: relative;top: 10px;left: 0;">
-                                    <img class="image1" style="position: relative;top: 0;left: 150px;"
-                                        src="{{ url('assets/img/stempel-removebg-preview.png') }}" width="100px" />
-                                    <img class="image2" style="position: absolute;right: 20px;"
-                                        src="{{ url('assets/img/ttd_receipt-removebg-preview.png') }}"
-                                        width="100px" />
+                                    @if ($stempel)
+                                        <img class="image1" style="position: relative;top: 0;left: 70px;"
+                                            src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $stempel))) }}"
+                                            alt="stempel" width="100px" />
+                                    @else
+                                        <div class="image1" style="position: relative;top: 0;right: 70px;"
+                                            alt="stempel" width="100px"> </div>
+                                    @endif
+                                    <img class="image2" style="position: absolute; right: 70px;"
+                                        src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $image_ttd_invoice))) }}"
+                                        {{-- src="{{ public_path('storage/' . $image_ttd_loa) }}"  --}} width="100px" />
                                 </div>
                             </div>
+                            <br>
+                            <br>
                             <p style="margin:10px 0px 0px 0px; padding:0px;font-size: 14px; text-align:end">
-                                Restina Bemis, S.Si., M.Si.
+                                {{ $ttd_invoice }}
                             </p>
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>Paid : IDR 500000</strong></td>
+                        <td><strong>Paid : IDR {{ $fee }}</strong></td>
                         <td></td>
                     </tr>
                 </table>

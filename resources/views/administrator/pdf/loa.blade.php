@@ -4,8 +4,21 @@
     $data = GlobalSetting::where('name', 'kop')->first();
     $kop = '';
     if ($data) {
-        $kop = $data->value;
+        $dom = new \domdocument();
+        $dom->loadHtml($data->value, LIBXML_NOWARNING | LIBXML_NOERROR);
+
+        //identify img element
+        $images = $dom->getelementsbytagname('img');
+
+        foreach ($images as $img) {
+            $data = $img->getattribute('src');
+            $path2 = 'data:image/png;base64,' . base64_encode(file_get_contents($data));
+            $img->removeattribute('src');
+            $img->setattribute('src', $path2);
+        }
+        $kop = $dom->saveHtml();
     }
+
     $data = GlobalSetting::where('name', 'stempel')->first();
     $stempel = '';
     if ($data) {
@@ -79,17 +92,19 @@
 
 <body>
     <div class="container">
-        <div class="row justify-content-center" style="margin:0px 5px">
+        <div class="row justify-content-center" width="100%" style="margin:0px 5px">
             {!! $kop !!}
         </div>
-        <div class="row">
-            <hr style="background-color:black; height:2px">
-        </div>
+
 
         <div class="row">
             <p style="font-size: 14px">Dear : <br>
-                <strong>Khoirul Anam</strong> <br>
-                <strong>Universitas Jambi</strong>
+                <strong>{{ $full_name }}</strong> <br>
+                <strong>{{ $institution }}</strong>
+            </p>
+        </div>
+        <div class="row justify-content-end">
+            <p style="font-size: 14px">{{ date('d F Y') }}
             </p>
         </div>
         <div class="row">
@@ -100,7 +115,7 @@
 
             <div class="col-12 text-center">
                 <p class="align-items-center">
-                    <strong>Judul abstract</strong>
+                    <strong>{{ $abstractTitle }}</strong>
                 </p>
             </div>
 
@@ -135,15 +150,25 @@
                     </p>
                     <div class="parent" style="text-align: end">
                         <div class="parent" style="position: relative;top: 10px;left: 0;">
-                            <img class="image1" style="position: relative;top: 0;right: 70px;"
-                                src="{{ url('storage/' . $stempel) }}" width="100px" />
-                            <img class="image2" style="position: absolute; right: 20px;"
-                                src="{{ url('storage/' . $image_ttd_loa) }}" width="100px" />
+                            @if ($stempel)
+                                <img class="image1" style="position: relative;top: 0;left: 70px;"
+                                    src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $stempel))) }}"
+                                    alt="stempel" width="100px" />
+                            @else
+                                <div class="image1" style="position: relative;top: 0;right: 70px;" alt="stempel"
+                                    width="100px"> </div>
+                            @endif
+                            <img class="image2" style="position: absolute; right: 70px;"
+                                src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $image_ttd_loa))) }}"
+                                {{-- src="{{ public_path('storage/' . $image_ttd_loa) }}"  --}} width="100px" />
                         </div>
                     </div>
+                    <br>
+                    <br>
                     <p style="margin:10px 0px 0px 0px; padding:0px;font-size: 14px; text-align:end">
                         {{ $ttd_loa }}
                     </p>
+
                 </td>
             </tr>
         </table>

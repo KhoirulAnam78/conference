@@ -30,7 +30,7 @@ class CrudDataLoaInvoice extends Component
     }
 
     public function save(){
-        $validations = [];
+        $validations = null;
         
         if($this->stempel){
             $validations['stempel'] = 'max:5024|mimes:jpg,jpeg,png';
@@ -47,7 +47,9 @@ class CrudDataLoaInvoice extends Component
             $validations['image_ttd_receipt'] = 'max:5024|mimes:jpg,jpeg,png';
         }
 
-        $this->validate($validations);
+        if($validations){
+            $this->validate($validations);
+        }
         
         if($this->kop){
             $dom = new \domdocument();
@@ -158,6 +160,24 @@ class CrudDataLoaInvoice extends Component
 
     public function mount(){
         $this->kop = $this->getValue('kop');
+        $link =[];
+        if($this->kop){
+            $dom = new \domdocument();
+            $dom->loadHtml($this->kop, LIBXML_NOWARNING | LIBXML_NOERROR);
+    
+            //identify img element
+            $images = $dom->getelementsbytagname('img');
+
+            foreach ($images as $img) {
+                $data = $img->getattribute('src');
+                $path2 = "data:image/png;base64,".base64_encode(file_get_contents($data));
+                $img->removeattribute('src');
+                $img->setattribute('src', $path2);
+
+            }
+            $this->kop = $dom->saveHtml();
+        }
+
         $this->ttd_loa = $this->getValue('ttd_loa');
         $this->ttd_invoice = $this->getValue('ttd_invoice');
         $this->ttd_receipt = $this->getValue('ttd_receipt');

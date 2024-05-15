@@ -63,9 +63,16 @@ class HomeController extends Controller
 
         $speakers = Speakers::where('name', '!=', 'Opening Speech')->with('listSpeaker')->get();
         $speakers = $speakers ?? null;
+
+        $zoom_link = GlobalSetting::where('name', 'zoom_link')->select('value')->first();
+        $zoom_link = $zoom_link->value ?? null;
+        $zoom_pass = GlobalSetting::where('name', 'zoom_pass')->select('value')->first();
+        $zoom_pass = $zoom_pass->value ?? null;
+        $zoom_id = GlobalSetting::where('name', 'zoom_id')->select('value')->first();
+        $zoom_id = $zoom_id->value ?? null;
         // dd($speakers);
 
-        return view('homepage.index', compact('title', 'title_conference', 'topic', 'logo', 'website', 'email', 'start_date_conference', 'end_date_conference', 'conference_location', 'importantDates', 'scopes', 'image_slider_1', 'image_slider_2', 'image_slider_3', 'map', 'contact', 'openingSpeech', 'speakers'));
+        return view('homepage.index', compact('title', 'title_conference', 'topic', 'logo', 'website', 'email', 'start_date_conference', 'end_date_conference', 'conference_location', 'importantDates', 'scopes', 'image_slider_1', 'image_slider_2', 'image_slider_3', 'map', 'contact', 'openingSpeech', 'speakers','zoom_link','zoom_pass','zoom_id'));
     }
 
     public function rundown()

@@ -74,14 +74,14 @@
                                     <td>{{ $item->reviewed_by }}</td>
                                     <td>
                                         @if ($item->loa)
-                                            <a href="{{ asset('uploads/' . $item->loa) }}" target="_blank"
+                                            <a href="{{ asset('storage/' . $item->loa) }}" target="_blank"
                                                 style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
                                                     aria-hidden="true"></i></a>
                                         @endif
                                     </td>
                                     <td>
                                         @if ($item->invoice)
-                                            <a href="{{ asset('uploads/' . $item->invoice) }}" target="_blank"
+                                            <a href="{{ asset('storage/' . $item->invoice) }}" target="_blank"
                                                 style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
                                                     aria-hidden="true"></i>
                                             </a>
@@ -201,17 +201,23 @@
         </div>
         <div class="modal-footer">
             @if (!$loa)
-                <button class="btn btn-danger" wire:click='showReject()' wire:loading.attr="disabled">
+                <button class="btn btn-danger" wire:click='showReject()' wire:target="showReject"
+                    wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="showReject">Reject</span>
                     <span wire:loading wire:target="showReject">Rejecting..</span>
                 </button>
             @endif
-            <button class="btn btn-primary" wire:click='showValidate()'>Accept</button>
+
+            <button class="btn btn-primary" wire:click='showValidate()' wire:target="showValidate"
+                wire:loading.attr="disabled">
+                <span wire:loading.remove wire:target="showValidate">Accept</span>
+                <span wire:loading wire:target="showValidate">Accepting..</span>
+            </button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal"
                 wire:click="back()">Cancel</button>
         </div>
 
-        <div class="modal fade" id="modalValidate" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        <div class="modal" id="modalValidate" data-backdrop="static" data-keyboard="false" tabindex="-1"
             role="dialog" wire:ignore.self aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -297,7 +303,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalReject" data-backdrop="static" data-keyboard="false" tabindex="-1"
+        <div class="modal" id="modalReject" data-backdrop="static" data-keyboard="false" tabindex="-1"
             role="dialog" wire:ignore.self aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog modal-lg" role="document">
                 <div class="modal-content">

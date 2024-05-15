@@ -7,8 +7,10 @@ use App\Mail\SendMail;
 use Livewire\Component;
 use App\Models\TopicScope;
 use Livewire\WithPagination;
+use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
+use App\Models\ParticipantType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -72,64 +74,13 @@ class ReviewAbstract extends Component
     public function showValidate()
     {
         $participant = UploadAbstract::find($this->abstract_review)->participant;
-        if ($participant->hki_status == 'valid') {
-            if ($participant->participant_type == 'participant') {
-                if ($participant->attendance == 'offline') {
-                    $harga = 350000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                } else {
-                    $harga = 100000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                }
-            } elseif ($participant->participant_type == 'professional presenter') {
-                if ($participant->attendance == 'offline') {
-                    $harga = 750000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                } else {
-                    $harga = 250000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                }
-            } else {
-                if ($participant->attendance == 'offline') {
-                    $harga = 550000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                } else {
-                    $harga = 150000;
-                    $discount = $harga * 0.25;
-                    $this->fee = 'IDR ' . $harga - $discount;
-                }
-            }
-        } else {
-            if ($participant->participant_type == 'participant') {
-                if ($participant->attendance == 'offline') {
-                    $this->fee = 'IDR 350.000 / $24 USD';
-                } else {
-                    $this->fee = 'IDR 100.000 / $7 USD';
-                }
-            } elseif ($participant->participant_type == 'professional presenter') {
-                if ($participant->attendance == 'offline') {
-                    $this->fee = 'IDR 750.000 / $50 USD';
-                } else {
-                    $this->fee = 'IDR 250.000 / $17 USD';
-                }
-            } else {
-                if ($participant->attendance == 'offline') {
-                    $this->fee = 'IDR 550.000 / $37 USD';
-                } else {
-                    $this->fee = 'IDR 150.000 / $10 USD';
-                }
-            }
-        }
+        $participant_type = ParticipantType::find($participant->participant_type);
+        $this->fee = $participant_type->price;
         $this->full_name = $participant->full_name1;
         $this->institution = $participant->institution;
         $this->abstractTitle = UploadAbstract::find($this->abstract_review)->title;
         $this->email = $participant->user->email;
-        $this->participant_type = $participant->participant_type;
+        $this->participant_type = $participant_type->name .' ('. $participant_type->attendance.')';
         $this->dispatchBrowserEvent('show-modal');
     }
 
@@ -149,26 +100,25 @@ class ReviewAbstract extends Component
             'full_name' => $this->full_name,
             'institution' => $this->institution,
             'abstractTitle' => $this->abstractTitle
-        ])->setPaper('a4', 'potrait');
+        ])
+        ->setOptions(['defaultFont' => 'sans-serif'])
+        ->setPaper('a4', 'potrait');
         
-        // Storage::put('invoice/' . 'Invoice-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf', $invoice->output());
-        
-        // dd('success');
-        $loa->save('/home/icics2023/public_html/uploads/letter-of-acceptance/LOA-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf');
-        // Storage::put('letter-of-acceptance/' . 'LOA-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf', $loa->output());
-        $this->loaPath = 'letter-of-acceptance/' . 'LOA-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
+        $this->loaPath = 'uploads/letter-of-acceptance/' . 'LOA-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
 
+        Storage::put($this->loaPath, $loa->output());
+
+        
         $invoice = PDF::loadView('administrator.pdf.invoice', [
             'full_name' => $this->full_name,
             'fee' => $this->fee,
             'participant_type' => $this->participant_type,
             'email' => $this->email
-        ])->setPaper('a4', 'landscape');
+        ])->setOptions(['defaultFont' => 'sans-serif'])
+        ->setPaper('a4', 'landscape');
         
-        $invoice->save('/home/icics2023/public_html/uploads/invoice/Invoice-ABS'. $this->abstract_review . '-' . $this->full_name . '.pdf');
-        
-        $this->invoicePath = 'invoice/' . 'Invoice-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
-
+        $this->invoicePath = 'uploads/invoice/' . 'Invoice-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
+        Storage::put($this->invoicePath, $invoice->output());
         UploadAbstract::where('id', $this->abstract_review)->update([
             'status' => 'accepted',
             'loa' => $this->loaPath,
@@ -181,35 +131,56 @@ class ReviewAbstract extends Component
         //     Storage::path('uploads/' . $this->invoicePath),
         // ];
         
-        $linkLoa = "'https://icics2023.unja.ac.id/uploads/" . $this->loaPath . "'";
-        $linkInvoice = "'https://icics2023.unja.ac.id/uploads/" . $this->invoicePath . "'";
+        $linkLoa = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->loaPath . "'";
+        $linkInvoice = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->invoicePath . "'";
+        
+        $title = GlobalSetting::where('name','title')->first();
+        $title = $title->value ?? null;
+
+        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
+        $abbreviation = $abbreviation->value ?? null;
+
+        $title = GlobalSetting::where('name','title')->first();
+        $title = $title->value ?? null;
+
+        $website = GlobalSetting::where('name','website')->first();
+        $website = $website->value ?? null;
+
+        $payment_number = GlobalSetting::where('name','payment_number')->first();
+        $payment_number = $payment_number->value ?? null;
+        
+        $bank_name = GlobalSetting::where('name','bank_name')->first();
+        $bank_name = $bank_name->value ?? null;
+        
+        $recipient = GlobalSetting::where('name','recipient')->first();
+        $recipient = $recipient->value ?? null;
+        
+        $email = GlobalSetting::where('name','email')->first();
+        $email = $email->value ?? null;
 
         Mail::to($this->email, $this->full_name)->send(new SendMail('ABSTRACT ACCEPTANCE', "<p>
         Dear" . $this->full_name . ", <br>
-        Congratulation! We are happy to inform you that your abstract for The 11st International Conference of the
-        Indonesian
-        Chemical Society
-        (ICICS 2023) <br>
+        Congratulation! We are happy to inform you that your abstract for ".$title.' ('.$abbreviation.')'." <br>
         Title of abstract : <strong>" . $this->abstractTitle . "</strong> has been accepted. <br>
         <a href=" . $linkLoa . ">Download LOA</a>
         <br>
         <a href=" . $linkInvoice . ">Download Invoice</a>
         <br>  
         <br>
-        It is our great pleasure therefore to request that you submit your full paper, no later than September 30th
-        2023 by following the template as attached in the website: <a href='icics2023.unja.ac.id'>icics2023.unja.ac.id</a>. <br>
-        In addition, you are requested to proceed with the payment of the registration fee (no later than September 16th
-        2023). <br> <br>
+        It is our great pleasure therefore to request that you submit your full paper, no later than July 9th
+        2024 by following the template as attached in the website: <a href='".$website."'>".$website."</a>. <br>
+        In addition, you are requested to proceed with the payment of the registration fee (no later than September 13th
+        2024). <br> <br>
         After finishing the payment, kindly send the receipt to the committee via website. Here is the bank information
         detail: <br>
-        Account name : Perkumpulan Indonesian Chemical Society <br>
-        Account number : 698124931 <br>
-        Bank name : Bank Negara Indonesia (BNI) <br> <br>
+        Account name : ".$recipient."<br>
+        Account number : ".$payment_number." <br>
+        Bank name : ".$bank_name." <br> <br>
         For the purpose of the conference proceeding, we also require that you submit a detailed resume. Please kindly
         acknowledge the receipt of this email, and do not hesitate to contact the organizing committee
-        (icics2023@.unja.ac.id) for any inquiry. Thank you for your attention. <br> <br>
+        (".$email.") for any inquiry. Thank you for your attention. <br> <br>
         Warm regards, <br><br><br><br>
-        Steering Committee ICICS 2023</p>"));
+        Steering Committee ".$abbreviation."</p>"));
 
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
@@ -228,8 +199,11 @@ class ReviewAbstract extends Component
             'status' => 'rejected',
             'reviewed_by' => Auth::user()->email
         ]);
+        $title = GlobalSetting::where('name','title')->first();
+        $title = $title->value ?? null;
+
         Mail::to($email)->send(new SendMail('Abstract Rejected', "Dear Author,
-        Sorry, your article ''" . $abstract . "'' has been rejected to be presented at the 11st ICICS 2023 Conference. <br> <br>".$this->rejectMessage));
+        Sorry, your article ''" . $abstract . "'' has been rejected to be presented at ".$title." Conference. <br> <br>".$this->rejectMessage));
         session()->flash('message', 'Review succesfully !');
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
