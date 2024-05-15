@@ -50,7 +50,7 @@
                     {{-- <li class="{{ $title == 'Presentations' ? 'active' : '' }}"><a
                             href="./about-us.html">Presentations</a></li> --}}
                     <li class="{{ $title == 'Rundown ICICS 2023' ? 'active' : '' }}"><a
-                            href="/rundown-icics2023">Rundown</a></li>
+                            href="{{ route('home.rundown') }}">Rundown</a></li>
 
                     <li
                         class="{{ ($title == 'FGD MBKM' or $title == 'FGD Akreditasi Internasional' or $title == 'Kongres HKI' or $title == 'Forum Ketua Jurusan Kimia' or $title == 'Field Trip') ? 'active' : '' }}">

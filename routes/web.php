@@ -28,7 +28,7 @@ use App\Http\Controllers\UploadFulltextController;
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
 
-Route::get('/rundown-icics2023', [HomeController::class, 'rundown'])->name('home.rundown');
+Route::get('/rundown-conference', [HomeController::class, 'rundown'])->name('home.rundown');
 
 Route::get('/registration-fee', [HomeController::class, 'registrationFee'])->name('home.registration-fee');
 
