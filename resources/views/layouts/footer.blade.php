@@ -25,7 +25,7 @@
             @foreach ($partner as $item)
                 <a href="{{ $item->url }}" class="pl-table" style="width:150px">
                     <div class="pl-tablecell">
-                        <img src="{{ asset($item->image) }}" alt="{{ $item->name }}" alt=""
+                        <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" alt=""
                             style="height: 100px;">
                     </div>
                 </a>
