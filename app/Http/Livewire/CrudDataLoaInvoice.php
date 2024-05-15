@@ -55,7 +55,6 @@ class CrudDataLoaInvoice extends Component
         }
         
         if($this->kop){
-            dd($this->kop);
             $dom = new \domdocument();
             $dom->loadHtml($this->kop, LIBXML_NOWARNING | LIBXML_NOERROR);
     
@@ -81,10 +80,10 @@ class CrudDataLoaInvoice extends Component
                     $image_name= time().rand(000,999).$k.'.jpg';
     
                     // image path (path) to use upload file to
-                    $path = 'storage/images/'. $image_name;
+                    $path = public_path('/storage/images/'. $image_name);
     
                     //image path (path2) to save to DB so that summernote can display image in edit mode (When editing summernote content) NB: the difference btwn path and path2 is the forward slash "/" in path2
-                    $path2 = 'storage/images/'. $image_name;
+                    $path2 = public_path('/storage/images/'. $image_name);
     
                     file_put_contents($path, $data);
     
