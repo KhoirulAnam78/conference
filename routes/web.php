@@ -165,6 +165,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('partner', [AdminController::class, 'partner'])->name('partner');
     Route::get('additional-events', [AdminController::class, 'additionalEvents'])->name('additional-events');
     Route::get('information-pages', [AdminController::class, 'informationPages'])->name('information-pages');
+    Route::get('previously-events', [AdminController::class, 'previouslyEvents'])->name('previously-events');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
     Route::get('invoice', function () {

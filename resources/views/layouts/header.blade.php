@@ -3,11 +3,13 @@
     use App\Models\SatelliteEvents;
     use App\Models\DownloadFilePath;
     use App\Models\InformationPages;
+    use App\Models\PreviouslyEvent;
 
     $logo = GlobalSetting::where('name', 'logo')->first();
     $satellite_events = SatelliteEvents::get();
     $information_pages = InformationPages::get();
     $downloads = DownloadFilePath::get();
+    $previouslyEvent = PreviouslyEvent::orderBy('name')->get();
 
 @endphp
 
@@ -74,16 +76,9 @@
                     </li>
                     <li class="{{ $title == 'Previously' ? 'active' : '' }}"><a href="#">Previously</a>
                         <ul class="dropdown" style="width:300px">
-                            <li><a href="https://icics2022.uho.ac.id/">10th ICICS 2022 Kendari</a></li>
-                            <li><a href="https://icics2021.unram.ac.id/">9th ICICS 2021 Lombok</a></li>
-                            <li><a href="http://icics2019.ipb.ac.id/">8th ICICS 2019 Bogor</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">7th ICICS 2018 Jayapura</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">6th ICICS 2017 Palembang</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">5th ICICS 2016 Samarinda</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">4th ICICS 2015 Medan</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">3rd ICICS 2014 Maluku</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">2nd ICICS 2013 Jogjakarta</a></li>
-                            <li><a href="https://www.hki.or.id/ICICS">1st ICICS 2012 Surabaya</a></li>
+                            @foreach ($previouslyEvent as $item)
+                                <li><a href="{{ $item->url }}">{{ $item->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
                     @if (Auth::user())
