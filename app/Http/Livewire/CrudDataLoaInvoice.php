@@ -91,17 +91,16 @@ class CrudDataLoaInvoice extends Component
             }
             $this->kop = $dom->saveHtml();
             $this->inputGlobalSetting('kop',$this->kop);
-
-            $this->inputImageGlobalSetting($this->stempel,'stempel');
-            $this->inputImageGlobalSetting($this->image_ttd_loa,'image_ttd_loa');
-            $this->inputImageGlobalSetting($this->image_ttd_invoice,'image_ttd_invoice');
-            $this->inputImageGlobalSetting($this->image_ttd_receipt,'image_ttd_receipt');
-            $this->inputGlobalSetting('ttd_loa',$this->ttd_loa);
-            $this->inputGlobalSetting('ttd_invoice',$this->ttd_invoice);
-            $this->inputGlobalSetting('ttd_receipt',$this->ttd_receipt);
-            
-            $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
         }
+        $this->inputImageGlobalSetting($this->stempel,'stempel');
+        $this->inputImageGlobalSetting($this->image_ttd_loa,'image_ttd_loa');
+        $this->inputImageGlobalSetting($this->image_ttd_invoice,'image_ttd_invoice');
+        $this->inputImageGlobalSetting($this->image_ttd_receipt,'image_ttd_receipt');
+        $this->inputGlobalSetting('ttd_loa',$this->ttd_loa);
+        $this->inputGlobalSetting('ttd_invoice',$this->ttd_invoice);
+        $this->inputGlobalSetting('ttd_receipt',$this->ttd_receipt);
+        
+        $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
     }
 
     public function inputImageGlobalSetting($file,$name){
@@ -160,7 +159,6 @@ class CrudDataLoaInvoice extends Component
 
     public function mount(){
         $this->kop = $this->getValue('kop');
-        $link =[];
         if($this->kop){
             $dom = new \domdocument();
             $dom->loadHtml($this->kop, LIBXML_NOWARNING | LIBXML_NOERROR);
