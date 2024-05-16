@@ -29,6 +29,12 @@ class CrudDownloadFile extends Component
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
 
+    public function hapus($id)
+    {
+        DownloadFilePath::where('id', $id)->delete();
+        $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
+    }
+
     public function showEdit($id)
     {
 
