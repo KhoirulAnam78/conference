@@ -156,7 +156,7 @@ class HomeController extends Controller
     public function informationPages($slug){
         $data = InformationPages::where('slug',$slug)->first();
         if(!$data){
-            return 'Sorry Page Not Found !';
+            return abort(404);
         }
         $title = $data->name;
         $content = $data->contents;
