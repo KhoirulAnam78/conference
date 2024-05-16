@@ -1,7 +1,7 @@
 <div>
     <div class="form-group" wire:ignore>
-        <label for="text">KOP Surat</label>
-        <textarea name="kop" id="kop" class="summernote" wire:model="kop"></textarea>
+        <label for="kop">KOP Surat</label>
+        <textarea name="kop" id="kop" class="summernote">{{ $kop }}</textarea>
         @error('kop')
             <span class="text-danger">{{ $message }}</span>
         @enderror
