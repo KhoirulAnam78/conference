@@ -29,6 +29,10 @@ class CrudDataLoaInvoice extends Component
         }
     }
 
+    public function updatedContent(){
+        dd($this->content);
+    }
+
     public function save(){
         if($this->stempel){
             $this->validate([
