@@ -72,54 +72,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap" rel="stylesheet">
-
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <title>Letter Of Acceptance</title>
     <style>
-        @page {
-            size: 7in 9.25in;
-            margin: 27mm 16mm 27mm 16mm;
-        }
-
-        div.chapter,
-        div.appendix {
-            page-break-after: always;
-        }
-
         @media print {
             body {
                 width: 21cm;
                 height: 29.7cm;
-                margin: 30mm 45mm 30mm 45mm;
                 /* change the margins as you want them to be. */
             }
-        }
-
-        table {
-            width: 100% !important;
-            background-color: red;
         }
     </style>
 </head>
 
 <body>
-    <div class="container" style="width:100%; margin:0px 5px">
-        <div class="row justify-content-center h-100" style="width: 100% !important">
-            <div class="col-12 h-100" style="width: 100% !important">
+    <div class="container">
+        <div class="row justify-content-center" style="width: 100%;">
+            <div class="col-12">
                 {!! $kop !!}
+
+                {{-- <table class="table" style="border:none; width:100%; border-bottom:3px solid black">
+                    <tbody>
+                        <tr>
+                            <td style="width:20%">
+                                <p><br></p>
+                                <p><img style="width: 113.333px; height: 115.568px;"
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Logo_Universitas_Jambi.jpg/882px-Logo_Universitas_Jambi.jpg"><br>
+                                </p>
+                            </td>
+                            <td align="center">
+                                <h3>The 2nd International Seminar on Language, Literature, Education, Arts and
+                                    Culture<br>Program Studi Bahasa Inggris<br>Fakultas Keguruan dan Ilmu
+                                    Pendidikan<br>Universitas Jambi<br></h3>
+                                <p>website : <a href="https://isolleac.unja.ac.id"
+                                        target="_blank">https://isolleac.unja.ac.id</a>, email : isolleac@unja.ac.id<br>
+                                </p>
+                            </td>
+                            <td style="width:20%">
+                                <p><br></p>
+                                <p><br></p>
+                                <p><img style="max-width: 100%; height: auto;"
+                                        src="http://isolleac.unja.ac.id/storage/images/vkS6LIOSdwhrNqQyueSMWlQiXzYNEqfUhL7cxHO5.png"><br>
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br> --}}
             </div>
         </div>
 

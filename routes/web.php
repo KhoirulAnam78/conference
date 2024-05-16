@@ -168,6 +168,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('previously-events', [AdminController::class, 'previouslyEvents'])->name('previously-events');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
+    Route::get('test-loa',function(){
+        return view('administrator.pdf.loa', [
+            'full_name' => "Khoirul Anam",
+            'institution' => "Universitas Jambi",
+            'abstractTitle' => "Lorem Ipsum Dolor Sit Amet"
+        ]);
+    });
     Route::get('invoice', function () {
         return view('administrator.pdf.invoice');
     });
