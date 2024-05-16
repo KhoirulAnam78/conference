@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class CrudDataLoaInvoice extends Component
 {
     use WithFileUploads;
-    public $kop,$stempel,$ttd_loa,$ttd_invoice,$ttd_receipt;
+    public $kop, $content,$stempel,$ttd_loa,$ttd_invoice,$ttd_receipt;
     public $image_ttd_loa,$image_ttd_invoice,$image_ttd_receipt;
     public $pathStempel,$pathTtdLoa,$pathTtdInvoice,$pathTtdReceipt;
     
@@ -30,11 +30,10 @@ class CrudDataLoaInvoice extends Component
     }
 
     public function updatedKop(){
-        dd($this->kop);
+        $this->content = $this->kop;
     }
 
     public function save(){
-        dd($this->kop);
         if($this->stempel){
             $this->validate([
                 'stempel' => 'max:5024|mimes:jpg,jpeg,png'
@@ -59,9 +58,9 @@ class CrudDataLoaInvoice extends Component
             ]);
         }
         
-        if($this->kop){
+        if($this->content){
             $dom = new \domdocument();
-            $dom->loadHtml($this->kop, LIBXML_NOWARNING | LIBXML_NOERROR);
+            $dom->loadHtml($this->content, LIBXML_NOWARNING | LIBXML_NOERROR);
     
             //identify img element
             $images = $dom->getelementsbytagname('img');
@@ -97,8 +96,8 @@ class CrudDataLoaInvoice extends Component
                     $img->setattribute('src', $path2);
                 }
             }
-            $this->kop = $dom->saveHtml();
-            $this->inputGlobalSetting('kop',$this->kop);
+            $this->content = $dom->saveHtml();
+            $this->inputGlobalSetting('kop',$this->content);
         }
         $this->inputImageGlobalSetting($this->stempel,'stempel');
         $this->inputImageGlobalSetting($this->image_ttd_invoice,'image_ttd_invoice');
