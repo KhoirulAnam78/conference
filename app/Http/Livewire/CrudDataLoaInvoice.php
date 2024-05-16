@@ -29,8 +29,8 @@ class CrudDataLoaInvoice extends Component
         }
     }
 
-    public function updatedContent(){
-        dd($this->content);
+    public function updatedKop(){
+        dd($this->kop);
     }
 
     public function save(){
