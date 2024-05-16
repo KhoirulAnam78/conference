@@ -34,6 +34,7 @@ class CrudDataLoaInvoice extends Component
     }
 
     public function save(){
+        dd($this->kop);
         if($this->stempel){
             $this->validate([
                 'stempel' => 'max:5024|mimes:jpg,jpeg,png'
