@@ -580,7 +580,7 @@
                         </ul>
                         <div class="ct-links">
                             <span>Website:</span>
-                            <p><a href="{{ $website }}" style="color:blue">{{ $website }}</a>
+                            <p><a href="https://{{ $website }}" style="color:blue">{{ $website }}</a>
                             </p>
                         </div>
                     </div>
