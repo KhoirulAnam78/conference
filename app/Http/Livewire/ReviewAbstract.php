@@ -158,29 +158,29 @@ class ReviewAbstract extends Component
         $email = GlobalSetting::where('name','email')->first();
         $email = $email->value ?? null;
 
-        // Mail::to($this->email, $this->full_name)->send(new SendMail('ABSTRACT ACCEPTANCE', "<p>
-        // Dear" . $this->full_name . ", <br>
-        // Congratulation! We are happy to inform you that your abstract for ".$title.' ('.$abbreviation.')'." <br>
-        // Title of abstract : <strong>" . $this->abstractTitle . "</strong> has been accepted. <br>
-        // <a href=" . $linkLoa . ">Download LOA</a>
-        // <br>
-        // <a href=" . $linkInvoice . ">Download Invoice</a>
-        // <br>  
-        // <br>
-        // It is our great pleasure therefore to request that you submit your full paper, no later than July 9th
-        // 2024 by following the template as attached in the website: <a href='".$website."'>".$website."</a>. <br>
-        // In addition, you are requested to proceed with the payment of the registration fee (no later than September 13th
-        // 2024). <br> <br>
-        // After finishing the payment, kindly send the receipt to the committee via website. Here is the bank information
-        // detail: <br>
-        // Account name : ".$recipient."<br>
-        // Account number : ".$payment_number." <br>
-        // Bank name : ".$bank_name." <br> <br>
-        // For the purpose of the conference proceeding, we also require that you submit a detailed resume. Please kindly
-        // acknowledge the receipt of this email, and do not hesitate to contact the organizing committee
-        // (".$email.") for any inquiry. Thank you for your attention. <br> <br>
-        // Warm regards, <br><br><br><br>
-        // Steering Committee ".$abbreviation."</p>"));
+        Mail::to($this->email, $this->full_name)->send(new SendMail('ABSTRACT ACCEPTANCE', "<p>
+        Dear" . $this->full_name . ", <br>
+        Congratulation! We are happy to inform you that your abstract for ".$title.' ('.$abbreviation.')'." <br>
+        Title of abstract : <strong>" . $this->abstractTitle . "</strong> has been accepted. <br>
+        <a href=" . $linkLoa . ">Download LOA</a>
+        <br>
+        <a href=" . $linkInvoice . ">Download Invoice</a>
+        <br>  
+        <br>
+        It is our great pleasure therefore to request that you submit your full paper, no later than July 9th
+        2024 by following the template as attached in the website: <a href='".$website."'>".$website."</a>. <br>
+        In addition, you are requested to proceed with the payment of the registration fee (no later than September 13th
+        2024). <br> <br>
+        After finishing the payment, kindly send the receipt to the committee via website. Here is the bank information
+        detail: <br>
+        Account name : ".$recipient."<br>
+        Account number : ".$payment_number." <br>
+        Bank name : ".$bank_name." <br> <br>
+        For the purpose of the conference proceeding, we also require that you submit a detailed resume. Please kindly
+        acknowledge the receipt of this email, and do not hesitate to contact the organizing committee
+        (".$email.") for any inquiry. Thank you for your attention. <br> <br>
+        Warm regards, <br><br><br><br>
+        Steering Committee ".$abbreviation."</p>"));
 
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
