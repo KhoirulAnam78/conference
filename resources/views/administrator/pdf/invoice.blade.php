@@ -90,16 +90,31 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Set the page size and margins */
+        @media print {
+            @page {
+                size: landscape
+            }
+        }
+
+        @media print {
+            body {
+                height: 21cm;
+                width: 29.7cm;
+                /* change the margins as you want them to be. */
+            }
+        }
     </style>
     <title>Invoice</title>
 </head>
 
 <body>
     <div class="container">
-        <div class="row justify-content-center" style="margin:0px 5px">
-            {!! $kop !!}
+        <div class="row justify-content-center h-100" style="width: 100% !important">
+            <div class="col-12 h-100" style="width: 100% !important">
+                {!! $kop !!}
+            </div>
         </div>
+
         <div class="row justify-content-center">
             <div class="row justify-content-center"style="width:100%" style="margin:0px 5px">
                 <h2 style="text-align: center">INVOICE</h2>

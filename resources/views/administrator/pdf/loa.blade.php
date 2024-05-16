@@ -88,14 +88,40 @@
     <link rel="stylesheet" href="{{ url('') }}/assets/css/style.css" type="text/css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <title>Letter Of Acceptance</title>
+    <style>
+        @page {
+            size: 7in 9.25in;
+            margin: 27mm 16mm 27mm 16mm;
+        }
+
+        div.chapter,
+        div.appendix {
+            page-break-after: always;
+        }
+
+        @media print {
+            body {
+                width: 21cm;
+                height: 29.7cm;
+                margin: 30mm 45mm 30mm 45mm;
+                /* change the margins as you want them to be. */
+            }
+        }
+
+        table {
+            width: 100% !important;
+            background-color: red;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row justify-content-center" width="100%" style="margin:0px 5px">
-            {!! $kop !!}
+    <div class="container" style="width:100%; margin:0px 5px">
+        <div class="row justify-content-center h-100" style="width: 100% !important">
+            <div class="col-12 h-100" style="width: 100% !important">
+                {!! $kop !!}
+            </div>
         </div>
-
 
         <div class="row">
             <p style="font-size: 14px">Dear : <br>
