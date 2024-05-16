@@ -29,10 +29,6 @@ class CrudDataLoaInvoice extends Component
         }
     }
 
-    public function updatedKop(){
-        $this->content = $this->kop;
-    }
-
     public function save(){
         if($this->stempel){
             $this->validate([
