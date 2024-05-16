@@ -58,7 +58,7 @@
         </div>
 
         <div class="form-group">
-            <span class="btn btn-primary" wire:click="save" wire:loading.attr.class="disabled">
+            <span class="btn btn-primary" onclick="saveContent()" wire:loading.attr.class="disabled">
                 <span wire:loading.remove wire:target="save">Simpan</span>
                 <span wire:loading wire:target="save">Simpan...</span>
             </span>
@@ -78,15 +78,22 @@
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({
-                callbacks: {
-                    onChange: function(contents, $editable) {
-                        @this.set('content', contents);
-                        console.log('CHANGE');
-                        console.log(contents);
-                    }
-                }
+                // callbacks: {
+                //     onChange: function(contents, $editable) {
+                //         @this.set('content', contents);
+                //         console.log('CHANGE');
+                //         console.log(contents);
+                //     }
+                // }
             });
         });
+
+        function saveContent() {
+            let value = $('.summernote').summernote('code');
+            @this.set('content', value);
+            @this.save();
+
+        }
 
         document.addEventListener('summernote-value', function(e) {
             $('.summernote').summernote('code', e.detail.value);

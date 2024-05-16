@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Models\InformationPages;
+use Illuminate\Support\Facades\Storage;
 
 class CrudInformationPages extends Component
 {
@@ -65,12 +66,12 @@ class CrudInformationPages extends Component
                     $image_name= time().rand(000,999).$k.'.jpg';
     
                     // image path (path) to use upload file to
-                    $path = 'storage/images/'. $image_name;
+                    $path = 'images/'. $image_name;
     
                     //image path (path2) to save to DB so that summernote can display image in edit mode (When editing summernote content) NB: the difference btwn path and path2 is the forward slash "/" in path2
                     $path2 = 'storage/images/'. $image_name;
-    
-                    file_put_contents($path, $data);
+                    
+                    Storage::put($path, $data);
     
                     // modify image source data in summernote content before upload to DB
                     $img->removeattribute('src');
