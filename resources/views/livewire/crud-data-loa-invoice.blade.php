@@ -145,7 +145,7 @@
 
         function saveContent() {
             let kopValue = $('.summernote').summernote('code');
-            $this.set('content', kopValue);
+            @this.set('content', kopValue);
             @this.save();
 
         }
