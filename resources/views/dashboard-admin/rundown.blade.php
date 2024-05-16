@@ -10,7 +10,7 @@
             </div>
             <div class="row">
                 @include('dashboard-admin.sidebar')
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                     <div class="tab-content d-inline">
                         <div class="card">
                             <div class="card-body">

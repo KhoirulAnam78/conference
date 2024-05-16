@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="schedule-table-tab">
 
                         <ul class="nav nav-tabs" role="tablist" style="width:100%">
@@ -70,7 +70,7 @@
 
                     </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                     <div class="tab-content d-inline">
                         <div class="card">
                             <div class="card-body">

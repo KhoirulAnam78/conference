@@ -1,4 +1,4 @@
-<div class="col-lg-3">
+<div class="col-lg-2">
     <div class="schedule-table-tab">
 
         <ul class="nav nav-tabs" role="tablist" style="width:100%">
