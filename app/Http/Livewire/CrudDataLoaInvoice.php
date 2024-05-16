@@ -83,7 +83,7 @@ class CrudDataLoaInvoice extends Component
                     $path = 'images/'. $image_name;
     
                     //image path (path2) to save to DB so that summernote can display image in edit mode (When editing summernote content) NB: the difference btwn path and path2 is the forward slash "/" in path2
-                    $path2 = 'storage/images/'. $image_name;
+                    $path2 = asset('storage/images/'. $image_name);
     
                     Storage::put($path, $data);
     
