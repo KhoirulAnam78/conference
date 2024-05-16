@@ -136,6 +136,8 @@
                 callbacks: {
                     onChange: function(contents, $editable) {
                         @this.set('kop', contents);
+                        console.log('CHANGE');
+                        console.log(contents);
                     }
                 }
             });
