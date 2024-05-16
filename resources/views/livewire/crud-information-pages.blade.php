@@ -81,6 +81,8 @@
                 callbacks: {
                     onChange: function(contents, $editable) {
                         @this.set('content', contents);
+                        console.log('CHANGE');
+                        console.log(contents);
                     }
                 }
             });
