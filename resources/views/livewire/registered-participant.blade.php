@@ -1,7 +1,7 @@
 <div>
     <div class="row mb-2">
         <div class="col-lg-6">
-            <button wire:click="export()" class="btn btn-success" wire:loading.attr="disabled">
+            <button wire:click="export()" wire:target="export" class="btn btn-success" wire:loading.attr="disabled">
                 <span wire:loading.remove wire:target="export">Export</span>
                 <span wire:loading wire:target="export">Exporting..</span>
             </button>
@@ -10,12 +10,12 @@
     <div class="row">
         <div class="col-6">
             <div class="form-group">
-                <label for="search2">Search</label>
-                <input type="text" class="form-control" id="search2" name="search2"
-                    wire:model.debounce.500ms="search2" placeholder="Search by full name">
+                <label for="search">Search</label>
+                <input type="text" class="form-control" id="search" name="search"
+                    wire:model.debounce.500ms="search" placeholder="Search">
             </div>
         </div>
-        <div class="col-3">
+        {{-- <div class="col-3">
             <div class="form-group">
                 <label for="participant">
                     Participant Type
@@ -29,7 +29,7 @@
                     @endforeach
                 </select>
             </div>
-        </div>
+        </div> --}}
     </div>
     <div class="row">
         <div class="col-lg-12">
@@ -63,7 +63,8 @@
                                 <td>{{ $item->user->email_verified_at != null ? 'Verified' : 'Not Verified' }}</td>
                                 <td>{{ $item->full_name1 }}</td>
                                 <td>{{ $item->full_name2 }}</td>
-                                <td>{{ $item->participantType->name }}</td>
+                                <td>{{ $item->participantType->name . '(' . $item->participantType->attendance . ')' }}
+                                </td>
                                 <td>{{ $item->institution }}</td>
                                 <td>{{ $item->address }}</td>
                                 <td>{{ $item->phone }}</td>

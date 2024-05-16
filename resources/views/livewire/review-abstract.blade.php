@@ -1,6 +1,15 @@
 <div>
 
     @if ($review !== true)
+
+        <div class="row mb-2">
+            <div class="col-lg-6">
+                <button wire:click="export()" wire:target="export" class="btn btn-success" wire:loading.attr="disabled">
+                    <span wire:loading.remove wire:target="export">Export</span>
+                    <span wire:loading wire:target="export">Exporting..</span>
+                </button>
+            </div>
+        </div>
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
@@ -14,7 +23,7 @@
                     <label for="participant">
                         Filter Status Reviewed
                     </label>
-                    <select class="custom-select" id="search" name="search" wire:model='search'>
+                    <select class="custom-select" id="status" name="status" wire:model='status'>
                         <option value="">All</option>
                         <option value="ted">Reviewed</option>
                         <option value="not yet reviewed">Not yet reviewed</option>
@@ -22,8 +31,8 @@
                 </div>
 
                 {{-- <div class="form-group">
-                <label for="search">Filter Status HKI Member</label>
-                <select name="search" id="search" wire:model='search' class="form-control">
+                <label for="status">Filter Status HKI Member</label>
+                <select name="status" id="status" wire:model='status' class="form-control">
 
                 </select>
             </div> --}}

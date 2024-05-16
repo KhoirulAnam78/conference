@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Participant;
+use App\Models\UploadAbstract;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
@@ -13,8 +13,14 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
 use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
 
-class RegisteredExport extends DefaultValueBinder implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithCustomValueBinder
+class AbstractExport extends DefaultValueBinder implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithCustomValueBinder
 {
+    public $status;
+    
+    public function __construct($status){
+        $this->status = $status;
+    }
+    
     public function columnFormats(): array
     {
         return [
@@ -25,8 +31,6 @@ class RegisteredExport extends DefaultValueBinder implements FromCollection, Wit
             'E' => NumberFormat::FORMAT_TEXT,
             'F' => NumberFormat::FORMAT_TEXT,
             'G' => NumberFormat::FORMAT_TEXT,
-            'H' => NumberFormat::FORMAT_TEXT,
-            'I' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -44,27 +48,26 @@ class RegisteredExport extends DefaultValueBinder implements FromCollection, Wit
 
     public function collection()
     {
-        return Participant::with('user')->orderBy('full_name1', 'asc')->get();
+        return UploadAbstract::where('status', 'like', '%' . $this->status)->with('participant','topicScope')->orderBy('title')->get();
     }
 
-    public function map($participant): array
+    public function map($abstract): array
     {
         return [
             //data yang dari kolom tabel database yang akan diambil
-            $participant->user->email,
-            $participant->user->email_verified_at,
-            $participant->full_name1,
-            $participant->full_name2,
-            $participant->participantType->name,
-            $participant->participantType->attendance,
-            $participant->institution,
-            $participant->address,
-            $participant->phone
+            $abstract->participant->full_name1,
+            $abstract->participant->user->email,
+            $abstract->title,
+            $abstract->topicScope->scope_name,
+            $abstract->authors,
+            $abstract->keywords,
+            $abstract->created_at,
+            $abstract->status
         ];
     }
 
     public function headings(): array
     {
-        return ['Email', 'Email Velidation', 'Full Name', 'Full Name (with academic title)', 'Participant Type','Attendance', 'Institution', 'Address', 'Phone'];
+        return ['Full Name', 'Email', 'Abstract Title', 'Topic','Authors','Keywords','Submitted At','Status'];
     }
 }

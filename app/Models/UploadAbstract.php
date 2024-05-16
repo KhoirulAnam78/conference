@@ -18,4 +18,8 @@ class UploadAbstract extends Model
     {
         return $this->hasMany(Payment::class);
     }
+
+    public function topicScope(){
+        return $this->belongsTo(TopicScope::class,'topic','id');
+    }
 }

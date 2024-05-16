@@ -10,9 +10,11 @@ use Livewire\WithPagination;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
+use App\Exports\AbstractExport;
 use App\Models\ParticipantType;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
 class ReviewAbstract extends Component
@@ -22,7 +24,7 @@ class ReviewAbstract extends Component
     protected $paginationTheme = 'bootstrap';
     public $review = false;
     public $topic, $type, $title, $authors, $institutions, $abstract, $keywords, $presenter;
-    public $search = '', $search2, $abstract_review, $status_hki;
+    public $status = '', $search2, $abstract_review, $status_hki;
 
     //LOA
     public $full_name, $institution, $abstractTitle, $loa, $loaPath;
@@ -208,11 +210,18 @@ class ReviewAbstract extends Component
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
 
+    public function export()
+    {
+        set_time_limit(0);
+        ini_set('memory_limit', '2048M');
+        return Excel::download(new AbstractExport($this->status), 'Abstract Submitted Isolleac 2024.xlsx');
+    }
+
     public function render()
     {
 
         return view('livewire.review-abstract', [
-            'abstracts' => UploadAbstract::where('status', 'like', '%' . $this->search)->whereHas('participant', function ($query) {
+            'abstracts' => UploadAbstract::where('status', 'like', '%' . $this->status)->whereHas('participant', function ($query) {
                 $query->where('full_name1', 'like', '%' . $this->search2 . '%');
             })->orderBy('topic')->paginate(10),
             'scopes' => TopicScope::where('is_delete',0)->get()
