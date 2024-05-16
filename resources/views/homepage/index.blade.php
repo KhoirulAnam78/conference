@@ -28,8 +28,8 @@
                                 <h3 class="primary-btn mb-3" style="font-size:20px">{{ $openingSpeech[0]->name }}</h3>
                                 <div class="row">
                                     @foreach ($openingSpeech[0]->listSpeaker as $item)
-                                        <div class="col-5"><img src="{{ asset('storage/' . $item->image) }}"
-                                                alt="">
+                                        <div class="col-5"><img class="img-thumbnail rounded-circle"
+                                                src="{{ asset('storage/' . $item->image) }}" alt="">
                                         </div>
                                         <div class="col-7" style="padding-top: 12%">
                                             <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
@@ -106,8 +106,8 @@
                                 <h3 class="primary-btn mb-3" style="font-size:20px">{{ $openingSpeech[0]->name }}</h3>
                                 <div class="row">
                                     @foreach ($openingSpeech[0]->listSpeaker as $item)
-                                        <div class="col-5"><img src="{{ asset('storage/' . $item->image) }}"
-                                                alt="">
+                                        <div class="col-5"><img class="img-thumbnail rounded-circle"
+                                                src="{{ asset('storage/' . $item->image) }}" alt="">
                                         </div>
                                         <div class="col-7" style="padding-top: 12%">
                                             <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
