@@ -46,9 +46,11 @@ class PaidParticipantExport extends DefaultValueBinder implements FromCollection
 
     public function collection()
     {
-        return Participant::where('participant_type', 'participant')->whereHas('payments', function ($query) {
-            $query->where('validation', 'valid');
-        })->orderBy('full_name1')->get();
+        return Participant::join('participant_type as b','b.id','participants.participant_type')
+        ->join('payments as c','participants.id','c.participant_id')
+        ->where('c.validation','valid')
+        ->where('b.type','Participant ')
+        ->get();
     }
 
     public function map($participant): array
@@ -56,8 +58,6 @@ class PaidParticipantExport extends DefaultValueBinder implements FromCollection
         return [
             //data yang dari kolom tabel database yang akan diambil
             $participant->user->email,
-            $participant->user->email_verified_at,
-            $participant->full_name1,
             $participant->full_name2,
             $participant->participant_type,
             $participant->attendance,
@@ -71,6 +71,6 @@ class PaidParticipantExport extends DefaultValueBinder implements FromCollection
 
     public function headings(): array
     {
-        return ['Email', 'Email Velidation', 'Full Name', 'Full Name (with academic title)', 'Participant Type','Attendance', 'Institution', 'Address', 'HKI ID', 'Status HKI Member', 'Phone'];
+        return ['Email', 'Full Name', 'Participant Type','Attendance', 'Institution', 'Address', 'Phone'];
     }
 }

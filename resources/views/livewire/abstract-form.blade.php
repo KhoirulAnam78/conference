@@ -247,14 +247,14 @@
                             <td>{{ $item->status }}</td>
                             <td>
                                 @if ($item->loa)
-                                    <a href="{{ asset('uploads/' . $item->loa) }}" target="_blank"
+                                    <a href="{{ asset('storage/' . $item->loa) }}" target="_blank"
                                         style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
                                             aria-hidden="true"></i></a>
                                 @endif
                             </td>
                             <td>
                                 @if ($item->invoice)
-                                    <a href="{{ asset('uploads/' . $item->invoice) }}" target="_blank"
+                                    <a href="{{ asset('storage/' . $item->invoice) }}" target="_blank"
                                         style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
                                             aria-hidden="true"></i>
                                     </a>

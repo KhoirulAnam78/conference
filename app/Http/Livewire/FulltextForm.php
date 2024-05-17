@@ -124,6 +124,12 @@ class FulltextForm extends Component
         $this->empty();
     }
 
+    public function updatedPaymentId(){
+        $payment = Payment::find($this->payment_id);
+        $abstract = UploadAbstract::where('id',$payment->upload_abstract_id)->first();
+        $this->title = $abstract->title;
+    }
+
     public function render()
     {
         return view('livewire.fulltext-form', [

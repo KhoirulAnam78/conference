@@ -16,11 +16,15 @@ class ParticipantPaid extends Component
 
     public function render()
     {
-        return view('livewire.participant-paid', [
-            'participants' => Participant::where('participant_type', 'participant')->where('attendance','like','%'.$this->attendance.'%')->where('full_name1', 'like', '%' . $this->search2 . '%')->whereHas('payments', function ($query) {
-                $query->where('validation', 'valid');
-            })->orderBy('full_name1')->paginate(10)
-        ]);
+        $participants = Participant::join('participant_type as b','b.id','participants.participant_type')
+        ->join('payments as c','participants.id','c.participant_id')
+        ->where('c.validation','valid')
+        ->where('b.type','Participant ')
+        ->where('b.attendance','like','%'.$this->attendance. '%')
+        ->where('full_name1', 'like', '%' . $this->search2 . '%')
+        ->paginate(10);
+
+        return view('livewire.participant-paid', compact('participants'));
     }
 
     public function export()
