@@ -3,7 +3,7 @@
     @if ($validation == false)
         <div class="row mb-2">
             <div class="col-lg-6">
-                <button wire:click="export()" class="btn btn-success" wire:loading.attr="disabled">
+                <button wire:click="export()" class="btn btn-success" wire:target="export" wire:loading.attr="disabled">
                     <span wire:loading.remove wire:target="export">Export</span>
                     <span wire:loading wire:target="export">Exporting..</span>
                 </button>

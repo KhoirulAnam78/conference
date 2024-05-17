@@ -27,6 +27,6 @@
                 </span>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled" wire:target="store">Login</button>
     </form>
 </div>
