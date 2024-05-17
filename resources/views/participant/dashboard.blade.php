@@ -24,7 +24,9 @@
     </div>
     <div class="row mx-3">
         @if (Auth::user()->participant->participant_type !== 'participant')
-            Download the article template in the download menu
+            <p>
+                Download the article template in the download menu
+            </p>
         @endif
     </div>
 

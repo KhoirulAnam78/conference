@@ -21,13 +21,13 @@ class PaymentPage extends Component
 
     public function mount()
     {
-        if (Auth::user()->participant->participant_type !== 'participant') {
+        if (Auth::user()->participant->participantType->type != 'Participant') {
             $this->abstract = UploadAbstract::where('participant_id', Auth::user()->participant->id)->where('status', 'accepted')->get();
         }
     }
     public function rules()
     {
-        if (Auth::user()->participant->participant_type == 'participant') {
+        if (Auth::user()->participant->participantType->type == 'Participant') {
             return
                 [
                     'total_bill' => 'required',
@@ -58,86 +58,11 @@ class PaymentPage extends Component
 
     public function add()
     {
-        if (Auth::user()->participant->participant_type !== 'participant') {
-            $this->abstract = UploadAbstract::where('participant_id', Auth::user()->participant->id)->where('status', 'accepted')->get();
-        }
-        if (Auth::user()->participant->hki_status == 'valid') {
-            if (Auth::user()->participant->participant_type == 'participant') {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 350000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 100000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            } elseif (Auth::user()->participant->participant_type == 'professional presenter') {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 750000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 250000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            } else {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 550000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 150000;
-                    $this->discount = $this->fee * 0.25;
-                    $this->fee_after_discount = $this->fee - $this->discount;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            }
-        } else {
-            if (Auth::user()->participant->participant_type == 'participant') {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 'IDR 350K / $24 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 'IDR 100K / $7 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            } elseif (Auth::user()->participant->participant_type == 'professional presenter') {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 'IDR 750K / $50 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 'IDR 250K / $17 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            } else {
-                if (Auth::user()->participant->attendance == 'offline') {
-                    $this->fee = 'IDR 550K / $37 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                } else {
-                    $this->fee = 'IDR 150K / $10 USD';
-                    $this->discount = 0;
-                    $this->fee_after_discount =  $this->fee;
-                    $this->total_bill = $this->fee_after_discount;
-                }
-            }
-        }
+        $this->fee = 'IDR. ' . auth()->user()->participant->participantType->price;
+        $this->total_bill = $this->fee;
+        $this->discount = 0;
+        $this->fee_after_discount = $this->total_bill;
+        
 
         $this->add = true;
         $this->dispatchBrowserEvent('to-top');

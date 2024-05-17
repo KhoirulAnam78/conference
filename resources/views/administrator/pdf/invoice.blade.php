@@ -12,7 +12,13 @@
 
         foreach ($images as $img) {
             $data = $img->getattribute('src');
-            $path2 = 'data:image/png;base64,' . base64_encode(file_get_contents($data));
+            $context = stream_context_create([
+                'http' => [
+                    'header' =>
+                        'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36',
+                ],
+            ]);
+            $path2 = 'data:image/png;base64,' . base64_encode(file_get_contents($data, false, $context));
             $img->removeattribute('src');
             $img->setattribute('src', $path2);
         }

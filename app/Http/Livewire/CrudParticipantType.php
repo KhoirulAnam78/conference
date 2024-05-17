@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class CrudParticipantType extends Component
 {
-    public $name, $attendance, $price, $start_date, $end_date;
+    public $name, $attendance, $price, $start_date, $end_date,$type;
     public $proses_id;
 
     public function save()
@@ -17,7 +17,8 @@ class CrudParticipantType extends Component
             'attendance' => 'required',
             'price' => 'required',
             'start_date' => 'required',
-            'end_date' => 'required'
+            'end_date' => 'required',
+            'type' => 'required'
         ]);
 
         ParticipantType::create([
@@ -26,7 +27,8 @@ class CrudParticipantType extends Component
             'price' => $this->price,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'is_deleted' => 0
+            'is_deleted' => 0,
+            'type' => $this->type
         ]);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
@@ -40,6 +42,7 @@ class CrudParticipantType extends Component
         $this->price = $data->price;
         $this->start_date = $data->start_date;
         $this->end_date = $data->end_date;
+        $this->type = $data->type;
     }
 
     public function update()
@@ -49,7 +52,8 @@ class CrudParticipantType extends Component
             'attendance' => 'required',
             'price' => 'required',
             'start_date' => 'required',
-            'end_date' => 'required'
+            'end_date' => 'required',
+            'type' => 'required'
         ]);
 
         ParticipantType::where('id', $this->proses_id)->update([
@@ -58,6 +62,7 @@ class CrudParticipantType extends Component
             'price' => $this->price,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'type' => $this->type
         ]);
 
 
@@ -67,6 +72,7 @@ class CrudParticipantType extends Component
         $this->price = null;
         $this->start_date = null;
         $this->end_date = null;
+        $this->type = null;
         // $this->dispatchBrowserEvent('close-edit');
     }
 

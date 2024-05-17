@@ -2,16 +2,17 @@
 
 namespace App\Http\Livewire;
 
+use PDF;
 use App\Mail\SendMail;
 use App\Models\Payment;
 use Livewire\Component;
 use App\Models\Participant;
 use Livewire\WithPagination;
+use App\Models\GlobalSetting;
 use App\Exports\PaymentExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
-use PDF;
 use Illuminate\Support\Facades\Storage;
 
 class PaymentValidation extends Component
@@ -23,6 +24,17 @@ class PaymentValidation extends Component
     public $full_name1, $email, $participant_type, $payment_for, $fee, $discount, $fee_after_discount, $total_bill, $proof_of_payment, $paymentValidate;
     public $search = '', $search2 = '';
     public $no_receipt, $for_payment_of, $amount, $receipt, $receiptPath;
+
+    public $title,$abbreviation;
+
+    public function mount(){
+        
+        $title = GlobalSetting::where('name','title')->first();
+        $this->title = $title->value ?? null;
+        
+        $abbreviation = GlobalSetting::where('name','abbreviation')->first();
+        $this->abbreviation = $abbreviation->value ?? null;
+    }
 
     public function empty()
     {
@@ -45,7 +57,8 @@ class PaymentValidation extends Component
         $payment = Payment::find($id);
         $this->full_name1 = $payment->participant->full_name1;
         $this->email = $payment->participant->user->email;
-        $this->participant_type = $payment->participant->participant_type;
+        $participant = $payment->participant->participantType;
+        $this->participant_type = $participant->name .'('.$participant->attendance.')';
         $this->payment_for = 'participant';
         if ($payment->upload_abstract_id !== null) {
             $this->payment_for = $payment->uploadAbstract->title;
@@ -60,12 +73,12 @@ class PaymentValidation extends Component
 
     public function showValidate()
     {
-        $this->amount = $this->fee_after_discount;
+        $this->amount = $this->total_bill;
         $participant = Payment::find($this->paymentValidate)->participant->participant_type;
         if ($participant !== 'participant') {
-            $this->for_payment_of = 'Registration Fee of ICICS 2023 as Author';
+            $this->for_payment_of = 'Registration Fee of '.$this->abbreviation.' as Author';
         } else {
-            $this->for_payment_of = 'Registration Fee of ICICS 2023 as Participant';
+            $this->for_payment_of = 'Registration Fee of '.$this->abbreviation.' as Participant';
         }
         $this->dispatchBrowserEvent('show-modal');
     }
@@ -78,6 +91,7 @@ class PaymentValidation extends Component
             'amount' => 'required',
             'for_payment_of' => 'required'
         ]);
+        
         set_time_limit(0);
         ini_set('memory_limit', '64M');
         $participant_id = Payment::find($this->paymentValidate)->participant_id;
@@ -87,15 +101,16 @@ class PaymentValidation extends Component
             'fee' => $this->amount,
             'receipt_no' => $this->no_receipt,
             'payment_for' => $this->for_payment_of
-        ])->setPaper('a4', 'potrait');
+        ])->setOptions(['defaultFont' => 'sans-serif'])
+        ->setPaper('a4', 'potrait');
         $abstract = Payment::find($this->paymentValidate)->uploadAbstract;
         if ($abstract) {
             $id = $abstract->id;
         } else {
             $id = 'participant';
         }
-        Storage::put('receipt/' . 'receipt-abs-' . $id . '-' . $this->full_name1 . '.pdf', $receipt->output());
-        $this->receiptPath = 'receipt/' . 'receipt-abs-' . $id . '-' . $this->full_name1 . '.pdf';
+        Storage::put('uploads/receipt/' . 'receipt-abs-' . $id . '-' . $this->full_name1 . '.pdf', $receipt->output());
+        $this->receiptPath = 'uploads/receipt/' . 'receipt-abs-' . $id . '-' . $this->full_name1 . '.pdf';
         Payment::where('id', $this->paymentValidate)->update([
             'validation' => 'valid',
             'receipt' => $this->receiptPath,
@@ -104,10 +119,10 @@ class PaymentValidation extends Component
 
 
         $attachment = [
-            public_path() . '/uploads/' . $this->receiptPath,
+            public_path() . 'storage/' . $this->receiptPath,
         ];
 
-        $linkreceipt = "'https://icics2023.unja.ac.id/uploads/" . $this->receiptPath . "'";
+        $linkreceipt = asset('storage/'.$this->receiptPath);
 
         if ($abstract) {
             Mail::to($this->email, $this->full_name1)->send(new SendMail('Payment Validation', "<p>
@@ -117,14 +132,14 @@ class PaymentValidation extends Component
             <a href=" . $linkreceipt . ">Download Receipt</a>
             <br> <br>
             Warm regards, <br><br><br><br>
-            Steering Committee ICICS 2023 </p>"));
+            Steering Committee ".$this->abbreviation." </p>"));
         } else {
             Mail::to($this->email, $this->full_name1)->send(new SendMail('Payment Validation', "<p>
             Dear " . $this->full_name1 . ", <br>
-            We have validated your payment for the participant ICICS 2023, here we include
+            We have validated your payment for the participant ".$this->abbreviation.", here we include
             your receipt of payment. <br>
             Warm regards, <br><br><br><br>
-            Steering Committee ICICS 2023 </p>"));
+            Steering Committee ".$this->abbreviation." </p>"));
         }
 
         return redirect('/payment-validation')->with('message', 'Validation succesfully !');
@@ -154,7 +169,7 @@ class PaymentValidation extends Component
     {
         set_time_limit(0);
         ini_set('memory_limit', '2048M');
-        return Excel::download(new PaymentExport(), 'All Payment ICICS 2023.xlsx');
+        return Excel::download(new PaymentExport(), 'All Payment '.$this->abbreviation.'.xlsx');
     }
 
     public function render()

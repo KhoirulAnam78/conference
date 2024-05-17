@@ -8,7 +8,8 @@
             </div>
         </div>
 
-        <a class="btn btn-warning my-3" wire:click='cancel()'>Back</a>
+        <a class="btn btn-warning my-3" wire:click='cancel()' wire:target="cancel"
+            wire:loading.attr.class="disabled">Back</a>
         <form wire:submit.prevent="save">
             {{-- <div class="form-group">
                 <label for="topic">
@@ -49,7 +50,7 @@
                 </div>
             @endcan
 
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="fee">Fee</label>
                 <input disabled type="text" class="form-control @error('fee') is-invalid @enderror" id="fee"
                     name="fee" value="{{ $fee }}">
@@ -58,8 +59,8 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
-            <div class="form-group">
+            </div> --}}
+            {{-- <div class="form-group">
                 <label for="discount">Discount</label>
                 <input disabled type="text" class="form-control @error('discount') is-invalid @enderror"
                     id="discount" placeholder="Title" name="discount" value='{{ $discount }}'>
@@ -68,8 +69,8 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
-            <div class="form-group">
+            </div> --}}
+            {{-- <div class="form-group">
                 <label for="fee_after_discount">Fee after discount</label>
                 <input disabled type="text" class="form-control @error('fee_after_discount') is-invalid @enderror"
                     id="fee_after_discount" placeholder="Title" name="fee_after_discount"
@@ -79,7 +80,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-            </div>
+            </div> --}}
 
             <div class="form-group">
                 <label for="total_bill">Total Bill</label>
@@ -103,14 +104,16 @@
                         </label>
                     </div>
                 </div>
+
+                <span class="text-success" wire:target="proof_of_payment" wire:loading>Uploading...</span>
                 @error('proof_of_payment')
                     <span style="font-size:12px; color:red">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <a class="btn btn-warning" wire:click='cancel()'>Cancel</a>
+            <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">Submit</button>
+            <a class="btn btn-warning" wire:click='cancel()' wire:loading.attr.class="disabled">Cancel</a>
         </form>
     @else
         @can('presenter')
@@ -119,11 +122,13 @@
                 <br>
                 <span><strong>Sorry, you do not yet have an accepted abstract !</strong></span>
             @else
-                <button class="btn btn-primary" wire:click="add()">Add Payment</button>
+                <button class="btn btn-primary" wire:click="add()" wire:target="add" wire:loading.attr="disabled">Add
+                    Payment</button>
             @endif
         @endcan
         @can('participant')
-            <button class="btn btn-primary" wire:click="add()">Add Payment</button>
+            <button class="btn btn-primary" wire:click="add()" wire:target="add" wire:loading.attr="disabled">Add
+                Payment</button>
         @endcan
         @if (session()->has('message'))
             <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
@@ -137,55 +142,64 @@
         @if (count($payments) !== 0)
 
             <h4 class="mt-5">Your Payment</h4>
-            <table class="table my-3">
-                <thead class="thead-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Total Bill</th>
-                        @can('presenter')
-                            <th scope="col">Payment for abstract</th>
-                        @endcan
-                        <th scope="col">Status Validation</th>
-                        <th>Receipt</th>
-                        <th scope="col">Validated By</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $a = 0;
-                    @endphp
-                    @foreach ($payments as $item)
+            <div class="table-responsive">
+                <table class="table my-3">
+                    <thead class="thead-light">
                         <tr>
-                            <td scope="row">{{ ++$a }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->total_bill }}</td>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Total Bill</th>
                             @can('presenter')
-                                <td>{{ $item->uploadAbstract->title }}</td>
+                                <th scope="col">Abstract</th>
                             @endcan
-                            <td>{{ $item->validation }}</td>
-                            <td>
-                                @if ($item->receipt)
-                                    <a href="{{ asset('uploads/' . $item->receipt) }}" target="_blank"
-                                        style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
-                                            aria-hidden="true"></i>
-                                    </a>
-                                @endif
-                            </td>
-                            <td>{{ $item->validated_by }}</td>
-                            {{-- <td> --}}
-                            {{-- @if ($item->status == 'not yet reviewed')
-                                    <button class="btn btn-info"
-                                        wire:click='editAbstract({{ $item->id }})'>edit</button>
-                                @else
-                                    <p>No actions</p>
-                                @endif --}}
-                            {{-- </td> --}}
+                            <th>Proof</th>
+                            <th scope="col">Status</th>
+                            <th>Receipt</th>
+                            <th scope="col">Validated By</th>
+
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @php
+                            $a = 0;
+                        @endphp
+                        @foreach ($payments as $item)
+                            <tr>
+                                <td scope="row">{{ ++$a }}</td>
+                                <td class="text-nowrap">{{ $item->created_at }}</td>
+                                <td class="text-nowrap">{{ $item->total_bill }}</td>
+                                @can('presenter')
+                                    <td>{{ $item->uploadAbstract->title }}</td>
+                                @endcan
+                                <td> <a href="{{ asset('storage/' . $item->proof_of_payment) }}" target="_blank"
+                                        style="color:green; font-size:20px"><i class="fa fa-file-image-o"
+                                            aria-hidden="true"></i>
+
+                                    </a>
+                                </td>
+                                <td class="text-nowrap">{{ $item->validation }}</td>
+                                <td>
+                                    @if ($item->receipt)
+                                        <a href="{{ asset('uploads/' . $item->receipt) }}" target="_blank"
+                                            style="color:red; font-size:20px"><i class="fa fa-file-pdf-o"
+                                                aria-hidden="true"></i>
+                                        </a>
+                                    @endif
+                                </td>
+                                <td class="text-nowrap">{{ $item->validated_by }}</td>
+                                {{-- <td> --}}
+                                {{-- @if ($item->status == 'not yet reviewed')
+                                        <button class="btn btn-info"
+                                            wire:click='editAbstract({{ $item->id }})'>edit</button>
+                                    @else
+                                        <p>No actions</p>
+                                    @endif --}}
+                                {{-- </td> --}}
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         @endif
         <h4 class="mt-5">Fee</h4>
         <table class="table my-3">

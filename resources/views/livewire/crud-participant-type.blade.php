@@ -12,6 +12,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
+                            <th>Type</th>
                             <th scope="col">Attendance</th>
                             <th scope="col">Price</th>
                             <th scope="col">Start Date</th>
@@ -30,6 +31,7 @@
                         @foreach ($data as $item)
                             <tr>
                                 <td>{{ $item->name }}</td>
+                                <td>{{ $item->type }}</td>
                                 <td>{{ $item->attendance }}</td>
                                 <td>{{ $item->price }}</td>
                                 <td>{{ $item->start_date }}</td>
@@ -84,6 +86,17 @@
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
 
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select class="form-control" name="type" id="type"wire:model="type">
+                            <option value="">Pilih</option>
+                            <option value="Presenter">Presenter/Speaker</option>
+                            <option value="Participant">Participant</option>
+                        </select>
+                        @error('type')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     <div class="form-group">
                         <label for="attendance">Attendance</label>
@@ -156,6 +169,18 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select class="form-control" name="type" id="type"wire:model="type">
+                            <option value="">Pilih</option>
+                            <option value="Presenter">Presenter/Speaker</option>
+                            <option value="Participant">Participant</option>
+                        </select>
+                        @error('type')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
 
