@@ -55,6 +55,10 @@
                 <a class="nav-link {{ $title == 'Previously Event' ? 'active' : '' }}"
                     href="{{ route('previously-events') }}" style="font-size:16px">Previously Event</a>
             </li>
+            <li class="nav-item" style="width:100%">
+                <a class="nav-link {{ $title == 'Destination' ? 'active' : '' }}" href="{{ route('destination') }}"
+                    style="font-size:16px">Destination</a>
+            </li>
             <li class="nav-item" style="width:100%;">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

@@ -83,4 +83,10 @@ class AdminController extends Controller
         $title = "Previously Event";
         return view('dashboard-admin.previously-event', compact('title'));
     }
+
+    public function destination()
+    {
+        $title = "Destination";
+        return view('dashboard-admin.destination', compact('title'));
+    }
 }

@@ -1,7 +1,7 @@
 <div>
-    <span class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalPartner">Tambah Media Partner</span>
+    <span class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalDestinationAdd">Tambah Destination</span>
     <div class="row justify-content-center mb-3">
-        <h4>Daftar Media Partner</h4>
+        <h4>Daftar Destination</h4>
     </div>
 
     <div class="col-lg-12">
@@ -12,7 +12,6 @@
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">image</th>
-                            <th scope="col">URL Partner</th>
                             <th scope="col">Desc</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -34,14 +33,13 @@
                                             class="mr-3" style="width: 50px; height: 50px;">
                                     </div>
                                 </td>
-                                <td>{{ $item->url }}</td>
-                                <td>{{ $item->info_partner }}</td>
+                                <td>{{ $item->info_destination }}</td>
                                 <td>
                                     <div class="row justify-content-center">
                                         <button class="btn btn-danger mx-1"
                                             wire:click="hapus('{{ $item->id }}')">Hapus</button>
                                         <button class="btn btn-warning mx-1" data-toggle="modal"
-                                            data-target="#modalPartnerEdit"
+                                            data-target="#modalDestinationEdit"
                                             wire:click="showEdit('{{ $item->id }}')">Edit</button>
                                     </div>
                                 </td>
@@ -53,19 +51,19 @@
         </div>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="modalPartner" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" wire:ignore.self id="modalDestinationAdd" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Partner</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Destination</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Nama Partner</label>
+                        <label for="name">Nama Destination</label>
                         <input type="text" name="name" class="form-control" id="name" rows="5"
                             wire:model="name"></input>
                         @error('name')
@@ -74,16 +72,7 @@
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
                     <div class="form-group">
-                        <label for="url">URL Partner</label>
-                        <input type="text" name="url" class="form-control" id="url" rows="5"
-                            wire:model="url"></input>
-                        @error('url')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Info Partner (Optional)</label>
+                        <label for="desc">Desc Destination</label>
                         <textarea class="form-control" id="desc" rows="3" wire:model="desc"></textarea>
                         @error('desc')
                             <span class="text-danger">{{ $message }}</span>
@@ -91,7 +80,7 @@
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
                     <div class="form-group">
-                        <label for="image">Logo Partner</label>
+                        <label for="image">Foto Destination</label>
                         <input type="file" class="form-control-file" id="image" wire:model="image"
                             accept=".jpg,.png,.jpeg,.pdf">
                         @error('image')
@@ -112,25 +101,29 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="save">Tambah</button>
+                    <button type="button" class="btn btn-primary" wire:click="save" wire:loading.attr="disabled"
+                        wire:target="save">
+                        <span wire:loading.remove wire:target="save">Tambah</span>
+                        <span wire:loading wire:target="save">Tambah...</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" wire:ignore.self id="modalPartnerEdit" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" wire:ignore.self id="modalDestinationEdit" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Partner</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Tambah Destination</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Nama Partner</label>
+                        <label for="name">Nama Destination</label>
                         <input type="text" name="name" class="form-control" id="name" rows="5"
                             wire:model="name"></input>
                         @error('name')
@@ -139,16 +132,7 @@
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
                     <div class="form-group">
-                        <label for="url">URL Partner</label>
-                        <input type="text" name="url" class="form-control" id="url" rows="5"
-                            wire:model="url"></input>
-                        @error('url')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Info Partner (Optional)</label>
+                        <label for="desc">Desc Destination</label>
                         <textarea class="form-control" id="desc" rows="3" wire:model="desc"></textarea>
                         @error('desc')
                             <span class="text-danger">{{ $message }}</span>
@@ -156,7 +140,7 @@
                         {{-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
                     </div>
                     <div class="form-group">
-                        <label for="image">Logo Partner</label>
+                        <label for="image">Foto Destination</label>
                         <input type="file" class="form-control-file" id="image" wire:model="image"
                             accept=".jpg,.png,.jpeg,.pdf">
                         @error('image')
@@ -183,11 +167,17 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" wire:click="update">Simpan</button>
+                    <button type="button" class="btn btn-primary" wire:click="update" wire:loading.attr="disabled"
+                        wire:target="update">
+                        <span wire:loading.remove wire:target="update">Simpan</span>
+                        <span wire:loading wire:target="update">Simpan...</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+
 
 
 </div>

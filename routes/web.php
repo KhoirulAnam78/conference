@@ -109,7 +109,7 @@ Route::get('/download-template-article', [DownloadController::class, 'downloadTe
 Route::get('/download-guidebook-poster-competition-icics-2023', [DownloadController::class, 'downloadGuidebook']);
 Route::get('/download-program-abstract-book-icics2023', [DownloadController::class, 'downloadAbstractBook']);
 
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     //PROFILE
@@ -149,9 +149,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('additional-events', [AdminController::class, 'additionalEvents'])->name('additional-events');
     Route::get('information-pages', [AdminController::class, 'informationPages'])->name('information-pages');
     Route::get('previously-events', [AdminController::class, 'previouslyEvents'])->name('previously-events');
+    Route::get('destination', [AdminController::class, 'destination'])->name('destination');
 
     Route::get('data-loa-invoice', [AdminController::class, 'dataLoaInvoice'])->name('data-loa-invoice');
-    Route::get('test-loa',function(){
+    Route::get('test-loa', function () {
         return view('administrator.pdf.loa', [
             'full_name' => "Khoirul Anam",
             'institution' => "Universitas Jambi",
