@@ -431,111 +431,23 @@
             <div class="row">
                 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="2"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="3"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="4"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="5"></li>
-                        <li data-target="#carouselExampleIndicators2" data-slide-to="6"></li>
+                        @foreach ($destinations as $index => $item)
+                            <li data-target="#carouselExampleIndicators2" data-slide-to="{{ $index }}"
+                                class="{{ $index === 0 ? 'active' : '' }}"></li>
+                        @endforeach
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/gunung kerinci.jpg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Mount Kerinci</h4>
-                                <p>Mount Kerinci is an active stratovolcano and the highest mountain in Sumatra, Indonesia.
-                                    At 12,484 ft above sea level, it provides Sumatra with the fifth-highest maximum
-                                    elevation of any island in the world.</p>
+                        @foreach ($destinations as $index => $item)
+                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                <img class="d-block w-100" src="{{ asset('storage/' . $item->image) }}"
+                                    alt="{{ $item->name }}">
+                                <div class="carousel-caption d-none d-md-block text-white p-3"
+                                    style="font-weight: bold; background-color:rgb(150, 150, 150);">
+                                    <h4>{{ $item->name }}</h4>
+                                    <p>{{ $item->info_destination }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/gentala.jpg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Gentala Arasy Bridge</h4>
-                                <p>Gentala Arasy bridge is one of the icons in Jambi. This bridge was built in 2012 and was
-                                    inaugurated by Mr. Jusuf Kalla as Vice President at that time. Actually there are two
-                                    objects in this location, the tower of Gentala Arasy and Pedestrian bridge. But most
-                                    people prefer to call Gentala Arasy bridge.</p>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/candi.jpg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Muaro Jambi Temple Compounds</h4>
-                                <p>Muaro Jambi (Indonesian: Candi Muaro Jambi) is a Buddhist temple complex, in Muaro Jambi
-                                    Regency, Jambi province, Sumatra, Indonesia. It is situated 26 kilometers east from the
-                                    city of Jambi. The temple complex was built by the Melayu Kingdom, with its surviving
-                                    temples and other archaeological remains estimated to date from the 7th to 13th century
-                                    CE.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100 img-fluid"
-                                src="{{ asset('assets/img/field-trip/danau-gunung-tujuh.jpeg') }}" alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Lake Gunung Tujuh</h4>
-                                <p>Lake Gunung Tujuh or The Seven Mountain Lake in English is a volcanic crater lake in the
-                                    province of Jambi, Indonesia, located at 1°42′23″S 101°24′42″E within Kerinci National
-                                    Park.
-                                    Although a young lake, in geologic terms, its surrounding volcano, Mount Tujuh, is old
-                                    and
-                                    not immediately obvious as such.</p>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/pulau-berhala.jpeg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Berhala Island (Malacca Strait)</h4>
-                                <p>Berhala island is an island off Sumatra in Indonesia with an area of about 2.5 km2. It is
-                                    located in the Berhala Strait between Jambi and Singkep.
-                                    In the past, the island was at the center of a provincial disputed since 1982,
-                                    previously
-                                    between Jambi and Riau, including the regency Riau Islands. On 2002, these regency
-                                    divided
-                                    into new province and switched dispute cases between Riau Islands and Jambi. The matter
-                                    was
-                                    brought for adjudication to Supreme Court, and on 2012, the Court awarded the island to
-                                    Riau
-                                    Islands.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/Kebun-Teh-Kayu-Aro.jpg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Kayu Aro Tea Plantation</h4>
-                                <p>For lovers of the great outdoors, several other points of interest are located nearby,
-                                    such as Mount Kerinci, Lake Kerinci, and the Kerinci Seblat National Park. Getting to
-                                    Kayu Aro Tea Plantation follows the same route as the path to Mount Kerinci in the
-                                    direction of Sungai Penuh. The two closest airports to Sungai Penuh, capital city of
-                                    Kerinci District, are Jambi and Padang. Getting to Sungai Penuh from Jambi city takes
-                                    about 10 hours by car over a distance of approximately 500 KM.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset('assets/img/field-trip/gunung-masurai.jpeg') }}"
-                                alt="Gunung Kerinci">
-                            <div class="carousel-caption d-none d-md-block text-white p-3"
-                                style="font-weight: bold; background-color:rgb(150, 150, 150);">
-                                <h4>Mount Matsurai</h4>
-                                <p>Mount Matsurai, natively known as Gunung Masurai, is a large complex of inactive
-                                    stratovolcanoes in Jambi, Sumatra, Indonesia. The volcano attains an elevation of 2,916
-                                    m above sea level</p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button"
                         data-slide="prev">
@@ -551,6 +463,7 @@
             </div>
         </div>
     </section>
+
     <!-- Contact Section Begin -->
     <section class="contact-section spad" style="margin-top:50px;margin-bottom:100px; padding:0px">
         <div class="container">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Destination;
 use App\Models\Rundown;
 use App\Models\Speakers;
 use App\Models\TopicScope;
@@ -64,6 +65,10 @@ class HomeController extends Controller
         $speakers = Speakers::where('name', '!=', 'Opening Speech')->with('listSpeaker')->get();
         $speakers = $speakers ?? null;
 
+        $destinations = Destination::get();
+        $destinations = $destinations ?? null;
+
+
         $zoom_link = GlobalSetting::where('name', 'zoom_link')->select('value')->first();
         $zoom_link = $zoom_link->value ?? null;
         $zoom_pass = GlobalSetting::where('name', 'zoom_pass')->select('value')->first();
@@ -72,7 +77,7 @@ class HomeController extends Controller
         $zoom_id = $zoom_id->value ?? null;
         // dd($speakers);
 
-        return view('homepage.index', compact('title', 'title_conference', 'topic', 'logo', 'website', 'email', 'start_date_conference', 'end_date_conference', 'conference_location', 'importantDates', 'scopes', 'image_slider_1', 'image_slider_2', 'image_slider_3', 'map', 'contact', 'openingSpeech', 'speakers','zoom_link','zoom_pass','zoom_id'));
+        return view('homepage.index', compact('title', 'title_conference', 'topic', 'logo', 'website', 'email', 'start_date_conference', 'end_date_conference', 'conference_location', 'importantDates', 'scopes', 'image_slider_1', 'image_slider_2', 'image_slider_3', 'map', 'contact', 'openingSpeech', 'speakers', 'zoom_link', 'zoom_pass', 'zoom_id', 'destinations'));
     }
 
     public function rundown()
@@ -143,23 +148,25 @@ class HomeController extends Controller
         return view('homepage.contact', compact('title', 'map', 'contact', 'location', 'email', 'website'));
     }
 
-    public function satelliteEvents($slug){
-        $data = SatelliteEvents::where('slug',$slug)->first();
-        if(!$data){
+    public function satelliteEvents($slug)
+    {
+        $data = SatelliteEvents::where('slug', $slug)->first();
+        if (!$data) {
             return 'Sorry Page Not Found !';
         }
         $title = $data->name;
         $content = $data->contents;
-        return view('homepage.satellite-events',compact('title','content'));
+        return view('homepage.satellite-events', compact('title', 'content'));
     }
 
-    public function informationPages($slug){
-        $data = InformationPages::where('slug',$slug)->first();
-        if(!$data){
+    public function informationPages($slug)
+    {
+        $data = InformationPages::where('slug', $slug)->first();
+        if (!$data) {
             return abort(404);
         }
         $title = $data->name;
         $content = $data->contents;
-        return view('homepage.information-pages',compact('title','content'));
+        return view('homepage.information-pages', compact('title', 'content'));
     }
 }
