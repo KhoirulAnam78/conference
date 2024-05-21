@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         date_default_timezone_set('Asia/Jakarta');
 
         Gate::define('administrator', function (User $user) {
-            return ($user->role == 'administrator');
+            return ($user->role == 'administrator' or $user->role == 'developer');
         });
 
         Gate::define('presenter', function (User $user) {

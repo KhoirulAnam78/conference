@@ -5,11 +5,13 @@
 
     <section class="schedule-table-section spad" style="margin-top:200px">
         <div class="container-fluid">
-            <div class="row justify-content-end">
-                <div class="col-3 mb-3">
-                    <a href="{{ route('dashboard-admin') }}" class="btn btn-primary">Pengaturan Aplikasi</a>
+            @if (auth()->user()->role == 'developer')
+                <div class="row justify-content-end">
+                    <div class="col-3 mb-3">
+                        <a href="{{ route('dashboard-admin') }}" class="btn btn-primary">Pengaturan Aplikasi</a>
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-2">
                     <div class="schedule-table-tab">
