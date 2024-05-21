@@ -11,7 +11,7 @@ class DashboardController extends Model
     use HasFactory;
 
     public function index(){
-        if (auth()->user()->role === 'administrator') {
+        if (auth()->user()->role === 'administrator' or auth()->user()->role == 'developer') {
             $regon = DB::table('participants as a')
             ->join('participant_type as b','b.id','a.participant_type')
             ->where('b.attendance','Online')
