@@ -439,8 +439,8 @@
                     <div class="carousel-inner">
                         @foreach ($destinations as $index => $item)
                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                <img class="d-block w-100" width="2000px" height="1100px"
-                                    src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}">
+                                <img class="d-block w-100" width="100%" src="{{ asset('storage/' . $item->image) }}"
+                                    alt="{{ $item->name }}">
                                 <div class="carousel-caption d-none d-md-block text-white p-3"
                                     style="font-weight: bold; background-color:rgb(150, 150, 150);">
                                     <h4>{{ $item->name }}</h4>
