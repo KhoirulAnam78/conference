@@ -72,9 +72,19 @@
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="btn btn-primary">Logout</button>
+                                            <button type="submit" class="btn btn-primary mb-2">Logout</button>
                                         </form>
                                     </li>
+                                    @if (session()->has('main_user'))
+                                        <li>
+                                            <form action="{{ route('logoutAs') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="main_user" value="{{ session('main_user') }}">
+                                                <button type="submit" class="btn btn-primary">Logout As
+                                                    {{ auth()->user()->email }}</button>
+                                            </form>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

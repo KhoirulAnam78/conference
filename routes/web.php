@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginAsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DownloadController;
@@ -28,6 +29,9 @@ use App\Http\Controllers\UploadFulltextController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
+Route::get('sessions', function () {
+    return session()->all();
+});
 
 Route::get('/rundown-conference', [HomeController::class, 'rundown'])->name('home.rundown');
 
@@ -127,6 +131,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+     // LOGIN AS
+    Route::post('login-as', [LoginAsController::class,'loginAs'])->name('loginAs');
+    Route::post('logout-as',[LoginAsController::class, 'logoutAs'])->name('logoutAs');
 
     //ADMINISTRATOR
     Route::get('/registered-participant', [ParticipantController::class, 'index']);
