@@ -8,5 +8,5 @@
             </div>
         </div>
     </div>
-    {{-- <livewire:registered-participant /> --}}
+    <livewire:registered-participant />
 @endsection
