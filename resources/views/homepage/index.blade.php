@@ -34,6 +34,7 @@
                                         <div class="col-7" style="padding-top: 12%">
                                             <h5 style="color: white;text-shadow: 2px 2px 5px rgb(0, 0, 0);">
                                                 {{ $item->name }}
+                                                <br>
                                                 <span>{{ $item->position . $item->institution }}</span>
                                             </h5>
                                         </div>
