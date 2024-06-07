@@ -31,13 +31,13 @@
                             <th scope="col">Institution</th>
                             <th scope="col">Address</th>
                             <th scope="col">Phone</th>
-                            @dump(auth()->user())
-                            @if (auth()->user()->email = 'pengelola@gmail.com')
+
+                            @can('developer')
                                 <th scope="col">Action</th>
-                            @endif
+                            @endcan
                         </tr>
                     </thead>
-                    {{-- <tbody>
+                    <tbody>
                         @if (count($participants) == 0)
                             <tr>
                                 <td colspan="11" align="center">No data</td>
@@ -57,21 +57,20 @@
                                 <td>{{ $item->institution }}</td>
                                 <td>{{ $item->address }}</td>
                                 <td>{{ $item->phone }}</td>
-                                @if (auth()->user()->role = 'developer')
+                                @can('developer')
                                     <th scope="col">
                                         <form action="{{ route('loginAs') }}" class="mb-2" method="POST">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="hidden" name="user_login_as"
-                                                value="{{ $item->user->email }}">
+                                            <input type="hidden" name="user_login_as" value="{{ $item->user->email }}">
                                             <input type="hidden" name="user_request_login_as"
                                                 value="{{ auth()->user()->email }}">
                                             <button class="btn btn-primary btn-sm" type="submit">LoginAs</button>
                                         </form>
                                     </th>
-                                @endif
+                                @endcan
                             </tr>
                         @endforeach
-                    </tbody> --}}
+                    </tbody>
                 </table>
             </div>
             <span>Total : {{ $participants->total() }}</span>
