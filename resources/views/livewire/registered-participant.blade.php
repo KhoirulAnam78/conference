@@ -15,21 +15,6 @@
                     wire:model.debounce.500ms="search" placeholder="Search">
             </div>
         </div>
-        {{-- <div class="col-3">
-            <div class="form-group">
-                <label for="participant">
-                    Participant Type
-                </label>
-                <select class="custom-select" id="participant_type" name="participant_type"
-                    wire:model.debounce.500ms='participant_type'>
-                    <option value="">All</option>
-                    @foreach ($types as $item)
-                        <option value="{{ $item->id }}">{{ $item->name }}
-                            {{ '(' . strtoupper($item->attendance) . ')' }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div> --}}
     </div>
     <div class="row">
         <div class="col-lg-12">
