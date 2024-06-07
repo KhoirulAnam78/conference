@@ -107,7 +107,7 @@ class ReviewAbstract extends Component
         ->setPaper('a4', 'potrait');
         
         $this->loaPath = 'uploads/letter-of-acceptance/' . 'LOA-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
-
+        Storage::delete($this->loaPath);
         Storage::put($this->loaPath, $loa->output());
 
         
@@ -120,6 +120,7 @@ class ReviewAbstract extends Component
         ->setPaper('a4', 'landscape');
         
         $this->invoicePath = 'uploads/invoice/' . 'Invoice-ABS' . $this->abstract_review . '-' . $this->full_name . '.pdf';
+        Storage::delete($this->invoicePath);
         Storage::put($this->invoicePath, $invoice->output());
         UploadAbstract::where('id', $this->abstract_review)->update([
             'status' => 'accepted',
@@ -132,9 +133,11 @@ class ReviewAbstract extends Component
         //     Storage::path('uploads/' . $this->loaPath),
         //     Storage::path('uploads/' . $this->invoicePath),
         // ];
+        $linkLoa = "'".asset('storage/'.$this->loaPath)."'";
+        $linkInvoice = "'".asset('storage/'.$this->invoicePath)."'";
         
-        $linkLoa = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->loaPath . "'";
-        $linkInvoice = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->invoicePath . "'";
+        // $linkLoa = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->loaPath . "'";
+        // $linkInvoice = "'https://icics2023.unja.ac.id/storage/uploads/" . $this->invoicePath . "'";
         
         $title = GlobalSetting::where('name','title')->first();
         $title = $title->value ?? null;
