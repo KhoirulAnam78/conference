@@ -31,6 +31,7 @@
                             <th scope="col">Institution</th>
                             <th scope="col">Address</th>
                             <th scope="col">Phone</th>
+                            @dump(auth()->user())
                             @if (auth()->user()->email = 'pengelola@gmail.com')
                                 <th scope="col">Action</th>
                             @endif
