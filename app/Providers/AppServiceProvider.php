@@ -34,12 +34,15 @@ class AppServiceProvider extends ServiceProvider
             return ($user->role == 'developer');
         });
 
-        Gate::define('presenter', function (User $user) {
-            return ($user->participant->participantType->type == 'Presenter');
-        });
+        if(auth()->user()->role != 'developer' or auth()->user()->role != 'administrator' ){
+            Gate::define('presenter', function (User $user) {
+                return ($user->participant->participantType->type == 'Presenter');
+            });
+    
+            Gate::define('participant', function (User $user) {
+                return ($user->participant->participantType->type == 'Participant');
+            });
+        }
 
-        Gate::define('participant', function (User $user) {
-            return ($user->participant->participantType->type == 'Participant');
-        });
     }
 }
