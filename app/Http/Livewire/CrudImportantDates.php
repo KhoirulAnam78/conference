@@ -42,7 +42,8 @@ class CrudImportantDates extends Component
 
         ImportantDates::where('id',$this->proses_id)->update([
             'name' => $this->name,
-            'start_date' => $this->start_date
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date
         ]);
         
         $this->empty();
