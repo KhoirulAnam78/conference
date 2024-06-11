@@ -49,7 +49,7 @@
                 <option value="">Choose One</option>
                 @foreach ($participant as $item)
                     <option value="{{ $item->id }}">{{ $item->name }}
-                        {{ '(' . strtoupper($item->attendance) . ')' }}
+                        {{ '(' . strtoupper($item->attendance) . ')' }} {{ 'IDR.' . $item->price }}
                     </option>
                 @endforeach
             </select>
