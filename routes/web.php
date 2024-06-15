@@ -6,6 +6,7 @@ use App\Models\DashboardController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DevController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginAsController;
@@ -131,6 +132,11 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/roles',[DevController::class,'roles'])->name('dev.roles');
+    Route::get('/permissions',[DevController::class,'permissions'])->name('dev.permissions');
+    Route::get('/menus',[DevController::class,'menus'])->name('dev.menus');
+    Route::get('/users',[DevController::class,'users'])->name('dev.users');
 
      // LOGIN AS
     Route::post('login-as', [LoginAsController::class,'loginAs'])->name('loginAs');

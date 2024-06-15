@@ -2,9 +2,27 @@
     <div class="schedule-table-tab">
 
         <ul class="nav nav-tabs" role="tablist" style="width:100%">
+            @can('developer')
+                <li class="nav-item" style="width:100%">
+                    <a class="nav-link {{ $title == 'Permissions' ? 'active' : '' }}" href="{{ route('dev.permissions') }}"
+                        style="font-size:16px">Manage Permissions</a>
+                </li>
+                <li class="nav-item" style="width:100%">
+                    <a class="nav-link {{ $title == 'Menu' ? 'active' : '' }}" href="{{ route('dev.menus') }}"
+                        style="font-size:16px">Manage Menus</a>
+                </li>
+                <li class="nav-item" style="width:100%">
+                    <a class="nav-link {{ $title == 'Roles' ? 'active' : '' }}" href="{{ route('dev.roles') }}"
+                        style="font-size:16px">Manage Roles</a>
+                </li>
+                <li class="nav-item" style="width:100%">
+                    <a class="nav-link {{ $title == 'User' ? 'active' : '' }}" href="{{ route('dev.users') }}"
+                        style="font-size:16px">Manage User</a>
+                </li>
+            @endcan
             <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Global Setting' ? 'active' : '' }}" href="{{ route('dashboard-admin') }}"
-                    style="font-size:16px">Global Setting</a>
+                <a class="nav-link {{ $title == 'Global Setting' ? 'active' : '' }}"
+                    href="{{ route('dashboard-admin') }}" style="font-size:16px">Global Setting</a>
             </li>
             <li class="nav-item" style="width:100%">
                 <a class="nav-link {{ $title == 'Loa and Invoice' ? 'active' : '' }}"
