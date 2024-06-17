@@ -93,7 +93,7 @@
                             </div>
                             @foreach ($permissions as $item)
                                 <div class="col-6" wire:key='{{ $item->id }}'>
-                                    <input class="form-check-input" type="checkbox" value="{{ $item->id }}"
+                                    <input class="form-check-input" type="checkbox" value="{{ $item->name }}"
                                         id="permission{{ $item->id }}" wire:model='permission'>
                                     <label class="form-check-label" for="permission{{ $item->id }}">
                                         {{ $item->name }}
