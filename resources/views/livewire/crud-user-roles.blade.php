@@ -5,7 +5,8 @@
     </div>
     <div class="row">
         <div class="col-6 mb-3">
-            <input type="text" wire:model="search" class="form-control" placeholder="Search here..">
+            <input type="text" id="search" name="search" wire:model="search" class="form-control"
+                placeholder="Search here..">
         </div>
     </div>
     <div class="row">
