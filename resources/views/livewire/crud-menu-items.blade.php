@@ -1,7 +1,7 @@
 <div>
     <span class="btn btn-primary mb-3" data-toggle="modal" data-target="#modal-add">Tambah</span>
     <div class="row justify-content-center mb-3">
-        <h4>Menu Management</h4>
+        <h4>Menu Items Management ({{ $menu_group->name }})</h4>
     </div>
     <div class="row">
         <div class="col-6 mb-3">
@@ -16,9 +16,10 @@
                         <tr>
                             <th scope="col">NO</th>
                             <th scope="col">Name</th>
+                            <th>Route</th>
                             <th scope="col">Status</th>
                             <th scope="col">Permission</th>
-                            {{-- <th scope="col">Position</th> --}}
+                            <th scope="col">Position</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -28,13 +29,11 @@
                                 <td>{{ ($menus->currentpage() - 1) * $menus->perpage() + $loop->index + 1 }}
                                 </td>
                                 <td>{{ $m->name }}</td>
+                                <td>{{ $m->route }}</td>
                                 <td>{{ $m->status }}</td>
                                 <td>{{ $m->permission_name }}</td>
-                                {{-- <td>{{ $m->posision }}</td> --}}
+                                <td>{{ $m->posision }}</td>
                                 <td>
-                                    <a href="{{ route('dev.menu_items', ['id' => $m->id]) }}" class="btn btn-success">
-                                        Kelola Menu
-                                    </a>
                                     <span class="btn btn-danger" wire:click="hapus('{{ $m->id }}')"
                                         wire:target="hapus('{{ $m->id }}')" wire:loading.attr.class="disabled">
                                         <span wire:loading.remove
@@ -52,7 +51,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" align="center">No Data..</td>
+                                <td colspan="7" align="center">No Data..</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -72,7 +71,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal">Add Menu Group</h5>
+                    <h5 class="modal-title" id="modal">Add Menu Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="empty()">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -82,6 +81,22 @@
                         <label for="name">Name</label>
                         <input type="text" wire:model="name" class="form-control">
                         @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="route">Route</label>
+                        <select class="form-control" name="route" id="route"wire:model="route">
+                            <option value="">Choose</option>
+
+                            @dump($routes)
+                            @foreach ($routes as $route)
+                                @if (!blank($route->getName()))
+                                    <option value="{{ $route->getName() }}">{{ $route->getName() }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('route')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -106,6 +121,13 @@
                             <option value="0">Non Active</option>
                         </select>
                         @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="posision">Position</label>
+                        <input type="number" wire:model="posision" class="form-control">
+                        @error('posision')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -129,7 +151,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal">Edit Menu Group</h5>
+                    <h5 class="modal-title" id="modal">Edit Menu Item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         wire:click="empty()">
                         <span aria-hidden="true">&times;</span>
@@ -140,6 +162,22 @@
                         <label for="name">Name</label>
                         <input type="text" wire:model="name" class="form-control">
                         @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="route">Route</label>
+                        <select class="form-control" name="route" id="route"wire:model="route">
+                            <option value="">Choose</option>
+                            @dump($routes)
+                            @foreach ($routes as $route)
+                                @dump($route)
+                                @if (!blank($route->getName()))
+                                    <option value="{{ $route->getName() }}">{{ $route->getName() }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('route')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -164,6 +202,13 @@
                             <option value="0">Non Active</option>
                         </select>
                         @error('status')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="posision">Position</label>
+                        <input type="number" wire:model="posision" class="form-control">
+                        @error('posision')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>

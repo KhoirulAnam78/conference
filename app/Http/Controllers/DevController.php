@@ -20,9 +20,14 @@ class DevController extends Controller
         $title = "Menu";
         return view('dashboard-admin.menus', compact('title'));
     }
+    
+    public function menu_items($id){
+        $title = "Menu";
+        return view('dashboard-admin.menu_items', compact('title','id'));
+    }
 
     public function users(){
-        $title = "Users";
-        return view('dashboard-admin.menus', compact('title'));
+        $title = "User Roles";
+        return view('dashboard-admin.user_roles', compact('title'));
     }
 }

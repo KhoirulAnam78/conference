@@ -15,39 +15,46 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Permission</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
                             {{-- <th scope="col">Position</th> --}}
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($menus as $m)
+                        @forelse ($users as $m)
                             <tr>
-                                <td>{{ ($menus->currentpage() - 1) * $menus->perpage() + $loop->index + 1 }}
+                                <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}
                                 </td>
-                                <td>{{ $m->name }}</td>
-                                <td>{{ $m->status }}</td>
-                                <td>{{ $m->permission_name }}</td>
+                                <td>{{ $m->email }}</td>
+                                <td>
+                                    @foreach ($m->roles as $r)
+                                        {{ $r->name }}
+                                    @endforeach
+                                </td>
                                 {{-- <td>{{ $m->posision }}</td> --}}
                                 <td>
-                                    <a href="{{ route('dev.menu_items', ['id' => $m->id]) }}" class="btn btn-success">
-                                        Kelola Menu
-                                    </a>
-                                    <span class="btn btn-danger" wire:click="hapus('{{ $m->id }}')"
-                                        wire:target="hapus('{{ $m->id }}')" wire:loading.attr.class="disabled">
-                                        <span wire:loading.remove
-                                            wire:target="hapus('{{ $m->id }}')">Hapus</span>
-                                        <span wire:loading wire:target="hapus('{{ $m->id }}')">Hapus...</span>
-                                    </span>
-                                    <span class="btn btn-primary" wire:click="showEdit('{{ $m->id }}')"
+                                    <span class="btn btn-primary btn-sm mb-3"
+                                        wire:click="showEdit('{{ $m->id }}')"
                                         wire:target="showEdit('{{ $m->id }}')"
                                         wire:loading.attr.class="disabled">
                                         <span wire:loading.remove
                                             wire:target="showEdit('{{ $m->id }}')">Edit</span>
                                         <span wire:loading wire:target="showEdit('{{ $m->id }}')">Edit...</span>
                                     </span>
+                                    @can('login_as')
+                                        @can('developer')
+                                            <span class=>
+                                                <form action="{{ route('loginAs') }}" class="mb-2" method="POST">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                    <input type="hidden" name="user_login_as" value="{{ $m->email }}">
+                                                    <input type="hidden" name="user_request_login_as"
+                                                        value="{{ auth()->user()->email }}">
+                                                    <button class="btn btn-primary btn-sm" type="submit">LoginAs</button>
+                                                </form>
+                                            </span>
+                                        @endcan
+                                    @endcan
                                 </td>
                             </tr>
                         @empty
@@ -58,9 +65,9 @@
                     </tbody>
                 </table>
                 <div class="py-4 d-flex">
-                    <m class="flex-grow-1">Total data : {{ $menus->total() }}</m>
+                    <m class="flex-grow-1">Total data : {{ $users->total() }}</m>
                     <nav aria-label="..." class="pagination justify-content-end flex-shrink-0">
-                        {{ $menus->links() }}
+                        {{ $users->links() }}
                     </nav>
                 </div>
             </div>
@@ -79,33 +86,36 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" wire:model="name" class="form-control">
-                        @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            aria-describedby="emailHelp" placeholder="Enter email" name="email"
+                            wire:model.debounce.500ms='email'>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="permission_name">Permission</label>
-                        <select class="form-control" name="permission_name"
-                            id="permission_name"wire:model="permission_name">
+                        <label for="password">Password</label>
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password"
+                            wire:model.debounce.500ms='password' autocomplete="current-password">
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Roles</label>
+                        <select class="form-control" name="role" id="role"wire:model="role">
                             <option value="">Choose</option>
-                            @foreach ($permissions as $item)
+                            @foreach ($roles as $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
-                        @error('permission_name')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" name="status" id="status"wire:model="status">
-                            <option value="">Choose</option>
-                            <option value="1">Active</option>
-                            <option value="0">Non Active</option>
-                        </select>
-                        @error('status')
+                        @error('role')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
@@ -129,7 +139,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modal">Edit Menu Group</h5>
+                    <h5 class="modal-title" id="modal">Edit Role User {{ $email }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         wire:click="empty()">
                         <span aria-hidden="true">&times;</span>
@@ -137,33 +147,14 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" wire:model="name" class="form-control">
-                        @error('name')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="permission_name">Permission</label>
-                        <select class="form-control" name="permission_name"
-                            id="permission_name"wire:model="permission_name">
+                        <label for="role">Roles</label>
+                        <select class="form-control" name="role" id="role"wire:model="role">
                             <option value="">Choose</option>
-                            @foreach ($permissions as $item)
+                            @foreach ($roles as $item)
                                 <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
-                        @error('permission_name')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" name="status" id="status"wire:model="status">
-                            <option value="">Choose</option>
-                            <option value="1">Active</option>
-                            <option value="0">Non Active</option>
-                        </select>
-                        @error('status')
+                        @error('role')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>

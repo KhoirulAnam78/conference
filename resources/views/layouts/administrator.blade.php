@@ -1,3 +1,13 @@
+@php
+    use App\Models\MenuGroup;
+    use App\Models\MenuItem;
+
+    $menu_group = MenuGroup::where('permission_name', 'menu_dashboard_pengelola')->first();
+    $menu_items = MenuItem::where('menu_group_id', $menu_group->id)
+        ->orderBy('posision', 'asc')
+        ->get();
+@endphp
+
 @extends('layouts.main')
 
 @section('content')
@@ -5,13 +15,13 @@
 
     <section class="schedule-table-section spad" style="margin-top:200px">
         <div class="container-fluid">
-            {{-- @can('developer') --}}
-            <div class="row justify-content-end">
-                <div class="col-3 mb-3">
-                    <a href="{{ route('dashboard-admin') }}" class="btn btn-primary">Pengaturan Aplikasi</a>
+            @can('menu_setting_app')
+                <div class="row justify-content-end">
+                    <div class="col-3 mb-3">
+                        <a href="{{ route('global-settings') }}" class="btn btn-primary">Pengaturan Aplikasi</a>
+                    </div>
                 </div>
-            </div>
-            {{-- @endcan --}}
+            @endcan
             <div class="row">
                 <div class="col-lg-2">
                     <div class="schedule-table-tab">
@@ -21,44 +31,30 @@
                                 <a class="nav-link {{ $title == 'Dashboard' ? 'active' : '' }}" href="/dashboard"
                                     style="font-size:16px">Dashboard</a>
                             </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Registered Participant' ? 'active' : '' }}"
-                                    href="/registered-participant" style="font-size:16px">Registered
-                                    User</a>
-                            </li>
-                            {{-- <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Validation HKI Member' ? 'active' : '' }}"
-                                    href="/validation-hki-member" style="font-size:16px">Validation HKI member</a>
-                            </li> --}}
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Review Abstract' ? 'active' : '' }}"
-                                    href="/review-abstract" style="font-size:16px">Review Abstract</a>
-                            </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Payment Validation' ? 'active' : '' }}"
-                                    href="/payment-validation" style="font-size:16px">Payment Validation</a>
-                            </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Uploaded Paper' ? 'active' : '' }}" href="/uploaded-paper"
-                                    style="font-size:16px">Uploaded
-                                    Paper</a>
-                            </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Send Email' ? 'active' : '' }}" href="/send-email"
-                                    style="font-size:16px">Send Email</a>
-                            </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Presenter Have Paid' ? 'active' : '' }}"
-                                    href="/presenter-have-paid" style="font-size:16px">Presenter</a>
-                            </li>
-                            <li class="nav-item" style="width:100%">
-                                <a class="nav-link {{ $title == 'Participant Have Paid' ? 'active' : '' }}"
-                                    href="/participant-have-paid" style="font-size:16px">Participant</a>
-                            </li>
+
+                            @foreach ($menu_items as $item)
+                                @can($item->permission_name)
+                                    <li class="nav-item" style="width:100%">
+                                        <a class="nav-link {{ request()->routeIs($item->route) ? ' active' : '' }}"
+                                            href="{{ route($item->route) }}" style="font-size:16px">{{ $item->name }}</a>
+                                    </li>
+                                @endcan
+                            @endforeach
                             <li class="nav-item" style="width:100%">
                                 <a class="nav-link {{ $title == 'Change Password' ? 'active' : '' }}"
                                     href="/change-password" style="font-size:16px">Change Password</a>
                             </li>
+
+                            @if (session()->has('main_user'))
+                                <li class="nav-item">
+                                    <form action="{{ route('logoutAs') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="main_user" value="{{ session('main_user') }}">
+                                        <button type="submit" class="btn btn-primary">Logout As
+                                            {{ auth()->user()->email }}</button>
+                                    </form>
+                                </li>
+                            @endif
                             <li class="nav-item" style="width:100%;">
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf

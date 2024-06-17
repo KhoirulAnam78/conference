@@ -1,82 +1,36 @@
+@php
+    use App\Models\MenuGroup;
+    use App\Models\MenuItem;
+
+    $menu_group = MenuGroup::where('permission_name', 'menu_setting_app')->first();
+    $menu_items = MenuItem::where('menu_group_id', $menu_group->id)
+        ->orderBy('posision', 'asc')
+        ->get();
+@endphp
+
 <div class="col-lg-2">
     <div class="schedule-table-tab">
 
         <ul class="nav nav-tabs" role="tablist" style="width:100%">
-            @can('developer')
-                <li class="nav-item" style="width:100%">
-                    <a class="nav-link {{ $title == 'Permissions' ? 'active' : '' }}" href="{{ route('dev.permissions') }}"
-                        style="font-size:16px">Manage Permissions</a>
-                </li>
-                <li class="nav-item" style="width:100%">
-                    <a class="nav-link {{ $title == 'Menu' ? 'active' : '' }}" href="{{ route('dev.menus') }}"
-                        style="font-size:16px">Manage Menus</a>
-                </li>
-                <li class="nav-item" style="width:100%">
-                    <a class="nav-link {{ $title == 'Roles' ? 'active' : '' }}" href="{{ route('dev.roles') }}"
-                        style="font-size:16px">Manage Roles</a>
-                </li>
-                <li class="nav-item" style="width:100%">
-                    <a class="nav-link {{ $title == 'User' ? 'active' : '' }}" href="{{ route('dev.users') }}"
-                        style="font-size:16px">Manage User</a>
-                </li>
-            @endcan
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Global Setting' ? 'active' : '' }}"
-                    href="{{ route('dashboard-admin') }}" style="font-size:16px">Global Setting</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Loa and Invoice' ? 'active' : '' }}"
-                    href="{{ route('data-loa-invoice') }}" style="font-size:16px;">Loa and Invoice</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Front Image Slider' ? 'active' : '' }}"
-                    href="{{ route('front-image-slider') }}" style="font-size:16px">Front Image Slider</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Scope' ? 'active' : '' }}" href="{{ route('scope') }}"
-                    style="font-size:16px">SCOPE</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Participant Type' ? 'active' : '' }}"
-                    href="{{ route('participant-type') }}" style="font-size:16px">Participant Type</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Download File' ? 'active' : '' }}"
-                    href="{{ route('downloads-file') }}" style="font-size:16px">Download File</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Important Dates' ? 'active' : '' }}"
-                    href="{{ route('important-dates') }}" style="font-size:16px">Important Dates</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Rundown' ? 'active' : '' }}" href="{{ route('rundown') }}"
-                    style="font-size:16px">Rundown</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Speakers' ? 'active' : '' }}" href="{{ route('speaker') }}"
-                    style="font-size:16px">Speakers</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Partner' ? 'active' : '' }}" href="{{ route('partner') }}"
-                    style="font-size:16px">Partner</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Information Pages' ? 'active' : '' }}"
-                    href="{{ route('information-pages') }}" style="font-size:16px">Information Pages</a>
-            </li>
 
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Additional Events' ? 'active' : '' }}"
-                    href="{{ route('additional-events') }}" style="font-size:16px">Additional Events</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Previously Event' ? 'active' : '' }}"
-                    href="{{ route('previously-events') }}" style="font-size:16px">Previously Event</a>
-            </li>
-            <li class="nav-item" style="width:100%">
-                <a class="nav-link {{ $title == 'Destination' ? 'active' : '' }}" href="{{ route('destination') }}"
-                    style="font-size:16px">Destination</a>
-            </li>
+            @foreach ($menu_items as $item)
+                @can($item->permission_name)
+                    <li class="nav-item" style="width:100%">
+                        <a class="nav-link {{ request()->routeIs($item->route) ? ' active' : '' }}"
+                            href="{{ route($item->route) }}" style="font-size:16px">{{ $item->name }}</a>
+                    </li>
+                @endcan
+            @endforeach
+            @if (session()->has('main_user'))
+                <li class="nav-item">
+                    <form action="{{ route('logoutAs') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="main_user" value="{{ session('main_user') }}">
+                        <button type="submit" class="btn btn-primary">Logout As
+                            {{ auth()->user()->email }}</button>
+                    </form>
+                </li>
+            @endif
             <li class="nav-item" style="width:100%;">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

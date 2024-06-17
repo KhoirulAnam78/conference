@@ -136,6 +136,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/roles',[DevController::class,'roles'])->name('dev.roles');
     Route::get('/permissions',[DevController::class,'permissions'])->name('dev.permissions');
     Route::get('/menus',[DevController::class,'menus'])->name('dev.menus');
+    Route::get('/menu-items/{id}',[DevController::class,'menu_items'])->name('dev.menu_items');
     Route::get('/users',[DevController::class,'users'])->name('dev.users');
 
      // LOGIN AS
@@ -143,15 +144,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('logout-as',[LoginAsController::class, 'logoutAs'])->name('logoutAs');
 
     //ADMINISTRATOR
-    Route::get('/registered-participant', [ParticipantController::class, 'index']);
-    Route::get('/validation-hki-member', [ParticipantController::class, 'validateMember']);
-    Route::get('/review-abstract', [UploadAbstractController::class, 'review']);
-    Route::get('/payment-validation', [PaymentController::class, 'validation']);
-    Route::get('/participant-have-paid', [PaymentController::class, 'participantPaid']);
-    Route::get('/presenter-have-paid', [PaymentController::class, 'presenterPaid']);
-    Route::get('/uploaded-paper', [UploadFulltextController::class, 'uploadedPaper']);
-    Route::get('/send-email', [UploadFulltextController::class, 'sendEmail']);
-    Route::get('/dashboard-admin', [AdminController::class, 'globalSetting'])->name('dashboard-admin');
+    Route::get('/registered-participant', [ParticipantController::class, 'index'])->name('registered_users');
+    Route::get('/validation-hki-member', [ParticipantController::class, 'validateMember'])->name('validate-member');
+    Route::get('/review-abstract', [UploadAbstractController::class, 'review'])->name('review-abstract');
+    Route::get('/payment-validation', [PaymentController::class, 'validation'])->name('payment-validation');
+    Route::get('/participant-have-paid', [PaymentController::class, 'participantPaid'])->name('participant-paid');
+    Route::get('/presenter-have-paid', [PaymentController::class, 'presenterPaid'])->name('presenter-paid');
+    Route::get('/uploaded-paper', [UploadFulltextController::class, 'uploadedPaper'])->name('uploaded-paper');
+    Route::get('/send-email', [UploadFulltextController::class, 'sendEmail'])->name('send-email');
+    Route::get('/global-settings', [AdminController::class, 'globalSetting'])->name('global-settings');
     Route::get('scope-conference', [AdminController::class, 'scope'])->name('scope');
     Route::get('important-dates', [AdminController::class, 'importantDates'])->name('important-dates');
     Route::get('rundown', [AdminController::class, 'rundown'])->name('rundown');
@@ -178,11 +179,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     //PARTICIPANT
-    Route::get('/payment', [PaymentController::class, 'payment']);
-    Route::get('/abstrak', [ParticipantController::class, 'abstract']);
-    Route::get('/upload-fulltext', [UploadFulltextController::class, 'upload']);
+    Route::get('/payment', [PaymentController::class, 'payment'])->name('participant.payment');
+    Route::get('/abstrak', [ParticipantController::class, 'abstract'])->name('participant.abstract');
+    Route::get('/upload-fulltext', [UploadFulltextController::class, 'upload'])->name('participant.upload_paper');
     Route::get('/change-password', function () {
-        if (auth::user()->role == 'administrator') {
+        if (auth::user()->role == 'administrator' or auth::user()->role=='developer') {
             return view('administrator.change-password', [
                 'title' => 'Change Password'
             ]);
@@ -191,7 +192,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'title' => 'Change Password'
             ]);
         }
-    });
+    })->name('change-password');
 });
 
 Route::get('/test', function () {

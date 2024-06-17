@@ -70,7 +70,7 @@ class CrudPermissions extends Component
     public function render()
     {
         $permissions = Permission::where('name','like','%'.$this->search.'%')
-        ->orwhere('descriptions','like','%'.$this->search.'%')->paginate(10);
+        ->orwhere('descriptions','like','%'.$this->search.'%')->paginate(20);
         return view('livewire.crud-permissions',compact('permissions'));
     }
 }

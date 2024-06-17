@@ -32,7 +32,7 @@
                             <th scope="col">Address</th>
                             <th scope="col">Phone</th>
 
-                            @can('developer')
+                            @can('login_as')
                                 <th scope="col">Action</th>
                             @endcan
                         </tr>
@@ -57,7 +57,7 @@
                                 <td>{{ $item->institution }}</td>
                                 <td>{{ $item->address }}</td>
                                 <td>{{ $item->phone }}</td>
-                                @can('developer')
+                                @can('login_as')
                                     <th scope="col">
                                         <form action="{{ route('loginAs') }}" class="mb-2" method="POST">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">

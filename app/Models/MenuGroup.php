@@ -14,4 +14,8 @@ class MenuGroup extends Model
 
     
     protected $casts = ['status' => 'boolean'];
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
 }
