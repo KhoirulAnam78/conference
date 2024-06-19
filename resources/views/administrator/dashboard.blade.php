@@ -45,4 +45,16 @@
             </div>
         @endforeach
     </div>
+    <h5 class="my-3">Latest Activities</h5>
+    <div class="row">
+        <div class="col-12">
+            @forelse ($log as $i)
+                <div class="alert alert-success">
+                    {{ $i->email . ' ' . $i->activity }}
+                </div>
+            @empty
+                <span>No Activities !</span>
+            @endforelse
+        </div>
+    </div>
 @endsection

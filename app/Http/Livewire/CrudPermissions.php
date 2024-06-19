@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
 
@@ -23,6 +24,8 @@ class CrudPermissions extends Component
             'guard_name' => $this->guard_name,
             'descriptions' => $this->descriptions
         ]);
+
+        LogActivity::addLog('Create Permission '.$this->name);
 
         $this->empty();
         
@@ -48,6 +51,13 @@ class CrudPermissions extends Component
             'guard_name' => $this->guard_name,
             'descriptions' => $this->descriptions
         ]);
+
+        
+        LogActivity::addLog('Edit Permission '.$this->name,json_encode([
+            'name' => $this->name,
+            'guard_name' => $this->guard_name,
+            'descriptions' => $this->descriptions
+        ]));
         
         $this->empty();
 
@@ -56,7 +66,9 @@ class CrudPermissions extends Component
     }
 
     public function hapus($id){
-        Permission::where('id',$id)->delete();
+        $permission = Permission::find($id);
+        LogActivity::addLog('Delete Permission '.$permission->name);
+        $permission->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

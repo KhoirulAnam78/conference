@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 
@@ -38,6 +39,7 @@ class LoginForm extends Component
     {
         $validatedData = $this->validate();
         if (Auth::attempt($validatedData)) {
+            LogActivity::addLog("Login to app");
             request()->session()->regenerate();
             return redirect()->intended(RouteServiceProvider::HOME);
         } else {

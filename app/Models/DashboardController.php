@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\LogActivity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,9 +31,11 @@ class DashboardController extends Model
             )
             ->groupBy('b.name')
             ->get();
+
+            $log=LogActivity::getLog();
     
             $title = "Dashboard";
-            return view('administrator.dashboard', compact('title', 'regon', 'regof','rekap'));
+            return view('administrator.dashboard', compact('title', 'regon', 'regof','rekap','log'));
         } else {
             return view('participant.dashboard', [
                 'title' => 'Dashboard'
