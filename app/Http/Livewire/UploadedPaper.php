@@ -4,9 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Mail\SendMail;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\Participant;
-use App\Models\UploadFulltext;
 use Livewire\WithPagination;
+use App\Models\UploadFulltext;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -42,6 +43,8 @@ class UploadedPaper extends Component
         ]);
         Mail::to($email)->send(new SendMail('Validation Fulltext', 'Your fulltext status has been validated', []));
         $this->empty();
+        
+        LogActivity::addLog("Validation 'valid' for uploaded paper : ".$this->title);
         session()->flash('message', 'Validation succesfully !');
         $this->dispatchBrowserEvent('close-modal');
     }
@@ -55,6 +58,8 @@ class UploadedPaper extends Component
         ]);
         Mail::to($email)->send(new SendMail('Validation Fulltext', 'Your fulltext status has been validated, your uploaded fulltext is invalid', []));
         $this->empty();
+        
+        LogActivity::addLog("Validation 'invalid' for uploaded paper : ".$this->title);
         session()->flash('message', 'Validation succesfully !');
         $this->dispatchBrowserEvent('close-modal');
     }

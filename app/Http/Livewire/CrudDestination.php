@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Destination;
 use Livewire\Component;
+use App\Utils\LogActivity;
+use App\Models\Destination;
 use Livewire\WithFileUploads;
 
 class CrudDestination extends Component
@@ -25,6 +26,9 @@ class CrudDestination extends Component
             'image' => $path,
             'info_destination' => $this->desc,
         ]);
+
+        LogActivity::addLog("Add new destination : ".$this->name);
+        
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
         $this->name = null;
         $this->image = null;
@@ -43,7 +47,10 @@ class CrudDestination extends Component
 
     public function hapus($id)
     {
-        Destination::where('id', $id)->delete();
+        $destination = Destination::find($id);
+        
+        LogActivity::addLog("Delete destination : ".$destination->name);
+        $destination->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
@@ -73,6 +80,9 @@ class CrudDestination extends Component
         }
 
         Destination::where('id', $this->proses_id)->update($updateData);
+        
+        LogActivity::addLog("Update destination : ".$this->name,json_encode($updateData));
+        
 
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
         $this->name = null;

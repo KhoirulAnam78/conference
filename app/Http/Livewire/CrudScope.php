@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\TopicScope;
+use App\Utils\LogActivity;
 
 class CrudScope extends Component
 {
@@ -19,6 +20,9 @@ class CrudScope extends Component
             'scope_name' => $this->scope_name,
             'is_delete' => 0
         ]);
+
+        
+        LogActivity::addLog("Add new scope : ".$this->scope_name);
 
         $this->scope_name = null;
         
@@ -42,13 +46,18 @@ class CrudScope extends Component
         ]);
 
         $this->scope_name=null;
+        
+        LogActivity::addLog("Update scope : ".$this->scope_name);
 
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
         $this->dispatchBrowserEvent('close-edit');
     }
 
     public function hapus($id){
-        TopicScope::where('id',$id)->update([
+        $topic = TopicScope::find($id);
+        
+        LogActivity::addLog("Delete scope : ".$topic->scope_name);
+        $topic->update([
             'is_delete' => 1
         ]);
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);

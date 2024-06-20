@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Payment;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
@@ -128,6 +129,9 @@ class PaymentPage extends Component
             'participant_id' => Auth::user()->participant->id,
             'upload_abstract_id' => $this->uploadAbstractId
         ]);
+
+        
+        LogActivity::addLog("Add new payment ");
 
         session()->flash('message', 'Add payment was successful !');
         $this->cancel();

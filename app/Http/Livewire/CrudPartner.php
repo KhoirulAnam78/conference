@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Partner;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Livewire\WithFileUploads;
 
 class CrudPartner extends Component
@@ -27,6 +28,9 @@ class CrudPartner extends Component
             'url' => $this->url,
             'info_partner' => $this->desc,
         ]);
+
+        
+        LogActivity::addLog('Create partner : '.$this->name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
         $this->name = null;
         $this->image = null;
@@ -47,7 +51,9 @@ class CrudPartner extends Component
 
     public function hapus($id)
     {
-        Partner::where('id', $id)->delete();
+        $partner = Partner::find($id);
+        LogActivity::addLog('Delete partner : '.$this->name);
+        $partner->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
@@ -77,6 +83,8 @@ class CrudPartner extends Component
         }
 
         Partner::where('id', $this->proses_id)->update($updateData);
+        
+        LogActivity::addLog('Update partner : '.$this->name, json_encode($updateData));
 
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
         $this->name = null;

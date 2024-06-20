@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\ParticipantType;
 use Livewire\Component;
+use App\Utils\LogActivity;
+use App\Models\ParticipantType;
 
 class CrudParticipantType extends Component
 {
@@ -30,6 +31,8 @@ class CrudParticipantType extends Component
             'is_deleted' => 0,
             'type' => $this->type
         ]);
+
+        LogActivity::addLog('Create participant type : '.$this->name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
 
@@ -64,6 +67,16 @@ class CrudParticipantType extends Component
             'end_date' => $this->end_date,
             'type' => $this->type
         ]);
+
+        
+        LogActivity::addLog('Create participant type : '.$this->name, json_encode([
+            'name' => $this->name,
+            'permission_name' => $this->permission_name,
+            'status' => $this->status,
+            'posision' => $this->posision,
+            'route' => $this->route,
+            'menu_group_id' => $this->menu_group->id
+        ]));
 
 
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);

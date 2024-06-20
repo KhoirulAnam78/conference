@@ -4,10 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Payment;
 use Livewire\Component;
+use App\Utils\LogActivity;
+use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
 use App\Models\UploadFulltext;
 use Illuminate\Support\Facades\Auth;
-use Livewire\WithFileUploads;
 
 class FulltextForm extends Component
 {
@@ -119,6 +120,7 @@ class FulltextForm extends Component
             'validated_by' => null
         ]);
 
+        LogActivity::addLog("Upload Full Article : ".$this->title);
         session()->flash('message', 'Upload fulltext was successful !');
         $this->cancel();
         $this->empty();

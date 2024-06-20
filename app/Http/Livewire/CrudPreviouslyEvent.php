@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\PreviouslyEvent;
 use Livewire\Component;
+use App\Utils\LogActivity;
+use App\Models\PreviouslyEvent;
 
 class CrudPreviouslyEvent extends Component
 {
@@ -21,6 +22,9 @@ class CrudPreviouslyEvent extends Component
             'name' => $this->name,
             'url' => $this->url,
         ]);
+
+        
+        LogActivity::addLog('Create previously event : '.$this->name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
         $this->name = null;
         $this->url = null;
@@ -28,7 +32,10 @@ class CrudPreviouslyEvent extends Component
 
     public function hapus($id)
     {
-        PreviouslyEvent::where('id', $id)->delete();
+        $prev = PreviouslyEvent::find($id);
+        
+        LogActivity::addLog('Delete previously event : '.$prev->name);
+        $prev->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
@@ -52,6 +59,12 @@ class CrudPreviouslyEvent extends Component
             'name' => $this->name,
             'url' => $this->url,
         ]);
+
+        
+        LogActivity::addLog('Update previously event : '.$this->name, json_encode([
+            'name' => $this->name,
+            'url' => $this->url,
+        ]));
 
 
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);

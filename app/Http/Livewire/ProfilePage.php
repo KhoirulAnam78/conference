@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\Participant;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
@@ -100,7 +101,6 @@ class ProfilePage extends Component
     public function update()
     {
         if ($this->email !== Auth::user()->email) {
-            dd('Masuk');
             User::where('id', Auth::user()->id)->update([
                 'email' => $this->email,
                 'email_verified_at' => null
@@ -114,9 +114,19 @@ class ProfilePage extends Component
             'participant_type' => $this->participant_type,
             'institution' => $this->institution,
             'address' => $this->address,
-            'phone' => $this->phone,
-            'attendance' => $this->attendance,
+            'phone' => $this->phone
         ]);
+
+        
+        LogActivity::addLog("Update Profile",json_encode([
+            'full_name1' => $this->full_name1,
+            'full_name2' => $this->full_name2,
+            'gender' => $this->gender,
+            'participant_type' => $this->participant_type,
+            'institution' => $this->institution,
+            'address' => $this->address,
+            'phone' => $this->phone
+        ]));
 
         $this->empty();
         return redirect('/profile')->with('message', 'Update profile succes!');

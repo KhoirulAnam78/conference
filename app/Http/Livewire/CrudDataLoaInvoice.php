@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use GuzzleHttp\Client;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -21,11 +22,20 @@ class CrudDataLoaInvoice extends Component
             $data->update([
                 'value' => $value
             ]);
+            
+            LogActivity::addLog('Update global setting '.$name,json_encode([
+                'value' => $value
+            ]));
         }else{
             GlobalSetting::create([
                 'name' => $name,
                 'value' => $value
             ]);
+            
+            LogActivity::addLog('Add new global setting "'.$name,json_encode([
+                'name' => $name,
+                'value' => $value
+            ]));
         }
     }
 
@@ -144,11 +154,18 @@ class CrudDataLoaInvoice extends Component
                 GlobalSetting::where('name',$name)->update([
                     'value' => $path_file
                 ]);
+                LogActivity::addLog('Update global setting '.$name,json_encode([
+                    'value' => $path_file
+                ]));
             }else{
                 GlobalSetting::create([
                     'name' => $name,
                     'value' => $path_file
                 ]);
+                LogActivity::addLog('Add global setting '.$name,json_encode([
+                    'name' => $name,
+                    'value' => $path_file
+                ]));
             }
         }
     }

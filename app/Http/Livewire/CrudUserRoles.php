@@ -25,6 +25,8 @@ class CrudUserRoles extends Component
             'password' => bcrypt($this->password),
             'role' => 'administrator'
         ]);
+        
+        LogActivity::addLog("Set ".$this->email." as ".$this->role);
 
         $user->assignRole($this->role);
 
@@ -51,6 +53,7 @@ class CrudUserRoles extends Component
         $user = User::find($this->proses_id);
         $user->syncRoles($this->role);
     
+        LogActivity::addLog("Change ".$this->email." as ".$this->role);
         $this->empty();
 
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil mengubah data !']);
@@ -58,7 +61,10 @@ class CrudUserRoles extends Component
     }
 
     public function hapus($id){
-        User::where('id',$id)->delete();
+        $user = User::find($id);
+        
+        LogActivity::addLog("Delete user ".$user->email);
+        $user->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

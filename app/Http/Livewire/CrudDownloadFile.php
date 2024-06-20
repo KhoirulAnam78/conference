@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\DownloadFilePath;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Livewire\WithFileUploads;
+use App\Models\DownloadFilePath;
 
 class CrudDownloadFile extends Component
 {
@@ -26,12 +27,17 @@ class CrudDownloadFile extends Component
             'name' => $this->file_name,
             'path_file' => $path,
         ]);
+        
+        LogActivity::addLog("Add new download file : ".$this->file_name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
 
     public function hapus($id)
     {
-        DownloadFilePath::where('id', $id)->delete();
+        $download = DownloadFilePath::find($id);
+        
+        LogActivity::addLog("Delete download file : ".$download->name);
+        $download->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
@@ -64,6 +70,11 @@ class CrudDownloadFile extends Component
             'path_file' => $path,
         ]);
 
+        
+        LogActivity::addLog("Update download file : ".$this->file_name,json_encode([
+            'name' => $this->file_name,
+            'path_file' => $path,
+        ]));
 
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
         $this->file_name = null;

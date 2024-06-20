@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\TopicScope;
+use App\Utils\LogActivity;
 use App\Models\UploadAbstract;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,6 +101,17 @@ class AbstractForm extends Component
             'keywords' => $this->keywords,
             'presenter' => $this->presenter,
         ]);
+        
+        LogActivity::addLog('Edit abstract "'.$this->title.'"',json_encode([
+            'topic' => $this->topic,
+            'type' => $this->type,
+            'title' => $this->title,
+            'authors' => $this->authors,
+            'institutions' => $this->institutions,
+            'abstract' => $this->abstract,
+            'keywords' => $this->keywords,
+            'presenter' => $this->presenter,
+        ]));
 
         session()->flash('message', 'Edit abstract was successful !');
         $this->empty();
@@ -132,6 +144,8 @@ class AbstractForm extends Component
         ]);
 
         session()->flash('message', 'Add abstract was successful !');
+        
+        LogActivity::addLog('Upload new abstract "'.$this->title.'"');
         $this->cancel();
         $this->empty();
     }

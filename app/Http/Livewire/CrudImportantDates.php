@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\ImportantDates;
 
 class CrudImportantDates extends Component
@@ -20,6 +21,8 @@ class CrudImportantDates extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date
         ]);
+        
+        LogActivity::addLog('Add new Important Dates '.$this->name);
 
         $this->empty();
         
@@ -45,6 +48,13 @@ class CrudImportantDates extends Component
             'start_date' => $this->start_date,
             'end_date' => $this->end_date
         ]);
+
+        
+        LogActivity::addLog('Update Important Dates '.$this->name,json_encode([
+            'name' => $this->name,
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date
+        ]));
         
         $this->empty();
 
@@ -53,7 +63,9 @@ class CrudImportantDates extends Component
     }
 
     public function hapus($id){
-        ImportantDates::where('id',$id)->delete();
+        $important = ImportantDates::find($id);
+        LogActivity::addLog('Delete Important Dates :'.$important->name);
+        $important->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

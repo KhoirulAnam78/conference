@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -22,11 +23,18 @@ class CrudGlobalSetting extends Component
             $data->update([
                 'value' => $value
             ]);
+            LogActivity::addLog('Update global setting '.$name,json_encode([
+                'value' => $value
+            ]));
         }else{
             GlobalSetting::create([
                 'name' => $name,
                 'value' => $value
             ]);
+            LogActivity::addLog('Add new global setting '.$name,json_encode([
+                'name' => $name,
+                'value' => $value
+            ]));
         }
     }
     

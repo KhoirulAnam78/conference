@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\DetailRundown;
 use App\Models\Rundown;
 use Livewire\Component;
+use App\Utils\LogActivity;
+use App\Models\DetailRundown;
 
 class CrudRundown extends Component
 {
@@ -32,6 +33,9 @@ class CrudRundown extends Component
             'end_time' => $this->end_time,
             'place' => $this->place,
         ]);
+        
+        
+        LogActivity::addLog("Add new detail rundown : ".$this->event);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
 
@@ -70,6 +74,10 @@ class CrudRundown extends Component
             'end_time' => $this->end_time,
             'place' => $this->place,
         ]);
+        
+        
+        LogActivity::addLog("Update detail rundown : ".$this->event);
+        
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
     }
 
@@ -93,19 +101,28 @@ class CrudRundown extends Component
             'name' => $this->name,
             'date' => $this->date,
         ]);
+        
+        
+        LogActivity::addLog("Update rundown : ".$this->name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil mengubah data !']);
     }
 
     public function hapus_acara($id)
     {
         DetailRundown::where('id_rundown', $id)->delete();
-        Rundown::where('id', $id)->delete();
+        $rundown = Rundown::find($id);
+        
+        LogActivity::addLog("Delete rundown : ".$rundown->name);
+        $rundown->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
     public function hapus_detail($id)
     {
-        DetailRundown::where('id', $id)->delete();
+        $detail = DetailRundown::find($id);
+        
+        LogActivity::addLog("Delete detail rundown : ".$detail->event);
+        $detail->delete();
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menghapus data !']);
     }
 
@@ -121,6 +138,9 @@ class CrudRundown extends Component
             'name' => $this->name,
             'date' => $this->date,
         ]);
+
+        
+        LogActivity::addLog("Add new rundown : ".$this->name);
         $this->dispatchBrowserEvent('alert', ['title' => 'Success', 'message' => 'Berhasil menambahkan data !']);
     }
     public function render()

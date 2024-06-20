@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\MenuGroup;
+use App\Utils\LogActivity;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
 
@@ -25,6 +26,9 @@ class CrudMenus extends Component
             'permission_name' => $this->permission_name,
             'status' => $this->status
         ]);
+
+        
+        LogActivity::addLog('Create Menu : '.$this->name);
 
         $this->empty();
         
@@ -52,6 +56,15 @@ class CrudMenus extends Component
             'permission_name' => $this->permission_name,
             'status' => $this->status
         ]);
+
+        LogActivity::addLog('Update Menu : '.$this->name, json_encode([
+            'name' => $this->name,
+            'permission_name' => $this->permission_name,
+            'status' => $this->status,
+            'posision' => $this->posision,
+            'route' => $this->route,
+            'menu_group_id' => $this->menu_group->id
+        ]));
         
         $this->empty();
 
@@ -60,7 +73,9 @@ class CrudMenus extends Component
     }
 
     public function hapus($id){
-        MenuGroup::where('id',$id)->delete();
+        $menu = MenuGroup::find($id);
+        LogActivity::addLog('Delete menu items : '.$menu->name);
+        $menu->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

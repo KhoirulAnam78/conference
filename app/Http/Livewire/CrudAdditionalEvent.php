@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Illuminate\Support\Str;
 use App\Models\SatelliteEvents;
 
@@ -85,13 +86,18 @@ class CrudAdditionalEvent extends Component
                     'slug' => Str::slug($this->name),
                     'contents' => $this->content
                 ]);
+                LogActivity::addLog('Edit additional event "'.$this->name.'"');
             }else{
                 SatelliteEvents::create([
                     'name' => $this->name,
                     'slug' => Str::slug($this->name),
                     'contents' => $this->content
                 ]);
+                LogActivity::addLog('Add new additional event "'.$this->name.'"');
             }
+            
+        
+           
             
             $this->navigation(false);
             $this->dispatchBrowserEvent('summernote-value',['value' => '']);
@@ -109,7 +115,10 @@ class CrudAdditionalEvent extends Component
     }
 
     public function hapus($id){
-        SatelliteEvents::where('id',$id)->delete();
+        $satellite_event = SatelliteEvents::find($id);
+        
+        LogActivity::addLog('Delete additional event "'.$satellite_event->name.'"');
+        $satellite_event->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

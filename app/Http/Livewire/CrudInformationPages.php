@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Illuminate\Support\Str;
 use App\Models\InformationPages;
 use Illuminate\Support\Facades\Storage;
@@ -86,12 +87,14 @@ class CrudInformationPages extends Component
                     'slug' => Str::slug($this->name),
                     'contents' => $this->content
                 ]);
+                LogActivity::addLog('Update Information pages : '.$this->name);
             }else{
                 InformationPages::create([
                     'name' => $this->name,
                     'slug' => Str::slug($this->name),
                     'contents' => $this->content
                 ]);
+                LogActivity::addLog('Create Information pages : '.$this->name);
             }
             
             $this->navigation(false);
@@ -110,7 +113,9 @@ class CrudInformationPages extends Component
     }
 
     public function hapus($id){
-        InformationPages::where('id',$id)->delete();
+        $information = InformationPages::find($id);
+        LogActivity::addLog('Delete Information pages : '.$information->name);
+        $information->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

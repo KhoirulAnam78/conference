@@ -27,11 +27,20 @@ class CrudImageSlider extends Component
                 $imageSlider->update([
                     'value' => $path
                 ]);
+                
+                LogActivity::addLog('Update global setting '.$name,json_encode([
+                    'value' => $path
+                ]));
             }else{
                 GlobalSetting::create([
                     'name' => $name,
                     'value' => $path
                 ]);
+                
+                LogActivity::addLog('Add new global setting '.$name,json_encode([
+                    'name' => $name,
+                    'value' => $path
+                ]));
             }
         }
     }

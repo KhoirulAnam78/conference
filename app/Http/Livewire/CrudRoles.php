@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -30,6 +31,8 @@ class CrudRoles extends Component
         ]);
 
         $role->givePermissionTo($this->permission);
+
+        LogActivity::addLog('Add new role : '.$this->name);
 
         $this->empty();
         
@@ -67,6 +70,9 @@ class CrudRoles extends Component
         $role->update([
             'name' => $this->name
         ]);
+
+        
+        LogActivity::addLog('Update role : '.$this->name);
         
         $role->syncPermissions($this->permission);
         
@@ -77,7 +83,10 @@ class CrudRoles extends Component
     }
 
     public function hapus($id){
-        Role::where('id',$id)->delete();
+        $role = Role::find($id);
+        
+        LogActivity::addLog('Delete role : '.$role->name);
+        $role->delete();
         $this->dispatchBrowserEvent('alert',['title'=>'Success','message' => 'Berhasil menghapus data !']);
     }
 

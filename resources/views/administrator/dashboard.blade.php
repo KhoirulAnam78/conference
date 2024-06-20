@@ -49,8 +49,8 @@
     <div class="row">
         <div class="col-12">
             @forelse ($log as $i)
-                <div class="alert alert-success">
-                    {{ $i->email . ' ' . $i->activity }}
+                <div class="alert alert-secondary">
+                    {{ '(' . $i->created_at . ') ' . $i->email . ' ' . $i->activity }}
                 </div>
             @empty
                 <span>No Activities !</span>

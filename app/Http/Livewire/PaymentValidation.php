@@ -6,6 +6,7 @@ use PDF;
 use App\Mail\SendMail;
 use App\Models\Payment;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\Participant;
 use Livewire\WithPagination;
 use App\Models\GlobalSetting;
@@ -141,6 +142,7 @@ class PaymentValidation extends Component
             Warm regards, <br><br><br><br>
             Steering Committee ".$this->abbreviation." </p>"));
         }
+        LogActivity::addLog("Validate payment 'valid' for ".$this->full_name1." (".$this->email.")");
 
         return redirect('/payment-validation')->with('message', 'Validation succesfully !');
     }
@@ -161,7 +163,8 @@ class PaymentValidation extends Component
             'validated_by' => Auth::user()->email
         ]);
         Mail::to($email)->send(new SendMail('Payment Validation', 'Yout payment for ' . $this->for_payment_of . ' is invalid!', []));
-
+        
+        LogActivity::addLog("Validate payment 'valid' for (".$email.")");
         return redirect('/payment-validation')->with('message', 'Validation succesfully !');
     }
 

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Mail\SendMail;
 use Livewire\Component;
 use App\Models\TopicScope;
+use App\Utils\LogActivity;
 use Livewire\WithPagination;
 use App\Models\GlobalSetting;
 use Livewire\WithFileUploads;
@@ -193,6 +194,8 @@ class ReviewAbstract extends Component
         Warm regards, <br><br><br><br>
         Steering Committee ".$abbreviation."</p>"));
 
+        LogActivity::addLog("Accept Abstract : ".$this->abstractTitle);
+
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
 
@@ -216,6 +219,10 @@ class ReviewAbstract extends Component
         Mail::to($email)->send(new SendMail('Abstract Rejected', "Dear Author,
         Sorry, your article ''" . $abstract . "'' has been rejected to be presented at ".$title." Conference. <br> <br>".$this->rejectMessage));
         session()->flash('message', 'Review succesfully !');
+
+        
+        LogActivity::addLog("Reject Abstract : ".$abstract);
+        
         return redirect('/review-abstract')->with('message', 'Review succefully !');
     }
 
@@ -228,7 +235,6 @@ class ReviewAbstract extends Component
 
     public function render()
     {
-
         return view('livewire.review-abstract', [
             'abstracts' => UploadAbstract::where('status', 'like', '%' . $this->status)->whereHas('participant', function ($query) {
                 $query->where('full_name1', 'like', '%' . $this->search2 . '%');

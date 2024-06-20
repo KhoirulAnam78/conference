@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\Participant;
 use Livewire\WithFileUploads;
 use App\Models\ParticipantType;
@@ -86,9 +87,11 @@ class RegisterForm extends Component
         event(new Registered($user));
 
         Auth::login($user);
+        LogActivity::addLog('New user registered');
 
         return redirect(RouteServiceProvider::HOME);
     }
+    
     public function render()
     {
         $participant = ParticipantType::where('is_deleted',0)->where('start_date','<=',date('Y-m-d'))->where('end_date','>=',date('Y-m-d'))->get();

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -31,9 +32,11 @@ class ChangePassword extends Component
     {
         $this->validate();
         User::where('id', Auth::user()->id)->update([
-            'password' => Hash::make($this->password),
+            'password' => bcrypt($this->password),
         ]);
-
+        
+        LogActivity::addLog('Change password');
+        
         session()->flash('message', 'Password updated');
         $this->password = null;
         $this->password_confirmation = null;

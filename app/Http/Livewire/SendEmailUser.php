@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Mail\FreeMail;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use App\Models\Participant;
 use Livewire\WithFileUploads;
 use App\Models\UploadAbstract;
@@ -84,8 +85,10 @@ class SendEmailUser extends Component
 
         foreach ($this->receiver as $r) {
             Mail::to($r)->send(new FreeMail($this->subject,$this->email,$attach));
+            
+            LogActivity::addLog("Send Email to : ".$r);
         }
-
+        
         session()->flash('message', 'Email sent!');
         $this->dispatchBrowserEvent('to-top');
         $this->file = null;
