@@ -86,8 +86,12 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td><button class="btn btn-primary"
-                                            wire:click="showDetail('{{ $item->id }}')">Validate</button></td>
+                                    <td>
+                                        @can('do_payment_validation')
+                                            <button class="btn btn-primary"
+                                                wire:click="showDetail('{{ $item->id }}')">Validate</button>
+                                        @endcan
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

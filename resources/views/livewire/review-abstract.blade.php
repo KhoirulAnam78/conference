@@ -96,8 +96,12 @@
                                             </a>
                                         @endif
                                     </td>
-                                    <td><button class="btn btn-primary"
-                                            wire:click="showReview('{{ $item->id }}')">Review</button></td>
+                                    <td>
+                                        @can('do_review_abstract')
+                                            <button class="btn btn-primary"
+                                                wire:click="showReview('{{ $item->id }}')">Review</button>
+                                        </td>
+                                    @endcan
                                 </tr>
                             @endforeach
                         </tbody>

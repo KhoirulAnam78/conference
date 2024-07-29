@@ -47,9 +47,14 @@
                                 <td class="text-nowrap">{{ $item->payment->participant->full_name1 }}</td>
                                 <td>{{ $item->validation }}</td>
                                 <td>{{ $item->validated_by }}</td>
-                                <td><button class="btn btn-primary" wire:click="showValidate('{{ $item->id }}')"
-                                        wire:target="showValidate('{{ $item->id }}')"
-                                        wire:loading.attr="disabled">Validate</button></td>
+                                <td>
+                                    @can('do_validate_paper')
+                                        <button class="btn btn-primary" wire:click="showValidate('{{ $item->id }}')"
+                                            wire:target="showValidate('{{ $item->id }}')"
+                                            wire:loading.attr="disabled">Validate</button>
+                                    @endcan
+
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
