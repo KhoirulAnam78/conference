@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Utils\LogActivity;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 
