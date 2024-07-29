@@ -48,16 +48,16 @@
                                 <td class="text-nowrap">{{ $item->payment->participant->full_name1 }}</td>
                                 <td>{{ $item->validation }}</td>
                                 <td>{{ $item->validated_by }}</td>
-                                <td><a href="{{ asset('storage/' . {{ $item->fulltext }}) }}" style="color:black" target="_blank"
-                                    class="d-block"><i class="fa fa-file-pdf-o" style="color:red; font-size:30px"
-                                        aria-hidden="true"></i>
-                                    {{ $item->fulltext }}
-                                </a></td>
+                                <td><a href="{{ asset('storage/' . $item->fulltext) }}" style="color:black"
+                                        target="_blank" class="d-block"><i class="fa fa-file-pdf-o"
+                                            style="color:red; font-size:30px" aria-hidden="true"></i>
+                                        {{ $item->fulltext }}
+                                    </a></td>
                                 <td>
                                     @can('do_validate_paper')
                                         <button class="btn btn-primary" wire:click="showValidate('{{ $item->id }}')"
-                                        wire:target="showValidate('{{ $item->id }}')"
-                                        wire:loading.attr="disabled">Validate</button>
+                                            wire:target="showValidate('{{ $item->id }}')"
+                                            wire:loading.attr="disabled">Validate</button>
                                     @endcan
 
                                 </td>
