@@ -26,6 +26,10 @@ class RegisteredParticipant extends Component
         return view('livewire.registered-participant',compact('participants','types'));
     }
 
+    public function updatedSearch(){
+        $this->resetPage();
+    }
+
     public function export()
     {
         set_time_limit(0);
