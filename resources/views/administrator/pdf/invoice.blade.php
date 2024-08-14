@@ -1,6 +1,7 @@
 @php
     use App\Models\GlobalSetting;
     use App\Models\ImportantDates;
+    use Carbon\Carbon;
 
     $data = GlobalSetting::where('name', 'kop')->first();
     $kop = '';
@@ -75,7 +76,7 @@
     $bank_name = $bank_name->value ?? null;
 
     $paymentDeadline = ImportantDates::where('name', 'like', '%payment%')->first();
-    $date = null;
+    $date = $paymentDeadline->start_date ?? null;
     if ($paymentDeadline) {
         $date = $paymentDeadline->end_date ?? $paymentDeadline->start_date;
     }
