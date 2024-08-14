@@ -175,7 +175,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     });
     Route::get('invoice', function () {
-        return view('administrator.pdf.invoice');
+        return view('administrator.pdf.invoice',[
+            'full_name' => 'Khoirul Anam',
+            'fee' => '600000',
+            'participant_type' => 'Speaker',
+            'email' => 'khoir@unja.ac.id'
+        ]);
     });
 
     //PARTICIPANT
