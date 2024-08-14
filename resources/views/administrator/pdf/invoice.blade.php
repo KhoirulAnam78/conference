@@ -75,16 +75,17 @@
     $bank_name = GlobalSetting::where('name', 'bank_name')->first();
     $bank_name = $bank_name->value ?? null;
 
-    // $paymentDeadline = ImportantDates::where('name', 'like', '%payment%')->first();
-    // $date = $paymentDeadline->start_date ?? null;
-    // if ($paymentDeadline) {
-    //     $date = $paymentDeadline->end_date ?? $paymentDeadline->start_date;
-    // }
+    $paymentDeadline = ImportantDates::where('name', 'like', '%payment%')->first();
+    $date = $paymentDeadline->start_date ?? null;
+    if ($paymentDeadline) {
+        $date = $paymentDeadline->end_date ?? $paymentDeadline->start_date;
+    }
 
-    // $date_payment = '';
-    // if ($date) {
-    //     $date_payment = Carbon::parse($date);
-    // }
+    $date_payment = '';
+    if ($date) {
+        $date_payment = Carbon::parse($date);
+    }
+    $date_payment = $date_payment->format('d F Y');
 
 @endphp
 <!doctype html>
@@ -191,7 +192,7 @@
                         <td style="padding:5px">IDR {{ $fee }}</td>
                         <td style="padding:5px">{{ $payment_number }}</td>
                         <td style="padding:5px">{{ date('d F Y') }}</td>
-                        <td style="padding:5px">5 September 2024</td>
+                        <td style="padding:5px">{{ $date_payment }}</td>
                     </tr>
                     <tr>
                         <td colspan="8" style="padding-top:20px" align="center">
@@ -219,7 +220,7 @@
                                         <div class="image1" style="position: relative;top: 0;right: 70px;"
                                             alt="stempel" width="100px"> </div>
                                     @endif
-                                    <img class="image2" style="position: absolute; right: 70px;"
+                                    <img class="image2" style="position: absolute; right: 100px;"
                                         src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/storage/' . $image_ttd_invoice))) }}"
                                         {{-- src="{{ public_path('storage/' . $image_ttd_loa) }}"  --}} width="100px" />
                                 </div>
