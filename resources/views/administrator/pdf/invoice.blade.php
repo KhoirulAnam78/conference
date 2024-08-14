@@ -75,7 +75,7 @@
     $bank_name = $bank_name->value ?? null;
 
     $paymentDeadline = ImportantDates::where('name', 'like', '%payment%')->first();
-    $date = $paymentDeadline->start_date ?? null;
+    $date = null;
     if ($paymentDeadline) {
         $date = $paymentDeadline->end_date ?? $paymentDeadline->start_date;
     }
