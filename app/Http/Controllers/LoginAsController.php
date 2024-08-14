@@ -19,7 +19,7 @@ class LoginAsController extends Controller
 
     public function logoutAs(Request $request){
         $user = User::where('email',$request->main_user)->first();
-        LogActivity::addLog("Logout as ".auth()->user()->email);
+        // LogActivity::addLog("Logout as ".auth()->user()->email);
         session()->flush();
         session()->put('login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d',$user->id);
         return redirect()->to('dashboard');
