@@ -34,6 +34,6 @@ class PresenterPaid extends Component
     {
         set_time_limit(0);
         ini_set('memory_limit', '2048M');
-        return Excel::download(new PaidPresenterExport(), 'Presenter have paid ICICS 2023.xlsx');
+        return Excel::download(new PaidPresenterExport(), 'Presenter have paid ISOLLEAC 2024.xlsx');
     }
 }
