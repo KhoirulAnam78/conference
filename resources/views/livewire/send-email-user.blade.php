@@ -13,7 +13,7 @@
                 Send To
             </label>
             <select class="custom-select @error('sendTo') is-invalid @enderror" id="sendTo" name="sendTo"
-                wire:model.debounce.500ms='sendTo'>
+                wire:model.defer='sendTo'>
                 <option value="">Choose One</option>
                 <option value="all-registered">All registered user</option>
                 <option value="not-yet-paid">All participants whose abstracts were accepted (not yet paid)</option>
@@ -30,8 +30,8 @@
         </div>
         <div class="form-group">
             <label for="subject">Subject</label>
-            <input type="text" class="form-control @error('subject') is-invalid @enderror"
-                wire:model.debounce.500ms="subject" id="subject" name="subject" placeholder="Subject">
+            <input type="text" class="form-control @error('subject') is-invalid @enderror" wire:model.defer="subject"
+                id="subject" name="subject" placeholder="Subject">
             @error('subject')
                 <span class="invalid-feedback">
                     <strong>{{ $message }}</strong>
@@ -42,7 +42,7 @@
         <div class="form-group">
             <label for="email">Message</label>
             <textarea class="form-control @error('email') is-invalid @enderror" id="email" rows="5" placeholder="Message"
-                name="email" wire:model.debounce.500ms='email'></textarea>
+                name="email" wire:model.defer='email'></textarea>
             @error('email')
                 <span class="invalid-feedback">
                     <strong>{{ $message }}</strong>
@@ -57,7 +57,7 @@
                         <div class="custom-file">
                             <input type="file" accept=".jpg,.png,.jpeg,.gif,.svg,.docx,.pdf"
                                 class="custom-file-input @error('file') is-invalid @enderror" id="file"
-                                wire:model.debounce.500ms='file'>
+                                wire:model.defer='file'>
                             <label class="custom-file-label" for="file">
                                 {{ $file == null ? 'Choose' : $file->getClientOriginalName() }}
                             </label>
@@ -81,6 +81,9 @@
         <button type="submit" class="btn btn-primary" wire:target="save" wire:loading.attr="disabled">
             <span wire:loading.remove wire:target="save">Send</span>
             <span wire:loading wire:target="save">Sending..</span>
-        </button>
+        </button> <br>
+        <span class="text-danger" wire:loading>Note : Mohon tunggu sampai proses selesai,
+            semakin banyak user yang menerima maka
+            semakin lama proses pengiriman email, harap bersabar !</span>
     </form>
 </div>
